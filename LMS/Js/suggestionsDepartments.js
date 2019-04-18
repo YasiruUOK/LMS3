@@ -8,7 +8,7 @@ function StateSuggestions() {
     var dps = [];
     $.ajax({
         type: "GET",
-        url: "api/myapi/getStudentDetails",
+        url: "api/myapi/getDepartmentNames",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
