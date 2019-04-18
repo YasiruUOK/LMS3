@@ -1,0 +1,372 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="LMS.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - My ASP.NET Application</title>
+
+    <asp:PlaceHolder runat="server">
+        <%--<%: Scripts.Render("~/bundles/modernizr") %>--%>
+    </asp:PlaceHolder>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <script src="Js/cookiefile.js"></script>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <%--<asp:ScriptReference Name="MsAjaxBundle" />--%>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <%--<asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />--%>
+               <%-- <asp:ScriptReference Name="WebFormsBundle" />--%>
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            
+            
+        </div>
+
+    </form>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        //side bar code start
+        $(window).load(function () {
+            var height = window.innerHeight,
+                x = 0, y = height / 2,
+                curveX = 10,
+                curveY = 0,
+                targetX = 0,
+                xitteration = 0,
+                yitteration = 0,
+                menuExpanded = false;
+
+            blob = $('#blob'),
+                blobPath = $('#blob-path'),
+
+                hamburger = $('.hamburger');
+
+            $(this).on('mousemove', function (e) {
+                x = e.pageX;
+
+                y = e.pageY;
+            });
+
+            $('.hamburger, .menu-inner').on('mouseenter', function () {
+                $(this).parent().addClass('expanded');
+                menuExpanded = true;
+            });
+
+            $('.menu-inner').on('mouseleave', function () {
+                menuExpanded = false;
+                $(this).parent().removeClass('expanded');
+            });
+
+            function easeOutExpo(currentIteration, startValue, changeInValue, totalIterations) {
+                return changeInValue * (-Math.pow(2, -10 * currentIteration / totalIterations) + 1) + startValue;
+            }
+
+            var hoverZone = 150;
+            var expandAmount = 20;
+
+            function svgCurve() {
+                if ((curveX > x - 1) && (curveX < x + 1)) {
+                    xitteration = 0;
+                } else {
+                    if (menuExpanded) {
+                        targetX = 0;
+                    } else {
+                        xitteration = 0;
+                        if (x > hoverZone) {
+                            targetX = 0;
+                        } else {
+                            targetX = -(((60 + expandAmount) / 100) * (x - hoverZone));
+                        }
+                    }
+                    xitteration++;
+                }
+
+                if ((curveY > y - 1) && (curveY < y + 1)) {
+                    yitteration = 0;
+                } else {
+                    yitteration = 0;
+                    yitteration++;
+                }
+
+                curveX = easeOutExpo(xitteration, curveX, targetX - curveX, 100);
+                curveY = easeOutExpo(yitteration, curveY, y - curveY, 100);
+
+                var anchorDistance = 200;
+                var curviness = anchorDistance - 40;
+
+                var newCurve2 = "M60," + height + "H0V0h60v" + (curveY - anchorDistance) + "c0," + curviness + "," + curveX + "," + curviness + "," + curveX + "," + anchorDistance + "S60," + (curveY) + ",60," + (curveY + (anchorDistance * 2)) + "V" + height + "z";
+
+                blobPath.attr('d', newCurve2);
+
+                blob.width(curveX + 60);
+
+                hamburger.css('transform', 'translate(' + curveX + 'px, ' + curveY + 'px)');
+
+                //$('h2').css('transform', 'translateY(' + curveY + 'px)');
+                window.requestAnimationFrame(svgCurve);
+            }
+
+            window.requestAnimationFrame(svgCurve);
+
+        });
+    //side bar code end
+    </script>
+    <script>
+        $(function () {
+            get_user_role();
+            get_User_Name();
+        });
+        function get_user_role() {
+            var LoggedUser = mycookie();
+            $.ajax({
+                type: "GET",
+                url: "api/myapi/getUserRole",
+                contentType: "application/json; charset=utf-8",
+                data: { LoggedUser: LoggedUser },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "Nekma Admin") {
+                    } else if (data == "Admin") {
+                    } else {
+                    }
+
+                },
+                error: function (request) {
+                    handle_error(request);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+
+        }
+        function get_User_Name() {
+            var LoggedUser = mycookie();
+            $.ajax({
+                type: "GET",
+                url: "api/myapi/getUserName",
+                contentType: "application/json; charset=utf-8",
+                data: { LoggedUser: LoggedUser },
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("userName").innerHTML = data;
+
+                },
+                error: function (request) {
+                    handle_error(request);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+    </script>
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+        <div class="topnav-right">
+            <a href="#search">Search</a>
+            <a id="userName" href="#about">About</a>
+        </div>
+    </div>
+    <div id="menu">
+        <div class="hamburger">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="menu-inner">
+
+            <ul>
+                <li>Menu Item</li>
+                <li>Menu Item</li>
+                <li>Menu Item</li>
+                <li>Menu Item</li>
+                <li>Menu Item</li>
+                <li>Menu Item</li>
+            </ul>
+        </div>
+
+
+
+        <%--<svg version="1.1" id="blob" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <path id="blob-path" d="M60,500H0V0h60c0,0,20,172,20,250S60,900,60,500z" />
+        </svg>--%>
+    </div>
+    <div class="w3-main " style="margin-left:200px;margin-top:43px;">
+
+    <div class="w3-white w3-container" style="max-height:100%">
+        <div style="max-width:800px; max-height:100%">
+            <form id="mainform" >
+                
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </form>
+        </div>
+    </div>
+</div>
+    
+    <%--side bar code end--%>
+    <style>
+        /*sidebar code start*/
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #menu {
+            height: 100%;
+            position: fixed;
+            background-color: #FED057;
+            width: 300px;
+            transition: 1000ms all cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateX(-100%);
+            left: 60px;
+        }
+
+            #menu.expanded {
+                transform: translateX(0%);
+                left: 0px;
+            }
+
+        .menu-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #blob {
+            top: 0;
+            z-index: -1;
+            right: 60px;
+            transform: translateX(100%);
+            height: 100%;
+            position: absolute;
+        }
+
+        #blob-path {
+            height: 100%;
+            fill: #FED057;
+        }
+
+        .hamburger {
+            right: 20px;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+        }
+
+            .hamburger .line {
+                width: 100%;
+                height: 4px;
+                background-color: #fff;
+                position: absolute;
+            }
+
+                .hamburger .line:nth-child(2) {
+                    top: 50%;
+                    margin-top: -2px;
+                }
+
+                .hamburger .line:nth-child(3) {
+                    bottom: 0;
+                }
+
+        h1 {
+            position: fixed;
+            right: 0;
+            margin: 0;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+            width: 80%;
+            margin-left: 10%;
+            position: absolute;
+            top: 10px;
+        }
+
+            ul li {
+                color: #fff;
+                font-family: sans-serif;
+                padding: 20px 0;
+            }
+
+        /*side bar code end*/
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+        .navbar-nav {
+            flex-direction: row;
+        }
+
+        .nav-link {
+            padding-right: .5rem !important;
+            padding-left: .5rem !important;
+        }
+
+        /* Fixes dropdown menus placed on the right side */
+        .ml-auto .dropdown-menu {
+            left: auto !important;
+            right: 0px;
+        }
+
+        .topnav {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+            /* Style the links inside the navigation bar */
+            .topnav a {
+                float: left;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+                /* Change the color of links on hover */
+                .topnav a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                /* Add a color to the active/current link */
+                .topnav a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+
+        /* Right-aligned section inside the top navigation */
+        .topnav-right {
+            float: right;
+        }
+    </style>
+</body>
+</html>

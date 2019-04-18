@@ -1,0 +1,37 @@
+﻿<html>
+<head>
+    <title>Autosuggest Example 2</title>
+    
+</head>
+<body>
+    <form method="POST" action="/form-submit/">
+        Subject: <input type="text" name="subject" /><br />
+        Email: <input type="text" name="email" /><br />
+        Description: <textarea type="text" name="description"></textarea><br />
+        Attach files:
+        <input type="hidden" name="uploaded_files" id="uploaded_files" />
+        <input type="hidden" name="uploaded_folder_link" id="uploaded_folder_link" />
+        <input type="file" id="upload" name="upload" class="driveuploader-replace" /><br />
+        <input type="submit" id="sendbtn">
+    </form>
+    <script>
+        var sendbtn = document.getElementById('sendbtn');
+        function driveUploaderCallback(status, result) {
+            if (status == 'start') {
+                // disable the send button during uploading
+                sendbtn.disabled = true;
+            } else if (status == 'done') {
+                // format the list of files into the hidden form field
+                sendbtn.disabled = false;
+                var files = '';
+                result.files.forEach(function (file) {
+                    files += '<a href="' + file.link + '">' + file.name + '</a><br>';
+                });
+                document.getElementById('uploaded_files').value = files;
+                document.getElementById('uploaded_folder_link').value = result.folder.link;
+            }
+        }
+    </script>
+    <script src="https://driveuploader.com/upload/8IO5FMojuY/embed.js"></script>
+</body>
+</html>
