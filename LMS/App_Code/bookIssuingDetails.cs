@@ -491,5 +491,40 @@ namespace LMS.App_Code
             con.Close();
             return list;
         }
+        internal List<bookIssuingDetails> getDelayBooks()
+        {
+            bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();
+            List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select * from bookIssuingDetails BID,bookDetails BD, studentDetails SD, bookCodeDetails BCD where BD.bookID = BCD.bookID and BCD.bookCode = BID.bookCode and BID.studentID = SD.studentID";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                bookIssuingDetails c = new bookIssuingDetails();
+                c.bookCode = rdr["bookCode"].ToString();
+                c.studentID = rdr["studentID"].ToString();
+                c.first_name = rdr["first_name"].ToString();
+                c.last_name = rdr["last_name"].ToString();
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
+                c.issueDate = DateTime.Parse(rdr["issueDate"].ToString());
+                c.fineAmount = getfineAmount(studentID, c.returnDate);
+                c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
+                c.issueDateString = String.Format("{0:yyyy - MM - dd}", c.issueDate);
+                if (c.fineAmount > 0)
+                {
+                    list.Add(c);
+                }
+
+            }
+            con.Close();
+            return list;
+        }
+
     }
 }

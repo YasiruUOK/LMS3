@@ -15,6 +15,7 @@
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
     <title>Manage Course &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel="stylesheet" type="text/css" href="CSS/autosuggest.css" />
     <link rel='stylesheet' id='font_awesome-css' href='https://www.library-management.com/wp-content/themes/library/css/font-awesome.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
@@ -31,7 +32,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="Js/cookiefile.js"></script>
     <script type="text/javascript" src="Js/autosuggest1.js"></script>
-    <script type="text/javascript" src="Js/suggestionsUserID.js"></script>
+    <script type="text/javascript" src="Js/suggestionsDepartments.js"></script>
+    <script type='text/javascript' src='Js/custom.js'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/bootstrap.min.js?ver=4.9.8'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery-ui.min.js?ver=4.9.8'></script>
@@ -85,6 +87,10 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
     <script>
         $(function () {
             loadCoursetNames(); 
+            window.onload = function () {
+            var oTextbox = new AutoSuggestControl(document.getElementById("inlineFormDepartment"), new StateSuggestions());
+            //var oTextbox1 = new AutoSuggestControl1(document.getElementById("book_no"), new StateSuggestions1());
+        }
         });
         function loadCoursetNames() {
 
@@ -107,14 +113,15 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                 beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
             });
         }
-    function add_student_details() {
+    function addCoursesbtn() {
         var courseName = document.getElementById('inlineFormCourse').value;
+        var departmentName = document.getElementById('inlineFormDepartment').value;
 
         jQuery.ajax({
             type: "POST",
             url: "api/myapi/addCourse",
             data: JSON.stringify({
-                courseName: courseName
+                courseName: courseName, departmentID: departmentName
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -455,8 +462,8 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                             <tbody>
                                                 <tr>
                                                     <td class="col-md-10 col-xs-10">
-                                                        <input type="text" ng-model="inlineFormCourse"
-                                                               name="inlineFormCourse"
+                                                        <input type="text" 
+                                                               name="inlineFormDepartment"
                                                                class="form-control fix_radius"
                                                                id="inlineFormDepartment" style="width:100%;"
                                                                placeholder="Depatment"
@@ -469,7 +476,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 </tr>
                                                 <tr>
                                                     <td class="col-md-10 col-xs-10">
-                                                        <input type="text" ng-model="inlineFormCourse"
+                                                        <input type="text" 
                                                                name="inlineFormCourse"
                                                                class="form-control fix_radius"
                                                                id="inlineFormCourse" style="width:100%;"
@@ -479,7 +486,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                         <input type="hidden" name="todo" value="add">
                                                     </td>
                                                     <td class="col-md-2 col-xs-2">
-                                                        <button ng-click="addCoursesbtn()" style="width:100%;"
+                                                        <button onclick="addCoursesbtn();" style="width:100%;"
                                                                 class="btn btn-primary fix_radius">
                                                             Save
                                                         </button>

@@ -286,6 +286,19 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
+        public HttpResponseMessage getDepartmentNames()
+        {
+            List<Departments> list = new List<Departments>();
+            Departments u = new Departments();
+            list = u.getDepartmentNames();
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
         public HttpResponseMessage getUserID(string LoggedUser)
         {
             string userName = "";
@@ -400,6 +413,17 @@ namespace LMS
             return response;
         }
         [BasicAuthentication]
+        [HttpPost]
+        public HttpResponseMessage addCourse(Courses courses)
+        {
+            ReturnData rd = new ReturnData();
+            rd = new Courses().addCourse(courses);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getBookIssuedDetails()
         {
@@ -432,6 +456,19 @@ namespace LMS
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
             bookIssuingDetails c = new bookIssuingDetails();
             list = c.getDelayBooks(studentID);
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getDelayBooks()
+        {
+            List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            bookIssuingDetails c = new bookIssuingDetails();
+            list = c.getDelayBooks();
             string yourJson = JsonConvert.SerializeObject(list); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
@@ -477,5 +514,6 @@ namespace LMS
             return response;
 
         }
+        
     }
 }

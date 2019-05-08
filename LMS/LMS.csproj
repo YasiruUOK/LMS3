@@ -288,6 +288,7 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\Departments.cs" />
     <Compile Include="App_Code\paymentDetails.cs" />
     <Compile Include="PayFines.aspx.cs">
       <DependentUpon>PayFines.aspx</DependentUpon>

@@ -13,7 +13,7 @@ function StateSuggestions() {
         dataType: "json",
         success: function (data) {
             for (var i = 0; i < data.length; i++) {
-                dps.push(data[i].studentID);
+                dps.push(data[i].departmentName);
             }
         },
         error: function (request) {
