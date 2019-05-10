@@ -272,6 +272,18 @@ namespace LMS
             return response;
         }
         [BasicAuthentication]
+        [HttpPost]
+        public HttpResponseMessage copy_BookIssueDetails(bookIssuingDetailsTempory bookIssuing)
+        {
+            ReturnData rd = new ReturnData();
+            bookIssuingDetailsTempory bookIssuingDetails = new bookIssuingDetailsTempory();
+            rd = bookIssuingDetails.copyDetails(bookIssuing);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage loadCoursetNames()
         {
@@ -477,17 +489,18 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
-        public HttpResponseMessage makePayments(string studentID,double totalFineAmount,string reason)
+        public HttpResponseMessage makePayments(string studentID,double totalFineAmount,string reason, string TransactionID, string branchName, bool PaymentApproved)
         {
             ReturnData rd = new ReturnData();
             paymentDetails c = new paymentDetails();
-            rd = c.makePayments(studentID,totalFineAmount,reason);
+            rd = c.makePayments(studentID,totalFineAmount,reason, TransactionID,branchName, PaymentApproved);
             string yourJson = JsonConvert.SerializeObject(rd); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
             return response;
 
         }
+    
         [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getBookIssuedDetailsFromstudent_name(string student_name)

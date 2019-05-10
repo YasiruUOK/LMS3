@@ -17,14 +17,14 @@ namespace LMS.App_Code
 
         string db_connection_string = ConfigurationManager.ConnectionStrings["db_connectionString"].ConnectionString;
 
-        internal ReturnData makePayments(string studentID, double totalFineAmount, string reason)
+        internal ReturnData makePayments(string studentID, double totalFineAmount, string reason, string TransactionID, string branchName, bool PaymentApproved)
         {
             ReturnData rd = new ReturnData();
 
             SqlConnection con = new SqlConnection(db_connection_string);
             string sql = "";
 
-            sql = "insert into paymentDetails (studentID,paidAmount,reason,paidDate) values (@studentID,@paidAmount,@reason,@paidDate) ";
+            sql = "insert into paymentDetails (studentID,paidAmount,reason,paidDate,TransactionID, branchName, PaymentApproved) values (@studentID,@paidAmount,@reason,@paidDate,@TransactionID,@branchName, @PaymentApproved) ";
 
             SqlCommand cmd = new SqlCommand(sql, con);
             cmd.Parameters.AddWithValue("@studentID", studentID);
@@ -32,7 +32,9 @@ namespace LMS.App_Code
             cmd.Parameters.AddWithValue("@reason", reason);
             CommonFunctions c = new CommonFunctions();
             cmd.Parameters.AddWithValue("@paidDate", c.getServerDate());
-
+            cmd.Parameters.AddWithValue("@TransactionID", TransactionID);
+            cmd.Parameters.AddWithValue("@branchName", branchName);
+            cmd.Parameters.AddWithValue("@PaymentApproved", PaymentApproved);
             int count = 0;
             con.Open();
             try
@@ -54,5 +56,7 @@ namespace LMS.App_Code
 
             return rd;
         }
+
+        
     }
 }

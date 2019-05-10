@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PayFines.aspx.cs" Inherits="LMS.PayFines" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ManageIssuedBooksStudents.aspx.cs" Inherits="LMS.ManageIssuedBooksStudents" %>
 
 <!DOCTYPE html>
 <html lang="en-US" ng-app="myApp">
@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
-    <title>Pay Fines &#8211; LMS a WordPress Theme</title>
+    <title>Manage Issued Books &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" type="text/css" href="CSS/autosuggest.css" />
     <link rel='stylesheet' id='font_awesome-css' href='CSS/font-awesome.min.css' type='text/css' media='all' />
@@ -86,106 +86,24 @@
 
 </head>
 <script>
-    var fineAmount;
-    var bookCode;
-    var studentID;
-    var status;
-    var totalFineAmount = 0;
     $(function () {
-        fineAmount = getParameterByName('fineAmount');
-        bookCode = getParameterByName('bookCode');
-        studentID = getParameterByName('studentID');
-        studentName = getParameterByName('studentName');
-        status= getParameterByName('status');
-        $("#studentID").val(studentID);
-        $("#studentName").val(studentName);
-        getDelayBooks(studentID);
-
-        $("#payment").keypress(function (e) {
-                if (e.which == 13) {
-                    var totalFine = document.getElementById('totalFine').value;
-                    var payment = document.getElementById('payment').value;
-                    $("#balance").val(payment-totalFine);
-                }
-            });
+        getUserID();
+        getBookIssuedDetails();
+        window.onload = function () {
+            var oTextbox = new AutoSuggestControl(document.getElementById("filter_userId"), new StateSuggestions());
+            var oTextbox = new AutoSuggestControl(document.getElementById("filter_BookID"), new StateSuggestions());
+        }
     });
-    function getDelayBooks(studentID) {
+    function getBookIssuedDetails() {
         $.ajax({
             type: "GET",
-            url: "api/myapi/getDelayBooks",
+            url: "api/myapi/getBookIssuedDetails",
             contentType: "application/json; charset=utf-8",
-            data: {studentID:studentID},
+            data: {},
             dataType: "json",
             success: function (data) {
-                load_getBookDetails(data);
+                load_getBookIssuedDetails(data);
 
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function load_getBookDetails(data) {
-        $("#bookDetailsTable").find("tr:gt(0)").remove();
-        totalFineAmount = 0;
-        for (var i = 0; i < data.length; i++) {
-            $('#bookDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].returnDateString + '</td><td style="text-align:right">' + data[i].fineAmount + '</td>/tr>');
-            totalFineAmount += data[i].fineAmount;
-            $("#totalFine").val(totalFineAmount);
-        }
-    }
-    function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    }
-    function makePayments() {
-        var payment = document.getElementById('payment').value;
-        var reason = "Late submittion";
-        var TransactionID = "0";
-        var branchName = "NO";
-        var PaymentApproved = true;
-        if (payment >= totalFineAmount) {
-            $.ajax({
-            type: "GET",
-            url: "api/myapi/makePayments",
-            contentType: "application/json; charset=utf-8",
-            data: {studentID:studentID, totalFineAmount:totalFineAmount, reason:reason,TransactionID:TransactionID, branchName:branchName, PaymentApproved:PaymentApproved},
-            dataType: "json",
-                success: function (data) {
-                    alert(data.message);
-                    if (status == "returnBook") {
-                        return_Book(studentID, bookCode);
-                    } else if (status == "extendBook") {
-                        extend_Book(studentID, bookCode);
-                    }
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-        }
-    }
-    function extend_Book(studentID, bookCode) {
-        var studentID = studentID;
-        var bookCode = bookCode;
-        $.ajax({
-            type: "POST",
-            url: "api/myapi/extendTheBook",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({
-                studentID: studentID, bookID: bookCode
-            }),
-            dataType: "json",
-            success: function (data) {
-                alert(data.message);
-                window.location.href = "ManageIssuedBooks.aspx";
             },
             error: function (request) {
                 handle_error(request);
@@ -206,8 +124,7 @@
             dataType: "json",
             success: function (data) {
                 alert(data.message);
-                updateBookDueDate(studentID);
-                window.location.href = "ManageIssuedBooks.aspx";
+                getBookIssuedDetails();
             },
             error: function (request) {
                 handle_error(request);
@@ -215,18 +132,120 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
-    function updateBookDueDate(studentID) {
-            $.ajax({
-            type: "GET",
-            url: "api/myapi/updateBookDueDate",
+    function extend_Book(studentID, bookCode) {
+        var studentID = studentID;
+        var bookCode = bookCode;
+        $.ajax({
+            type: "POST",
+            url: "api/myapi/extendTheBook",
             contentType: "application/json; charset=utf-8",
-            data: {studentID:studentID},
+            data: JSON.stringify({
+                studentID: studentID, bookID: bookCode
+            }),
             dataType: "json",
-                success: function (data) {
-                    alert(data.message);
+            success: function (data) {
+                alert(data.message);
+                getBookIssuedDetails();
             },
             error: function (request) {
                 handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function load_getBookIssuedDetails(data) {
+        $("#bookIssueDetailsTable").find("tr:gt(0)").remove();
+        for (var i = 0; i < data.length; i++) {
+            $('#bookIssueDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].studentID + '</td><td>' + data[i].first_name + ' ' + data[i].last_name + '</td><td>' + data[i].issueDateString + '</td><td>' + data[i].returnDateString + '</td><td style="text-align:right">Rs. ' + data[i].fineAmount + '</td><td><input  type=\'button\' onclick=\'checkFineAvailable("' +data[i].studentID+'","'+ data[i].bookCode + '","'+data[i].fineAmount+'","'+data[i].first_name + ' ' + data[i].last_name+'","extendBook")\' value=\'Pay Now\' /></td>/tr>');
+        }
+    }
+    function getBookIssuedDetailsFromStudentID(data) {
+        
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/getBookIssuedDetailsFromStudentID",
+            contentType: "application/json; charset=utf-8",
+            data: {student_ID:data},
+            dataType: "json",
+            success: function (data) {
+                load_getBookIssuedDetails(data);
+
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function getBookIssuedDetailsFromStudentName() {
+        //document.getElementById("filter_userId").value = "";
+        //document.getElementById("filter_BookID").value = "";
+        var student_name = document.getElementById('filter_UserName').value;
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/getBookIssuedDetailsFromstudent_name",
+            contentType: "application/json; charset=utf-8",
+            data: {student_name:student_name},
+            dataType: "json",
+            success: function (data) {
+                load_getBookIssuedDetails(data);
+
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function getBookIssuedDetailsFromBookID() {
+        //document.getElementById("filter_userId").value = "";
+        //document.getElementById("filter_UserName").value = "";
+        var bookID = document.getElementById('filter_BookID').value;
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/getBookIssuedDetailsFromBookID",
+            contentType: "application/json; charset=utf-8",
+            data: {bookID:bookID},
+            dataType: "json",
+            success: function (data) {
+                load_getBookIssuedDetails(data);
+
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function checkFineAvailable(studentID, bookCode, fineAmount, studentName, status) {
+        var fineAmount = fineAmount;
+        if (fineAmount > 0) {
+            window.location.href = "PayFinesToBank.aspx?fineAmount=" + fineAmount+"&&bookCode="+bookCode+"&&studentID="+studentID+"&&studentName="+studentName+"&&status="+status;
+        } else {
+            if (status == "returnBook") {
+                return_Book(studentID, bookCode);
+            } else if (status == "extendBook") {
+                extend_Book(studentID, bookCode);
+            }
+            
+        }
+        
+    }
+    function getUserID() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserID",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                getBookIssuedDetailsFromStudentID(data);
+                //alert(data);
+            },
+            failure: function (response) {
+                alert(response.d);
             },
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
@@ -538,7 +557,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                    <li class="active">Pay Fines</li>
+                    <li class="active">Manage Issued Books</li>
                 </ol>
             </section>
             <section class="content" style="min-height: 100%;">
@@ -547,93 +566,254 @@
                     </div>
                     <div class="box-body" style="">
                         <div class="row">
-                            <div class="panel-body form-horizontal">
-
-                                <div class="form-group mb0 col-sm-6">
-                                    <label>
-                                        Student ID<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
-
-                                    <input name="studentID" id="studentID" placeholder="Enter ISBN and Press TAB"
-                                       
-                                        class="form-control" type="text" readonly>
-                                </div>
-                                <div class="form-group mb0 col-sm-6">
-                                    <label>
-                                        Student Name<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
-
-                                    <input name="studentName" id="studentName" placeholder="Enter ISBN and Press TAB"
-                                       
-                                        class="form-control" type="text" readonly>
-                                </div>
-
-                            </div>
                             <div class="col-md-12">
-                                <form>
-                                    
-                                    <table class="table" id="bookDetailsTable">
+
+                                <div class="mng_issued_book_filter" style="padding-bottom: 7px;">
+                                    <form class="form-inline">
+                                        <label class="sr-only">ID</label>
+                                        <div class="input-group col-md-4 col-xs-12">
+                                            <div class="input-group-addon fix_radius fix_filter">
+                                                <i class="fa fa-filter"
+                                                    aria-hidden="true"></i>
+                                            </div>
+                                            <input name="user_id" id="filter_userId" ng-model="user_id"
+                                                onblur="getBookIssuedDetailsFromStudentID()" placeholder="Type Student ID. Eg : SE/2014/002"
+                                                class="form-control" type="text">
+                                        </div>
+
+                                        <label class="sr-only">ID</label>
+                                        <div class="input-group col-md-4 col-xs-12" style="float: right;">
+                                            <div class="input-group-addon fix_radius fix_filter">
+                                                <i class="fa fa-filter"
+                                                    aria-hidden="true"></i>
+                                            </div>
+                                            <input name="book_id" id="filter_BookID" ng-model="search.BookId"
+                                                onblur="getBookIssuedDetailsFromBookID()" placeholder="Type Book ID. Eg : Book001"
+                                                class="form-control" type="text">
+                                            <%--<input type="text" class="form-control fix_radius" ng-model="search.BookId"
+                                                   id="filter_BookID" placeholder="Type Book ID">--%>
+                                        </div>
+
+                                        <label class="sr-only">Persons Name</label>
+                                        <div class="input-group col-md-4 col-xs-12" style="float: right;">
+                                            <div class="input-group-addon fix_radius fix_filter">
+                                                <i class="fa fa-filter"
+                                                    aria-hidden="true"></i>
+                                            </div>
+                                            <input type="text" class="form-control fix_radius" ng-model="search.UserName"
+                                                id="filter_UserName" onblur="getBookIssuedDetailsFromStudentName()" placeholder="Type Persons Name">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table_issued_book common_dt" id="bookIssueDetailsTable"
+                                        style="font-size: small; margin-bottom: 0px;">
                                         <thead>
                                             <tr>
-                                                <th scope="col">Book Code</th>
-                                                <th scope="col">Book Name</th>
-                                                <th scope="col">Due Date</th>
-                                                <th scope="col" style="text-align:center">Fine   (Rs.)</th>
+                                                <th style="display: none;">?</th>
+                                                <th class="misb_bid" style="">Book ID</th>
+                                                <th class="misb_bname" style="width: 270px;">Book Name</th>
+                                                <th class="misb_userid" style="">User ID</th>
+                                                <th class="misb_username" style="">Person Name</th>
+                                                <th style="">Issued Date</th>
+                                                <th style="">Date Due</th>
+                                                <th class="misb_userstatus" class="tbl_status" style="">Fine Amount</th>
+                                                <th style="width: 120px;">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            
+                                        <tbody id="tb_manage_issue_book_container">
+                                            <tr ng-show="issue_book_db.length" ng-repeat="x in issue_book_db | filter:search"
+                                                ng-class="diffDate(x.DateToReturn) < 0 ? 'delayed_book' : ''">
+                                                <td style="display: none;"></td>
+                                                <td class="misb_bid">{{x.BookId}}</td>
+                                                <td class="misb_bname">{{x.BookName}}</td>
+                                                <td class="misb_userid">{{x.UserId}}</td>
+                                                <td class="misb_username">{{x.UserName}}</td>
+                                                <td>{{x.DateBorrowed | cmdate:'dd-MM-yyyy'}}</td>
+                                                <td>{{x.DateToReturn | cmdate:'dd-MM-yyyy'}}</td>
+                                                <td class="tbl_status misb_userstatus">
+                                                {{diffDate(x.DateToReturn)}}
+                                                <td>
+                                                    <button class="btn btn-warning fix_radius" ng-click="btn_view(x)">
+                                                        <span class="fas fa-undo"></span>
+                                                    </button>
+                                                    
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                    <div class="panel-body form-horizontal">
-
-                                <div class="form-group mb0 col-sm-12">
-                                    <label>
-                                        Total Fine (Rs.)<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
-
-                                    <input name="totalFine" id="totalFine" placeholder=""
-                                       
-                                        class="form-control" type="text" readonly>
                                 </div>
-                                <div class="form-group mb0 col-sm-12">
-                                    <label>
-                                        Payment (Rs.)<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
-
-                                    <input name="payment" id="payment" placeholder=""
-                                       
-                                        class="form-control" type="number">
+                                <div class="modal fade" id="editReturnBookData" tabindex="-1" role="dialog"
+                                    aria-labelledby="modalLabel" aria-hidden="true">
+                                    <div class="modal-dialog lg-modal" style="width: 40%;">
+                                        <div class="modal-content fix_radius">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                                                </button>
+                                                <h3 class="modal-title" id="lineModalLabel">Return Books Mangement</h3>
+                                            </div>
+                                            <div class="modal-body" style="padding-top: 10px; padding-right: 35px;">
+                                                <div class="row">
+                                                    <div class="holder_sub_book_lst">
+                                                        <table class="table table-bordered tbl_book_lst">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type="text" placeholder="Select return date"
+                                                                            id="date_of_return" ng-model="date_of_return"
+                                                                            class="form-control fix_radius">
+                                                                    </td>
+                                                                    <td style="padding: 13px; font-size: large;">Rs.
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="fine" placeholder="Fine if Any.."
+                                                                            ng-model="fine" class="form-control fix_radius">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <textarea rows="2" id="note_on_return"
+                                                                            ng-model="note_on_return"
+                                                                            class="form-control fix_radius"
+                                                                            placeholder="Note if any"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <div style="float: right;">
+                                                                            <button class="btn btn-primary fix_radius"
+                                                                                ng-click="btn_returnBook()">
+                                                                                Return Book
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                        <div class="form-group mb0 col-sm-12">
-                                    <label>
-                                        Balance (Rs.)<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
+                                <div class="modal fade" id="sendSmsModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="modalLabel" aria-hidden="true">
+                                    <div class="modal-dialog lg-modal" style="width: 40%;">
+                                        <div class="modal-content fix_radius">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">
+                                                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                                                </button>
+                                                <h3 class="modal-title" id="lineModalLabel">Send {{todo}}</h3>
+                                            </div>
+                                            <div class="modal-body" style="padding-top: 10px; padding-right: 35px;">
+                                                <div class="row">
+                                                    <div class="holder_sub_book_lst">
+                                                        <style type="text/css">
+                                                            .toggle.btn {
+                                                                min-width: 121px;
+                                                            }
+                                                        </style>
+                                                        <div style="padding-left: 2%; padding-bottom: 6%; margin-left: 2%; border-bottom: 1px solid lightgrey; margin-bottom: 8px;">
 
-                                    <input name="balance" id="balance" placeholder=""
-                                       
-                                        class="form-control" type="text" readonly>
+                                                            <div style="width: 20%; float: left;">
+                                                                <input type="radio" name="radiotodo" class="rtodo"
+                                                                    value="sms" />
+                                                                Send Sms
+                                                                <br />
+                                                            </div>
+                                                            <div style="width: 50%; float: left;">
+                                                                <input type="radio"
+                                                                    name="radiotodo"
+                                                                    class="rtodo"
+                                                                    value="email"
+                                                                    checked="true" />
+                                                                Send Email
+                                                                <br />
+                                                            </div>
+                                                        </div>
+
+
+                                                        <table class="table table-bordered tbl_book_lst" id="i_sendemail">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="input-group" style="width: 100%;">
+                                                                            <input type="text" id="s_email" ng-model="s_email"
+                                                                                class="form-control fix_radius"
+                                                                                ng-readonly="email_status">
+                                                                            <span class="input-group-addon edt_mob_ret"
+                                                                                ng-click="edit_email()">
+                                                                                <i class="fa fa-pencil-square-o"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <textarea rows="2" id="email_body" ng-model="email_body"
+                                                                            class="form-control fix_radius"
+                                                                            placeholder="Email Body"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <div style="float: right;">
+                                                                            <button class="btn btn-primary fix_radius"
+                                                                                ng-click="btn_sendEmail()">
+                                                                                Send Email
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <table class="table table-bordered tbl_book_lst" id="i_sendsms">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="input-group">
+                                                                            <input type="text" id="sms_mob" ng-model="sms_mob"
+                                                                                class="form-control fix_radius"
+                                                                                ng-readonly="sms_mob_status">
+                                                                            <span class="input-group-addon edt_mob_ret"
+                                                                                ng-click="reset_sms_mob()">
+                                                                                <i class="fa fa-pencil-square-o"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <textarea rows="2" id="sms_body" ng-model="sms_body"
+                                                                            class="form-control fix_radius"
+                                                                            placeholder="Sms Body"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">
+                                                                        <div style="float: right;">
+                                                                            <button class="btn btn-primary fix_radius"
+                                                                                ng-click="btn_sendSms()">
+                                                                                Send Sms
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </div>
-                                    <button type="submit" class="btn btn-primary" onclick="makePayments();">Pay Now</button>
-                                </form>
-
-
                             </div>
                         </div>
                     </div>
-                    
                     <div class="box-footer">
                     </div>
                 </div>
@@ -655,7 +835,33 @@
 
 
 
-
+<script>
+    function show_payment() {
+        bootbox.dialog({
+            title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
+            message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
+            buttons: {
+                noclose: {
+                    label: "Paypal",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.open("https://www.paypal.me/Prince898/20");
+                        ;
+                        return false;
+                    }
+                },
+                ok: {
+                    label: "CCAvenue",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.open("http://www.ricomart.com/billing/index.php");
+                        return false;
+                    }
+                }
+            }
+        });
+    }
+</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
 <script>
     window.dataLayer = window.dataLayer || [];

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PayFines.aspx.cs" Inherits="LMS.PayFines" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PayFinesToBank.aspx.cs" Inherits="LMS.PayFines" %>
 
 <!DOCTYPE html>
 <html lang="en-US" ng-app="myApp">
@@ -99,15 +99,10 @@
         status= getParameterByName('status');
         $("#studentID").val(studentID);
         $("#studentName").val(studentName);
+        $("#payment").val(fineAmount);
         getDelayBooks(studentID);
 
-        $("#payment").keypress(function (e) {
-                if (e.which == 13) {
-                    var totalFine = document.getElementById('totalFine').value;
-                    var payment = document.getElementById('payment').value;
-                    $("#balance").val(payment-totalFine);
-                }
-            });
+      
     });
     function getDelayBooks(studentID) {
         $.ajax({
@@ -147,22 +142,22 @@
     function makePayments() {
         var payment = document.getElementById('payment').value;
         var reason = "Late submittion";
-        var TransactionID = "0";
-        var branchName = "NO";
-        var PaymentApproved = true;
+        var TransactionID = document.getElementById('transactionID').value;
+        var branchName = document.getElementById('branch').value;
+        var PaymentApproved = false;
         if (payment >= totalFineAmount) {
             $.ajax({
             type: "GET",
             url: "api/myapi/makePayments",
             contentType: "application/json; charset=utf-8",
-            data: {studentID:studentID, totalFineAmount:totalFineAmount, reason:reason,TransactionID:TransactionID, branchName:branchName, PaymentApproved:PaymentApproved},
+            data: {studentID:studentID, totalFineAmount:totalFineAmount, reason:reason, TransactionID:TransactionID, branchName:branchName, PaymentApproved:PaymentApproved},
             dataType: "json",
                 success: function (data) {
                     alert(data.message);
                     if (status == "returnBook") {
                         return_Book(studentID, bookCode);
                     } else if (status == "extendBook") {
-                        extend_Book(studentID, bookCode);
+                        copy_BookIssueDetails(studentID, bookCode);
                     }
             },
             error: function (request) {
@@ -185,7 +180,28 @@
             dataType: "json",
             success: function (data) {
                 alert(data.message);
-                window.location.href = "ManageIssuedBooks.aspx";
+                window.location.href = "ManageIssuedBooksStudents.aspx";
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function copy_BookIssueDetails(studentID, bookCode) {
+        var studentID = studentID;
+        var bookCode = bookCode;
+        $.ajax({
+            type: "POST",
+            url: "api/myapi/copy_BookIssueDetails",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                studentID: studentID, bookID: bookCode
+            }),
+            dataType: "json",
+            success: function (data) {
+                alert(data.message);
+                extend_Book(studentID, bookCode);
             },
             error: function (request) {
                 handle_error(request);
@@ -207,7 +223,7 @@
             success: function (data) {
                 alert(data.message);
                 updateBookDueDate(studentID);
-                window.location.href = "ManageIssuedBooks.aspx";
+                window.location.href = "ManageIssuedBooksStudents.aspx";
             },
             error: function (request) {
                 handle_error(request);
@@ -231,6 +247,7 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
+    
 </script>
 <body class="page-template page-template-manageissuedbooks page-template-manageissuedbooks-php page page-id-25 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
@@ -593,17 +610,6 @@
 
                                 <div class="form-group mb0 col-sm-12">
                                     <label>
-                                        Total Fine (Rs.)<a class="studentID"
-                                            style="position: absolute; margin-top: -18px; right: -15px;">
-                                        </a>
-                                    </label>
-
-                                    <input name="totalFine" id="totalFine" placeholder=""
-                                       
-                                        class="form-control" type="text" readonly>
-                                </div>
-                                <div class="form-group mb0 col-sm-12">
-                                    <label>
                                         Payment (Rs.)<a class="studentID"
                                             style="position: absolute; margin-top: -18px; right: -15px;">
                                         </a>
@@ -611,18 +617,29 @@
 
                                     <input name="payment" id="payment" placeholder=""
                                        
-                                        class="form-control" type="number">
+                                        class="form-control" type="text" readonly>
                                 </div>
-                                        <div class="form-group mb0 col-sm-12">
+                                <div class="form-group mb0 col-sm-12">
                                     <label>
-                                        Balance (Rs.)<a class="studentID"
+                                        Transaction ID<a class="studentID"
                                             style="position: absolute; margin-top: -18px; right: -15px;">
                                         </a>
                                     </label>
 
-                                    <input name="balance" id="balance" placeholder=""
+                                    <input name="transactionID" id="transactionID" placeholder=""
                                        
-                                        class="form-control" type="text" readonly>
+                                        class="form-control" type="number">
+                                </div>
+                                        <div class="form-group mb0 col-sm-12">
+                                    <label>
+                                        Branch Name<a class="studentID"
+                                            style="position: absolute; margin-top: -18px; right: -15px;">
+                                        </a>
+                                    </label>
+
+                                    <input name="branch" id="branch" placeholder=""
+                                       
+                                        class="form-control" type="text">
                                 </div>
 
                             </div>

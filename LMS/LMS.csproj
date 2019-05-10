@@ -118,6 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Js\suggestionsDepartments.js" />
+    <Content Include="ManageIssuedBooksStudents.aspx" />
+    <Content Include="PayFinesToBank.aspx" />
     <Content Include="PayFines.aspx" />
     <Content Include="UpdateBook.aspx" />
     <Content Include="AddBook.aspx" />
@@ -288,8 +290,23 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\bookIssuingDetailsTempory.cs" />
     <Compile Include="App_Code\Departments.cs" />
     <Compile Include="App_Code\paymentDetails.cs" />
+    <Compile Include="ManageIssuedBooksStudents.aspx.cs">
+      <DependentUpon>ManageIssuedBooksStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageIssuedBooksStudents.aspx.designer.cs">
+      <DependentUpon>ManageIssuedBooksStudents.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PayFinesToBank.aspx.cs">
+      <DependentUpon>PayFinesToBank.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PayFinesToBank.aspx.designer.cs">
+      <DependentUpon>PayFinesToBank.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PayFines.aspx.cs">
       <DependentUpon>PayFines.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
