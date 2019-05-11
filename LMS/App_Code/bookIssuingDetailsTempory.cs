@@ -335,6 +335,8 @@ namespace LMS.App_Code
             return list;
         }
 
+        
+
         internal ReturnData copyDetails(bookIssuingDetailsTempory bookIssuing)
         {
             ReturnData rd = new ReturnData();
@@ -423,6 +425,73 @@ namespace LMS.App_Code
             con.Close();
             return dt;
         }
+
+        internal ReturnData deleteFromBookIssueTemp(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+
+            sql = "Delete from bookIssuingDetailsTempory where bookCode=@bookID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@bookID", bookCode);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+            return rd;
+        }
+
+        internal ReturnData copyFromBookIssueTemp(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+            sql = "INSERT INTO bookIssuingDetails (bookCode, studentID, issueDate, returnDate) SELECT bookCode, studentID, issueDate, returnDate FROM bookIssuingDetailsTempory WHERE bookCode=@bookID ";
+            
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@bookID", bookCode);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+
+            return rd;
+        }
+
         internal List<bookIssuingDetails> getBookIssuedDetailsFromstudent_name(string student_name)
         {
             bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();

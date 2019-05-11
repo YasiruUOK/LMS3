@@ -107,6 +107,17 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpPost]
+        public HttpResponseMessage addRequestBook(requestedBook requestedBook)
+        {
+            ReturnData rd = new ReturnData();
+            rd = requestedBook.addRequestBook();
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
+        [HttpPost]
         public HttpResponseMessage updateBookDetails(BookDetails bookDetails)
         {
             ReturnData rd = new ReturnData();
@@ -283,6 +294,7 @@ namespace LMS
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
             return response;
         }
+        
         [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage loadCoursetNames()
@@ -350,6 +362,19 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
+        public HttpResponseMessage deleteBookIssue(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+            bookIssuingDetails u = new bookIssuingDetails();
+            rd = u.deleteBookIssue(bookCode);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
         public HttpResponseMessage updateBookCodeDetailsFromBookID(string bookCode)
         {
             ReturnData rd = new ReturnData();
@@ -361,6 +386,33 @@ namespace LMS
             return response;
 
         }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage deleteFromBookIssueTemp(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+            bookIssuingDetailsTempory u = new bookIssuingDetailsTempory();
+            rd = u.deleteFromBookIssueTemp(bookCode);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage copyFromBookIssueTemp(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+            bookIssuingDetailsTempory u = new bookIssuingDetailsTempory();
+            rd = u.copyFromBookIssueTemp(bookCode);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        
         [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getStudentDetailsinlineFormUserID(string inlineFormUserID, string inlineFormUserName, string inlineFormEmailAddress, string inlineFormPhone)
@@ -489,6 +541,19 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
+        public HttpResponseMessage getNotApprovedPayments()
+        {
+            List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            bookIssuingDetails c = new bookIssuingDetails();
+            list = c.getNotApprovedPayments();
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
         public HttpResponseMessage makePayments(string studentID,double totalFineAmount,string reason, string TransactionID, string branchName, bool PaymentApproved)
         {
             ReturnData rd = new ReturnData();
@@ -500,7 +565,32 @@ namespace LMS
             return response;
 
         }
-    
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage ApprovePayments(string paymentID)
+        {
+            ReturnData rd = new ReturnData();
+            paymentDetails c = new paymentDetails();
+            rd = c.ApprovePayments(paymentID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage RejectPayments(string paymentID)
+        {
+            ReturnData rd = new ReturnData();
+            paymentDetails c = new paymentDetails();
+            rd = c.RejectPayments(paymentID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
         [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getBookIssuedDetailsFromstudent_name(string student_name)

@@ -21,6 +21,9 @@ namespace LMS.App_Code
         public double dateCount { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
+        public string TransactionID { get; set; }
+        public string branchName { get; set; }
+        public string paymentID { get; set; }
 
         string db_connection_string = ConfigurationManager.ConnectionStrings["db_connectionString"].ConnectionString;
 
@@ -390,6 +393,40 @@ namespace LMS.App_Code
             con.Close();
             return dt;
         }
+
+        internal ReturnData deleteBookIssue(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+
+            sql = "Delete from bookIssuingDetails where bookCode=@bookCode";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@bookCode", bookCode);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+            return rd;
+        }
+
         internal List<bookIssuingDetails> getBookIssuedDetailsFromstudent_name(string student_name)
         {
             bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();
@@ -526,5 +563,39 @@ namespace LMS.App_Code
             return list;
         }
 
+        internal List<bookIssuingDetails> getNotApprovedPayments()
+        {
+            bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();
+            List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select * from bookIssuingDetails BID,bookDetails BD, studentDetails SD, bookCodeDetails BCD, paymentDetails PD where BD.bookID = BCD.bookID and BCD.bookCode = BID.bookCode and BID.studentID = SD.studentID and PD.studentID=SD.studentID and PD.PaymentApproved='FALSE'";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                bookIssuingDetails c = new bookIssuingDetails();
+                c.bookCode = rdr["bookCode"].ToString();
+                c.studentID = rdr["studentID"].ToString();
+                c.first_name = rdr["first_name"].ToString();
+                c.last_name = rdr["last_name"].ToString();
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.TransactionID = rdr["TransactionID"].ToString();
+                c.branchName = rdr["branchName"].ToString();
+                c.paymentID = rdr["paymentID"].ToString();
+                c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
+                c.issueDate = DateTime.Parse(rdr["issueDate"].ToString());
+                c.fineAmount = double.Parse(rdr["paidAmount"].ToString()); 
+                c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
+                c.issueDateString = String.Format("{0:yyyy - MM - dd}", c.issueDate);
+                list.Add(c);
+               
+            }
+            con.Close();
+            return list;
+        }
     }
 }

@@ -118,9 +118,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Js\suggestionsDepartments.js" />
+    <Content Include="ApproveFinePayments.aspx" />
     <Content Include="ManageIssuedBooksStudents.aspx" />
     <Content Include="PayFinesToBank.aspx" />
     <Content Include="PayFines.aspx" />
+    <Content Include="RequestBook.aspx" />
     <Content Include="UpdateBook.aspx" />
     <Content Include="AddBook.aspx" />
     <Content Include="AddStudent.aspx" />
@@ -293,6 +295,14 @@
     <Compile Include="App_Code\bookIssuingDetailsTempory.cs" />
     <Compile Include="App_Code\Departments.cs" />
     <Compile Include="App_Code\paymentDetails.cs" />
+    <Compile Include="ApproveFinePayments.aspx.cs">
+      <DependentUpon>ApproveFinePayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ApproveFinePayments.aspx.designer.cs">
+      <DependentUpon>ApproveFinePayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\requestedBook.cs" />
     <Compile Include="ManageIssuedBooksStudents.aspx.cs">
       <DependentUpon>ManageIssuedBooksStudents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -313,6 +323,13 @@
     </Compile>
     <Compile Include="PayFines.aspx.designer.cs">
       <DependentUpon>PayFines.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RequestBook.aspx.cs">
+      <DependentUpon>RequestBook.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RequestBook.aspx.designer.cs">
+      <DependentUpon>RequestBook.aspx</DependentUpon>
     </Compile>
     <Compile Include="UpdateBook.aspx.cs">
       <DependentUpon>UpdateBook.aspx</DependentUpon>

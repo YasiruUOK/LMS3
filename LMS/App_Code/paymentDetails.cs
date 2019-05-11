@@ -57,6 +57,70 @@ namespace LMS.App_Code
             return rd;
         }
 
-        
+        internal ReturnData ApprovePayments(string paymentID)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+            sql = "update paymentDetails set PaymentApproved='True' where paymentID=@paymentID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@paymentID", paymentID);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+
+            return rd;
+        }
+
+        internal ReturnData RejectPayments(string paymentID)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+
+            sql = "Delete from paymentDetails where paymentID=@paymentID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@paymentID", paymentID);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+            return rd;
+        }
     }
 }
