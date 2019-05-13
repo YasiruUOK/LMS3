@@ -67,6 +67,8 @@ namespace LMS.App_Code
             {
                 rd.status = 1;
                 rd.message = "OK";
+                UserAccess userAccess = new UserAccess();
+                userAccess.createUser(this.studentID, this.first_name, this.last_name, this.email, this.phone,"Student");
                 // rd.para1 = temp_invoice_id;
             }
 

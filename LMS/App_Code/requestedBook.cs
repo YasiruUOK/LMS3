@@ -13,8 +13,12 @@ namespace LMS.App_Code
         public string bookName { get; set; }
         public string bookURL { get; set; }
         public string BookDesc { get; set; }
-        public DateTime requestedDate { get; set; }
+        public string requestedDate { get; set; }
         public string studentID { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public int LikeCount { get; set; }
+        public bool Approved { get; set; }
 
         string db_connection_string = ConfigurationManager.ConnectionStrings["db_connectionString"].ConnectionString;
 
@@ -64,7 +68,7 @@ namespace LMS.App_Code
             return rd;
         }
 
-        private ReturnData addLike(string requestID, string studentID)
+        internal ReturnData addLike(string requestID, string studentID)
         {
             ReturnData rd = new ReturnData();
             string isAlreadyLike = getstudentID(requestID,studentID);
@@ -146,6 +150,166 @@ namespace LMS.App_Code
             }
             con.Close();
             return requestID;
+        }
+
+        internal List<requestedBook> getRequestedBookDetails()
+        {
+            requestedBook requestedBookDetails = new requestedBook();
+            List<requestedBook> list = new List<requestedBook>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select RB.requestID, RB.bookName, RB.bookURL, RB.BookDesc, SD.first_name, SD.last_name, RB.requestedDate, count(RBD.requestID) As LikeCount, RB.Approved from requestedBook RB, requestedBookLikeDetails RBD, studentDetails SD where RB.requestID=RBD.requestID and SD.studentID=RB.requestBy group by RB.requestID, RB.bookName, RB.bookURL, RB.BookDesc, SD.first_name, SD.last_name, RB.requestedDate, RB.Approved";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                requestedBook c = new requestedBook();
+                c.requestID = int.Parse(rdr["requestID"].ToString());
+                c.bookName = rdr["bookName"].ToString();
+                c.bookURL = rdr["bookURL"].ToString();
+                c.BookDesc = rdr["BookDesc"].ToString();
+                c.first_name = rdr["first_name"].ToString();
+                c.last_name = rdr["last_name"].ToString();
+                c.requestedDate = String.Format("{0:yyyy - MM - dd}", DateTime.Parse(rdr["requestedDate"].ToString()));
+                c.LikeCount = int.Parse(rdr["LikeCount"].ToString());
+                c.Approved= bool.Parse(rdr["Approved"].ToString());
+                list.Add(c);
+            }
+            con.Close();
+            return list;
+        }
+
+        internal ReturnData approveRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+            sql = "update requestedBook set Approved='True' where requestID=@requestID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@requestID", requestID);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+
+            return rd;
+        }
+
+        internal ReturnData disapproveRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+            sql = "update requestedBook set Approved='False' where requestID=@requestID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@requestID", requestID);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+
+            return rd;
+        }
+
+        internal ReturnData deleteRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "";
+            sql = "Delete from requestedBook where requestID = @requestID";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@requestID", requestID);
+
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "OK";
+            }
+
+            return rd;
+        }
+
+        internal List<requestedBook> getRequestedBook(string searchBook)
+        {
+            requestedBook requestedBookDetails = new requestedBook();
+            List<requestedBook> list = new List<requestedBook>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select RB.requestID, RB.bookName, RB.bookURL, RB.BookDesc, SD.first_name, SD.last_name, RB.requestedDate, count(RBD.requestID) As LikeCount, RB.Approved from requestedBook RB, requestedBookLikeDetails RBD, studentDetails SD where RB.requestID=RBD.requestID and SD.studentID=RB.requestBy and (RB.bookName Like @searchBook or RB.BookDesc Like @searchBook) group by RB.requestID, RB.bookName, RB.bookURL, RB.BookDesc, SD.first_name, SD.last_name, RB.requestedDate, RB.Approved ";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            cmd.Parameters.AddWithValue("@searchBook", "%"+searchBook+"%");
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                requestedBook c = new requestedBook();
+                c.requestID = int.Parse(rdr["requestID"].ToString());
+                c.bookName = rdr["bookName"].ToString();
+                c.bookURL = rdr["bookURL"].ToString();
+                c.BookDesc = rdr["BookDesc"].ToString();
+                c.first_name = rdr["first_name"].ToString();
+                c.last_name = rdr["last_name"].ToString();
+                c.requestedDate = String.Format("{0:yyyy - MM - dd}", DateTime.Parse(rdr["requestedDate"].ToString()));
+                c.LikeCount = int.Parse(rdr["LikeCount"].ToString());
+                c.Approved = bool.Parse(rdr["Approved"].ToString());
+                list.Add(c);
+            }
+            con.Close();
+            return list;
         }
     }
 }

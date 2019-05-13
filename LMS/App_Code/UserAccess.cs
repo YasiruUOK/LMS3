@@ -95,6 +95,39 @@ namespace LMS.App_Code
 
         }
 
+        internal void createUser(string studentID, string first_name, string last_name, string email, string phone, string student)
+        {
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "";
+
+            sql = "insert into user_profile (user_id,first_name,last_name,email,mobile_phone,password,user_role,status) values (@user_id,@first_name,@last_name,@email,@mobile_phone,@password,@user_role,@status) ";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@user_id", studentID);
+            cmd.Parameters.AddWithValue("@first_name", first_name);
+            cmd.Parameters.AddWithValue("@last_name", last_name);
+            cmd.Parameters.AddWithValue("@email", email);
+            cmd.Parameters.AddWithValue("@mobile_phone", phone);
+            cmd.Parameters.AddWithValue("@password", studentID);
+            cmd.Parameters.AddWithValue("@user_role", student);
+            cmd.Parameters.AddWithValue("@status", "Active");
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                
+            }
+            
+        }
 
         public bool validateToken(string token)
         {

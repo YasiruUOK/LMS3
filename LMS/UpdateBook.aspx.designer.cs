@@ -10,6 +10,6 @@
 namespace LMS {
     
     
-    public partial class AddBook {
+    public partial class UpdateBook {
     }
 }

@@ -16,7 +16,7 @@
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
     <title>Request Book &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
-    <link rel='stylesheet' id='font_awesome-css' href='https://www.library-management.com/wp-content/themes/library/css/font-awesome.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick_theme-css' href='https://www.library-management.com/wp-content/themes/library/css/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
@@ -81,8 +81,35 @@
 
 
 </head>
-    <script>
-        function getUserID() {
+<script>
+    var userID;
+    $(function () {
+        getRequestedBookDetails();
+        getUserID1();
+        $("#searchBook").keypress(function (e) {
+            //if (e.which == 13) {
+                var searchBook = document.getElementById('searchBook').value;
+                if (searchBook != "") {
+                    $.ajax({
+                        type: "GET",
+                        url: "api/myapi/getRequestedBook",
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        data: { searchBook: searchBook },
+                        dataType: "json",
+                        success: function (data) {
+                            load_getRequestedBookDetails(data);
+                        },
+                        error: function (request) {
+                            handle_error(request);
+                        },
+                        beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+                    });
+                }
+            //}
+        });
+    });
+    function getUserID() {
         var LoggedUser = mycookie();
         jQuery.ajax({
             type: "GET",
@@ -100,31 +127,91 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
-        function addRequestBook(data) {
+    function getUserID1() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserID",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                userID = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function addRequestBook(data) {
         var bookName = document.getElementById('book_name').value;
         var bookURL = document.getElementById('book_url').value;
         var BookDesc = document.getElementById('note_on_book').value;
-            jQuery.ajax({
-                type: "POST",
-                url: "api/myapi/addRequestBook",
-                data: JSON.stringify({
-                    bookName: bookName, bookURL: bookURL, BookDesc: BookDesc, studentID:data
-                }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    alert(data.message);
-                },
-                failure: function (response) {
-                    alert(response.d);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
-        
-        
+        jQuery.ajax({
+            type: "POST",
+            url: "api/myapi/addRequestBook",
+            data: JSON.stringify({
+                bookName: bookName, bookURL: bookURL, BookDesc: BookDesc, studentID: data
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                alert(data.message);
+                getRequestedBookDetails();
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+
+
     }
-    </script>
+    function getRequestedBookDetails() {
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/getRequestedBookDetails",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                load_getRequestedBookDetails(data);
+
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function load_getRequestedBookDetails(data) {
+        $("#bookRequestDetailsTable").find("tr:gt(0)").remove();
+        $('#bookRequestDetailsTable').append('<tr><td colspan="9"> </td> </tr>');
+        for (var i = 0; i < data.length; i++) {
+            $('#bookRequestDetailsTable').append('<tr><td>' + data[i].bookName + '</td><td><a href="' + data[i].bookURL + '">Visit</a</td><td>' + data[i].BookDesc + '</td><td>' + data[i].first_name + ' ' + data[i].last_name + '</td><td>' + data[i].LikeCount + '</td><td>' + data[i].requestedDate + '</td><td><button onclick=\'addlike("' + data[i].requestID + '","' + userID + '")\' class="btn btn-success"><i class="far fa-thumbs-up"></i> </button></td></tr>');
+        }
+    }
+    function addlike(requestID, studentID) {
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/addLike",
+            contentType: "application/json; charset=utf-8",
+            data: { requestID: requestID, studentID: studentID },
+            dataType: "json",
+            success: function (data) {
+                alert(data.message);
+                getRequestedBookDetails();
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+</script>
 <body class="page-template page-template-requestbook page-template-requestbook-php page page-id-21 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
 
@@ -329,15 +416,15 @@
 
 
                                 </form>
-
-
+                                <input type="text" ng-model="search.BookName" id="searchBook" placeholder="Type Book Name To Search For Before Placing Request.." class="form-control">
+                                <br />
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped tbluser"
+                                    <table class="table table-bordered table-striped tbluser" id="bookRequestDetailsTable"
                                         style="font-size: small; margin-bottom: 0px; overflow-x: scroll;">
                                         <thead>
                                             <tr>
@@ -347,7 +434,7 @@
                                                 <th class="" style="width: 45%;">BookDesc</th>
                                                 <th style="display: none;">User ID</th>
                                                 <th class="" style="width: 11%;">Person Name</th>
-                                                <th class="">Likes (30)</th>
+                                                <th class="">Likes</th>
                                                 <th class="" style="width: 9%;">Added On</th>
                                                 <th class="" style="width: 80px;">Action</th>
                                             </tr>

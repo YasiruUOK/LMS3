@@ -602,16 +602,31 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>District</label>
 
                                                 <select name="state" id="state" class="form-control selectpicker fix_radius">
-                                                    <option value="">------------Select State------------</option>
-                                                    <option value='Andaman and Nicobar Islands'>Andaman and Nicobar Islands</option>
-                                                    <option value='Andhra Pradesh'>Andhra Pradesh</option>
-                                                    <option value='Assam'>Assam</option>
-                                                    <option value='Bihar'>Bihar</option>
-                                                    <option value='Chandigarh'>Chandigarh</option>
-                                                    <option value='Dadra and Nagar Haveli'>Dadra and Nagar Haveli</option>
-                                                    <option value='Jammu and Kashmir'>Jammu and Kashmir</option>
-                                                    <option value='Nagaland'>Nagaland</option>
-                                                    <option value='Pondicherry'>Pondicherry</option>
+                                                    <option value="">------------Select District------------</option>
+                                                    <option value='Colombo'>Colombo</option>
+                                                    <option value='Kaluthara'>Kaluthara</option>
+                                                    <option value='Gampaha'>Gampaha</option>
+                                                    <option value='Galle'>Galle</option>
+                                                    <option value='Mathara'>Mathara</option>
+                                                    <option value='Kandy'>Kandy</option>
+                                                    <option value='Jaffna'>Jaffna</option>
+                                                    <option value='Kurunagala'>Kurunagala</option>
+                                                    <option value='Anuradhapura'>Anuradhapura</option>
+                                                    <option value='Polonnaruwa'>Polonnaruwa</option>
+                                                    <option value='Hambanthota'>Hambanthota</option>
+                                                    <option value='Mathale'>Mathale</option>
+                                                    <option value='Kegalle'>Kegalle</option>
+                                                    <option value='Rathnapura'>Rathnapura</option>
+                                                    <option value='Nuwara-Eliya'>Nuwara-Eliya</option>
+                                                    <option value='Putthalama'>Putthalama</option>
+                                                    <option value='Vavniya'>Vavniya</option>
+                                                    <option value='Kilinochchi'>Kilinochchi</option>
+                                                    <option value='Ampara'>Ampara</option>
+                                                    <option value='Batticlo'>Batticlo</option>
+                                                    <option value='Trinco'>Trinco</option>
+                                                    <option value='Badulla'>Badulla</option>
+                                                    <option value='Monaragala'>Monaragala</option>
+                                                    <option value='Mannar'>Mannar</option>
                                                 </select>
 
 

@@ -502,6 +502,32 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
+        public HttpResponseMessage getRequestedBookDetails()
+        {
+            List<requestedBook> list = new List<requestedBook>();
+            requestedBook c = new requestedBook();
+            list = c.getRequestedBookDetails();
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getRequestedBook(string searchBook)
+        {
+            List<requestedBook> list = new List<requestedBook>();
+            requestedBook c = new requestedBook();
+            list = c.getRequestedBook(searchBook);
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
         public HttpResponseMessage getBookIssuedDetailsFromStudentID(string student_ID)
         {
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
@@ -572,6 +598,58 @@ namespace LMS
             ReturnData rd = new ReturnData();
             paymentDetails c = new paymentDetails();
             rd = c.ApprovePayments(paymentID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage addLike(string requestID,string studentID)
+        {
+            ReturnData rd = new ReturnData();
+            requestedBook c = new requestedBook();
+            rd = c.addLike(requestID, studentID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage approveRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+            requestedBook c = new requestedBook();
+            rd = c.approveRequestBook(requestID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage disapproveRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+            requestedBook c = new requestedBook();
+            rd = c.disapproveRequestBook(requestID);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage deleteRequestBook(string requestID)
+        {
+            ReturnData rd = new ReturnData();
+            requestedBook c = new requestedBook();
+            rd = c.deleteRequestBook(requestID);
             string yourJson = JsonConvert.SerializeObject(rd); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
