@@ -66,6 +66,19 @@ namespace LMS
             return response;
 
         }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getUserFullName(string LoggedUser)
+        {
+            string userName = "";
+            UserAccess u = new UserAccess();
+            userName = u.getUserFullName(LoggedUser);
+            string yourJson = JsonConvert.SerializeObject(userName); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
 
         [BasicAuthentication]
         [HttpGet]

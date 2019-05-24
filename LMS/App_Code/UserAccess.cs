@@ -95,6 +95,24 @@ namespace LMS.App_Code
 
         }
 
+        internal string getUserFullName(string token)
+        {
+            string retutn_val = "";
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "select first_name, last_name from Token,user_profile where Token.user_id=user_profile.user_id and token=@token";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@token", token);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                rdr.Read();
+                retutn_val = rdr["first_name"].ToString()+" "+ rdr["last_name"].ToString();
+            }
+            con.Close();
+            return retutn_val;
+        }
+
         internal void createUser(string studentID, string first_name, string last_name, string email, string phone, string student)
         {
             SqlConnection con = new SqlConnection(user_db_connection_string);

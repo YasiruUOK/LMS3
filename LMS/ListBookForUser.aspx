@@ -28,7 +28,8 @@
 <link rel='stylesheet' id='angular_bootstrap_toggle_css-css'  href='https://www.library-management.com/wp-content/themes/library/css/angular-bootstrap-toggle.min.css?ver=4.9.8' type='text/css' media='all' />
 <link rel='stylesheet' id='datatable_css-css'  href='https://www.library-management.com/wp-content/themes/library/css/dataTables.bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
 <link rel='stylesheet' id='mainstyle-css'  href='https://www.library-management.com/wp-content/themes/library/style.css?ver=4.9.8' type='text/css' media='all' />
-<script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="Js/cookiefile.js"></script>
 <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
 <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/bootstrap.min.js?ver=4.9.8'></script>
 <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery-ui.min.js?ver=4.9.8'></script>
@@ -79,6 +80,31 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
   
 
 </head>
+    <script>
+        $(function () {
+            getUserID();
+        });
+        function getUserID() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getUserFullName",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    document.getElementById("p1").innerHTML = data;
+                    document.getElementById("p2").innerHTML = data;
+                    document.getElementById("p3").innerHTML = data;
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+    </script>
 <body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini" >
 <div class="wrapper" id="style-5">
 
@@ -102,7 +128,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
               <img
                   ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                   class="user-image" style="float: inherit;" alt="User Image">
-              <span class="hidden-xs">Tasha R  Tyson</span>
+              <span class="hidden-xs" id="p3">Tasha R  Tyson</span>
             </a>
             <ul class="dropdown-menu">
               <li class="user-header">
@@ -110,7 +136,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                     ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478-150x150.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                     class="img-circle" alt="User Image">
 
-                <p>
+                <p id="p2">
                     Tasha R  Tyson - Users
                   <small>Member since Apr 2018</small>
                 </p>
@@ -123,7 +149,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                      class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=cce76c3aa1" style="height: 37px;"
+                  <a href="SystemLogin.aspx" style="height: 37px;"
                      class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
@@ -146,7 +172,9 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
               class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Tasha R  Tyson</p>
+            <%--<input name="book_title" id="book_title" ng-model="book_title"
+                                                            placeholder="Book Title" class="form-control" type="text" disabled>--%>
+          <p id="p1">Tasha R  Tyson </p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>

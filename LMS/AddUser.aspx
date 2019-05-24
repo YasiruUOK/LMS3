@@ -55,8 +55,8 @@
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/dataTables.bootstrap.min.js?ver=4.9.8'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/tinymce/tinymce.min.js?ver=4.9.8'></script>
     <script type='text/javascript'>
-/* <![CDATA[ */
-var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-ajax.php","loader_path":"https:\/\/www.library-management.com\/wp-content\/themes\/library","boostrap_loc":"https:\/\/www.library-management.com\/wp-content\/themes\/library\/css\/bootstrap.min.css","number_of_row":"25","defined_fine":"10"};
+        /* <![CDATA[ */
+        var myAjax = { "ajaxurl": "https:\/\/www.library-management.com\/wp-admin\/admin-ajax.php", "loader_path": "https:\/\/www.library-management.com\/wp-content\/themes\/library", "boostrap_loc": "https:\/\/www.library-management.com\/wp-content\/themes\/library\/css\/bootstrap.min.css", "number_of_row": "25", "defined_fine": "10" };
 /* ]]> */
     </script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/custom.js?ver=4.9.8'></script>
@@ -80,42 +80,42 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 
 </head>
-    <script>
-        $(function () {
-            loadCoursetNames(); 
+<script>
+    $(function () {
+        loadCoursetNames();
+    });
+    function loadCoursetNames() {
+
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/loadCoursetNames",
+            contentType: "application/json; charset=utf-8",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                var listItems = "";
+                for (var i = 0; i < data.length; i++) {
+                    //listItems += "<option value='" + data[i].HorseID + "'>" + data[i].HorseID + "-" + data[i].HorseName + "</option>";
+                    listItems += "<option value='" + data[i].courseID + "'>" + data[i].CourseName + "</option>";
+                }
+                $("#course_name").html(listItems);
+
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
-        function loadCoursetNames() {
-
-            $.ajax({
-                type: "GET",
-                url: "api/myapi/loadCoursetNames",
-                contentType: "application/json; charset=utf-8",
-                data: {},
-                dataType: "json",
-                success: function (data) {
-                    var listItems = "";
-                    for (var i = 0; i < data.length; i++) {
-                        //listItems += "<option value='" + data[i].HorseID + "'>" + data[i].HorseID + "-" + data[i].HorseName + "</option>";
-                        listItems += "<option value='" + data[i].courseID + "'>" + data[i].CourseName + "</option>";
-                    }
-                    $("#course_name").html(listItems);
-
-                },
-                error: function (request) {
-                    handle_error(request);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
-        }
+    }
     function add_student_details() {
         var studentID = document.getElementById('studentID').value;
         var first_name = document.getElementById('first_name').value;
         var last_name = document.getElementById('last_name').value;
         var email = document.getElementById('email').value;
         var e = document.getElementById("course_name");
-        var course_name = e.options[e.selectedIndex].text; 
+        var course_name = e.options[e.selectedIndex].text;
         var e1 = document.getElementById("year_name");
-        var year_name = e1.options[e1.selectedIndex].text; 
+        var year_name = e1.options[e1.selectedIndex].text;
         var phone = document.getElementById('phone').value;
         var address = document.getElementById('address').value;
         var city = document.getElementById('city').value;
@@ -128,19 +128,31 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
             type: "POST",
             url: "api/myapi/addStudentDetails",
             data: JSON.stringify({
-                studentID: studentID, first_name: first_name, last_name: last_name, email: email, course_name: course_name, year_name: year_name, phone: phone, address: address, city: city, state: state, zip: zip, role: role, note_on_user:note_on_user
+                studentID: studentID, first_name: first_name, last_name: last_name, email: email, course_name: course_name, year_name: year_name, phone: phone, address: address, city: city, state: state, zip: zip, role: role, note_on_user: note_on_user
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             async: false,
             success: function (data) {
                 alert(data.message);
+                clearTextBox();
             },
             failure: function (response) {
                 alert(response.d);
             },
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
+    }
+    function clearTextBox() {
+        $("#studentID").val("");
+        $("#first_name").val("");
+        $("#last_name").val("");
+        $("#email").val("");
+        $("#phone").val("");
+        $("#address").val("");
+        $("#city").val("");
+        $("#zip").val("");
+        $("#note_on_user").val("");
     }
 </script>
 <body class="page-template page-template-addbook page-template-addbook-php page page-id-6 logged-in hold-transition skin-blue sidebar-mini">
@@ -442,19 +454,19 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                 </section>
                 <!-- /.sidebar -->
             </aside>
-        </div>  <div class="content-wrapper">
+        </div>
+        <div class="content-wrapper">
             <style>
                 .ng-camera-overlay {
                     display: none;
                 }
             </style>
             <section class="content-header">
-                <h1>
-                    Dashboard
+                <h1>Dashboard
                     <small>Control panel</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
                     <li class="active">Add User</li>
                 </ol>
             </section>
@@ -464,20 +476,19 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                     <div class="col-sm-3 addStudCamera">
 
                         <ng-camera output-height="250"
-                                   output-width="250"
-                                   image-format="jpeg"
-                                   jpeg-quality="100"
-                                   action-message="Capture"
-                                   snapshot="vm.picture"
-                                   flash-fallback-url="https://www.library-management.com/wp-content/themes/library/js/webcam.swf"
-                                   overlay-url="https://www.library-management.com/wp-content/themes/library/img/overlay.png"
-                                   shutter-url="https://www.library-management.com/wp-content/themes/library/js/shutter.mp3"></ng-camera>
+                            output-width="250"
+                            image-format="jpeg"
+                            jpeg-quality="100"
+                            action-message="Capture"
+                            snapshot="vm.picture"
+                            flash-fallback-url="https://www.library-management.com/wp-content/themes/library/js/webcam.swf"
+                            overlay-url="https://www.library-management.com/wp-content/themes/library/img/overlay.png"
+                            shutter-url="https://www.library-management.com/wp-content/themes/library/js/shutter.mp3"></ng-camera>
                         <img ng-if="vm.picture" ng-src="{{vm.picture}}" alt="User Pic" style="margin-top: 10%;"
-                             class="img-responsive">
-
+                            class="img-responsive">
                     </div>
                     <div class="col-sm-9">
-                        <div class="tab-content shadow" style="border: 0;padding:0;">
+                        <div class="tab-content shadow" style="border: 0; padding: 0;">
                             <div class="tab-pane active">
                                 <div class="panel panel-custom">
                                     <div class="panel-heading">
@@ -495,18 +506,14 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Student ID</label>
 
                                                 <input name="first_name" id="studentID" placeholder="Studnet ID"
-                                                       class="form-control fix_radius" type="text">
-
-
+                                                    class="form-control fix_radius" type="text">
                                             </div>
                                             <div class="form-group mb0 col-sm-6">
 
                                                 <label>First Name</label>
 
                                                 <input name="first_name" id="first_name" placeholder="First Name"
-                                                       class="form-control fix_radius" type="text">
-
-
+                                                    class="form-control fix_radius" type="text">
                                             </div>
 
                                             <div class="form-group mb0 col-sm-6">
@@ -514,9 +521,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Last Name</label>
 
                                                 <input name="last_name" id="last_name" placeholder="Last Name"
-                                                       class="form-control fix_radius" type="text">
-
-
+                                                    class="form-control fix_radius" type="text">
                                             </div>
 
                                             <div class="form-group mb0 col-sm-6">
@@ -524,10 +529,8 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Email</label>
 
                                                 <input name="email" id="email" tooltips
-                                                       tooltip-template="Make sure you put a proper email as this will be the username of this person & cannot be changed later."
-                                                       placeholder="E-Mail Address" class="form-control fix_radius" type="text">
-
-
+                                                    tooltip-template="Make sure you put a proper email as this will be the username of this person & cannot be changed later."
+                                                    placeholder="E-Mail Address" class="form-control fix_radius" type="text">
                                             </div>
 
                                             <div class="form-group mb0 col-sm-6">
@@ -536,7 +539,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 
                                                 <select id="course_name" name="course_name"
-                                                        class="form-control selectpicker fix_radius">
+                                                    class="form-control selectpicker fix_radius">
                                                     <option value="">------------Select Course Name------------</option>
                                                     <option value="1">B-Com</option>
                                                     <option value="2">MCA</option>
@@ -552,7 +555,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Year</label>
 
                                                 <select id="year_name" name="year_name"
-                                                        class="form-control selectpicker fix_radius">
+                                                    class="form-control selectpicker fix_radius">
                                                     <option value="">------------Select Course Year------------</option>
                                                     <option value="1">1st Year</option>
                                                     <option value="2">2nd Year</option>
@@ -570,11 +573,9 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Phone</label>
 
                                                 <input name="phone" tooltips
-                                                       tooltip-template="This will be his default password for login."
-                                                       id="phone" placeholder="9876543210" id="phone"
-                                                       class="form-control fix_radius" type="text">
-
-
+                                                    tooltip-template="This will be his default password for login."
+                                                    id="phone" placeholder="9876543210" id="phone"
+                                                    class="form-control fix_radius" type="text">
                                             </div>
 
                                             <div class="form-group mb0 col-sm-12">
@@ -592,9 +593,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 
                                                 <input name="city" id="city" placeholder="City" class="form-control fix_radius"
-                                                       type="text">
-
-
+                                                    type="text">
                                             </div>
 
                                             <div class="form-group mb0 col-sm-6">
@@ -639,14 +638,14 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Zip </label>
 
                                                 <input name="zip" id="zip" placeholder="Zip Code"
-                                                       class="form-control fix_radius" type="text">
-
+                                                    class="form-control fix_radius" type="text">
                                             </div>
 
                                             <!-- Future Scope -->
                                             <div class="form-group mb0 col-sm-6">
                                                 <label tooltips
-                                                       tooltip-template="Will be availabe in future update.">Role</label>
+                                                    tooltip-template="Will be availabe in future update.">
+                                                    Role</label>
                                                 <input name="role" id="role" value="Student" type="hidden">
                                                 <select class="form-control" disabled>
                                                     <option value="Student" selected>Student</option>
@@ -659,7 +658,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                                 <label>Notes</label>
 
                                                 <textarea class="form-control fix_radius" id="note_on_user" name="note_on_user"
-                                                          placeholder="Note"></textarea>
+                                                    placeholder="Note"></textarea>
 
                                             </div>
                                             <div class="form-group mb0 col-sm-12">
@@ -696,35 +695,35 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 <script>
     function show_payment() {
-      bootbox.dialog({
-        title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
-        message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
-        buttons: {
-          noclose: {
-            label: "Paypal",
-            className: 'btn-success',
-            callback: function () {
-              window.open("https://www.paypal.me/Prince898/20");
-              ;
-              return false;
+        bootbox.dialog({
+            title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
+            message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
+            buttons: {
+                noclose: {
+                    label: "Paypal",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.open("https://www.paypal.me/Prince898/20");
+                        ;
+                        return false;
+                    }
+                },
+                ok: {
+                    label: "CCAvenue",
+                    className: 'btn-success',
+                    callback: function () {
+                        window.open("http://www.ricomart.com/billing/index.php");
+                        return false;
+                    }
+                }
             }
-          },
-          ok: {
-            label: "CCAvenue",
-            className: 'btn-success',
-            callback: function () {
-              window.open("http://www.ricomart.com/billing/index.php");
-              return false;
-            }
-          }
-        }
-      });
+        });
     }
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'UA-91268321-2');
