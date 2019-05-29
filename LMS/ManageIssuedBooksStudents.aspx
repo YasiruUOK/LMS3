@@ -88,7 +88,7 @@
 <script>
     $(function () {
         getUserID();
-        getBookIssuedDetails();
+        //getBookIssuedDetails();
         window.onload = function () {
             var oTextbox = new AutoSuggestControl(document.getElementById("filter_userId"), new StateSuggestions());
             var oTextbox = new AutoSuggestControl(document.getElementById("filter_BookID"), new StateSuggestions());
@@ -145,7 +145,7 @@
             dataType: "json",
             success: function (data) {
                 alert(data.message);
-                getBookIssuedDetails();
+                getUserID();
             },
             error: function (request) {
                 handle_error(request);

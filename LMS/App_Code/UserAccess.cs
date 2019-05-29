@@ -281,5 +281,22 @@ namespace LMS.App_Code
             }
             return rd;
         }
+
+        internal string userCount()
+        {
+            string userCount = "";
+            DateTime d;
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "select count(*) as userCount from user_profile";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                userCount = rdr["userCount"].ToString();
+            }
+            con.Close();
+            return userCount;
+        }
     }
 }

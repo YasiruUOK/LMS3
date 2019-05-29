@@ -24,6 +24,7 @@ namespace LMS.App_Code
         public string TransactionID { get; set; }
         public string branchName { get; set; }
         public string paymentID { get; set; }
+        public string bookDescription { get; set; }
 
         string db_connection_string = ConfigurationManager.ConnectionStrings["db_connectionString"].ConnectionString;
 
@@ -66,6 +67,27 @@ namespace LMS.App_Code
 
             return rd;
 
+        }
+
+        internal string getBookIssuedDate(string studentID, string bookID)
+        {
+            string issuedDate = "";
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select issueDate from bookIssuingDetails where studentID=@studentID and bookCode=@bookCode";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.Parameters.AddWithValue("@studentID", studentID);
+            cmd.Parameters.AddWithValue("@bookCode", bookID);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                issuedDate = rdr["issueDate"].ToString();
+            }
+            con.Close();
+            return issuedDate;
         }
 
         internal void deleteFromBookIssungDetails(string bookID, string studentID)
@@ -309,6 +331,7 @@ namespace LMS.App_Code
         {
             bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            CommonFunctions cf = new CommonFunctions();
             student_ID = "%" + student_ID + "%";
             string sql = "";
             SqlCommand cmd = new SqlCommand();
@@ -327,8 +350,10 @@ namespace LMS.App_Code
                 c.first_name = rdr["first_name"].ToString();
                 c.last_name = rdr["last_name"].ToString();
                 c.bookTitle = rdr["bookTitle"].ToString();
+                c.bookDescription = rdr["bookDescription"].ToString();
                 c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
                 c.issueDate = DateTime.Parse(rdr["issueDate"].ToString());
+                c.dateCount = (c.returnDate - DateTime.Parse(cf.getServerDate())).TotalDays;
                 c.fineAmount = getfineAmount(studentID, c.returnDate);
                 c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
                 c.issueDateString = String.Format("{0:yyyy - MM - dd}", c.issueDate);
@@ -425,6 +450,23 @@ namespace LMS.App_Code
                 rd.message = "OK";
             }
             return rd;
+        }
+
+        internal string getIssedBookCount()
+        {
+            string bookCount = "";
+            DateTime d;
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "select count(*) as bookCount from bookIssuingDetails";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                bookCode = rdr["bookCount"].ToString();
+            }
+            con.Close();
+            return bookCode;
         }
 
         internal List<bookIssuingDetails> getBookIssuedDetailsFromstudent_name(string student_name)

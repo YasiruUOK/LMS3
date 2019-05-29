@@ -122,5 +122,22 @@ namespace LMS.App_Code
             }
             return rd;
         }
+
+        internal string fineSum()
+        {
+            string fineSum = "";
+            DateTime d;
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "select sum(paidAmount) as fineSum from paymentDetails";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                fineSum = rdr["fineSum"].ToString();
+            }
+            con.Close();
+            return fineSum;
+        }
     }
 }

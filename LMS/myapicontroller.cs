@@ -79,7 +79,19 @@ namespace LMS
             return response;
 
         }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getLoggedUser(string LoggedUser)
+        {
+            string userName = "";
+            UserAccess u = new UserAccess();
+            userName = u.getLoggedUser(LoggedUser);
+            string yourJson = JsonConvert.SerializeObject(userName); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
 
+        }
         [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getSubjectAreas()
@@ -175,6 +187,45 @@ namespace LMS
             BookDetails u = new BookDetails();
             list = u.getBookDetails(bookTitle);
             string yourJson = JsonConvert.SerializeObject(list); 
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getBookDetails()
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            BookDetails u = new BookDetails();
+            list = u.getBookDetails();
+            string yourJson = JsonConvert.SerializeObject(list);
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getBookDetailsFromBookName(string BookName)
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            BookDetails u = new BookDetails();
+            list = u.getBookDetailsFromBookName(BookName);
+            string yourJson = JsonConvert.SerializeObject(list);
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getDetailsFromISBN(string ISBN)
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            BookDetails u = new BookDetails();
+            list = u.getDetailsFromISBN(ISBN);
+            string yourJson = JsonConvert.SerializeObject(list);
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
             return response;
@@ -342,6 +393,58 @@ namespace LMS
             UserAccess u = new UserAccess();
             userName = u.getUserID(LoggedUser);
             string yourJson = JsonConvert.SerializeObject(userName); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage loadIssedBookCount()
+        {
+            string issuedBookCount = "";
+            bookIssuingDetails u = new bookIssuingDetails();
+            issuedBookCount = u.getIssedBookCount();
+            string yourJson = JsonConvert.SerializeObject(issuedBookCount); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage loadUserCount()
+        {
+            string userCount = "";
+            UserAccess u = new UserAccess();
+            userCount = u.userCount();
+            string yourJson = JsonConvert.SerializeObject(userCount); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage loadBookCount()
+        {
+            string bookCount = "";
+            BookDetails u = new BookDetails();
+            bookCount = u.bookCount();
+            string yourJson = JsonConvert.SerializeObject(bookCount); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage loadFineSum()
+        {
+            string fineSum = "";
+            paymentDetails u = new paymentDetails();
+            fineSum = u.fineSum();
+            string yourJson = JsonConvert.SerializeObject(fineSum); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
             return response;
@@ -546,6 +649,19 @@ namespace LMS
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
             bookIssuingDetails c = new bookIssuingDetails();
             list = c.getBookIssuedDetailsFromStudentID(student_ID);
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getBookIssuedDetailsHistoryFromStudentID(string student_ID)
+        {
+            List<bookIssuingDetailsHistory> list = new List<bookIssuingDetailsHistory>();
+            bookIssuingDetailsHistory c = new bookIssuingDetailsHistory();
+            list = c.getBookIssuedDetailsHistoryFromStudentID(student_ID);
             string yourJson = JsonConvert.SerializeObject(list); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");

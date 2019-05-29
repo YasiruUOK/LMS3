@@ -127,7 +127,7 @@
         for (var i = 0; i < data.length; i++) {
             $('#bookDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].returnDateString + '</td><td style="text-align:right">' + data[i].fineAmount + '</td>/tr>');
             totalFineAmount += data[i].fineAmount;
-            $("#totalFine").val(totalFineAmount);
+            $("#payment").val(totalFineAmount);
         }
     }
     function getParameterByName(name, url) {
@@ -180,6 +180,7 @@
             dataType: "json",
             success: function (data) {
                 alert(data.message);
+                updateBookDueDate(studentID); //2019-05-28 for update book due date when more than one book available
                 window.location.href = "ManageIssuedBooksStudents.aspx";
             },
             error: function (request) {
@@ -249,74 +250,58 @@
     }
     
 </script>
-<body class="page-template page-template-manageissuedbooks page-template-manageissuedbooks-php page page-id-25 logged-in hold-transition skin-blue sidebar-mini">
+<body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
+
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
-
                 <a href="https://www.library-management.com/dashboard/" class="logo">
-
                     <span class="logo-mini"><b>LMS</b></span>
-
-                    <span class="logo-lg"><b>Master Panel </b></span>
+                    <span class="logo-lg"><b>User Panel</b></span>
                 </a>
 
                 <nav class="navbar navbar-static-top">
-
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
-
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
 
 
-                            <li class="dropdown notifications-menu">
-                                <a href="https://www.library-management.com/view-request-book-data/">
-                                    <i class="fa fa-bell-o"></i>
-                                    <span class="label label-warning">{{cnt_not_approved}}</span>
-                                </a>
-                            </li>
                             <li class="dropdown user user-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
-                                    <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
-                                        class="user-image" alt="User Image">
-                                    <span class="hidden-xs">John Dsouza</span>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img
+                                        ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
+                                        class="user-image" style="float: inherit;" alt="User Image">
+                                    <span class="hidden-xs" id="p3">Tasha R  Tyson</span>
                                 </a>
                                 <ul class="dropdown-menu">
-
                                     <li class="user-header">
-                                        <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
+                                        <img
+                                            ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478-150x150.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
-                                            John Dsouza                  - Librarian                  <small>Member since . Apr 2018</small>
+                                        <p id="p2">
+                                            Tasha R  Tyson - Users
+                  <small>Member since Apr 2018</small>
                                         </p>
                                     </li>
 
 
                                     <li class="user-footer">
-                                        <div class="" style="padding-left: 2%;">
-                                            <div class="pull-left">
-                                                <a href="https://www.library-management.com/update-profile/"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">Profile</a>
-                                            </div>
-                                            <div class="pull-left">
-                                                <a target="_blank" href="https://www.library-management.com"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
-                                            </div>
-                                            <div class="pull-left">
-                                                <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=b67c9bf043"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
-                                            </div>
+                                        <div class="pull-left">
+                                            <a href="UserProfile.aspx" style="height: 37px;"
+                                                class="btn btn-default btn-flat">Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="SystemLogin.aspx" style="height: 37px;"
+                                                class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
                             </li>
 
-                            <li>
-                                <a href="https://www.library-management.com/other-settings/"><i class="fa fa-gears"></i></a>
-                            </li>
+
                         </ul>
                     </div>
                 </nav>
@@ -325,14 +310,16 @@
             <aside class="main-sidebar">
 
                 <section class="sidebar">
-
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
+                            <img
+                                ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478-150x150.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>John Dsouza</p>
+                            <%--<input name="book_title" id="book_title" ng-model="book_title"
+                                                            placeholder="Book Title" class="form-control" type="text" disabled>--%>
+                            <p id="p1">Tasha R  Tyson </p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
@@ -340,212 +327,47 @@
 
                     <ul class="sidebar-menu">
 
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
-                                <i class="fa fa-dashboard"></i><span>Dashboard</span>
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/list-book-for-user/','') }">
+                            <a href="ListBookForUser.aspx">
+                                <i class="fa fa-list"></i><span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/change-password/','') }">
+                            <a href="ChangePassword.aspx">
+                                <i class="fa fa-graduation-cap "></i><span>Change Password</span>
 
                             </a>
                         </li>
 
 
-                        <li id="MyPorfileMain" class="treeview">
-                            <a href="#">
-                                <i class="fa fa-gift"></i><span>My Profile</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li ng-class="{ active: isActive('https://www.library-management.com/change-password/','MyPorfileMain') }">
-                                    <a href="https://www.library-management.com/change-password/">
-                                        <i class="fa fa-circle-o"></i>Change
-                                        Password
-                                    </a>
-                                </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
-                                    <a href="https://www.library-management.com/update-profile/">
-                                        <i class="fa fa-circle-o"></i>Update
-                                        Details
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li id="ManageBookMain" class="treeview">
-                            <a href="#">
-                                <i class="fa fa-gift"></i><span>Manage Books</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li ng-class="{ active: isActive('https://www.library-management.com/add-book/','ManageBookMain') }">
-                                    <a href="https://www.library-management.com/add-book/">
-                                        <i class="fa fa-circle-o"></i>Add
-                                        Books
-                                    </a>
-                                </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-books/','ManageBookMain') }">
-                                    <a href="https://www.library-management.com/manage-books/">
-                                        <i class="fa fa-circle-o"></i>View
-                                        Books
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
-                            <a href="https://www.library-management.com/manage-fines/">
-                                <i class="fa fa-money"></i><span>Manage Fines</span>
-
-                            </a>
-                        </li>
-                        <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
-                            <a href="https://www.library-management.com/manage-online-dues/">
-                                <i class="fa fa-money"></i><span>Manage Online Paid Dues</span>
-
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-book-for-users/','') }">
+                            <a href="manage-issued-book-for-users.aspx">
+                                <i class="fa fa-list"></i><span>View Issued Books</span>
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/issue-books/','') }">
-                            <a href="https://www.library-management.com/issue-books/">
-                                <i class="fa fa-folder-open-o"></i><span>Issue Books</span>
-
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archives-user/','') }">
+                            <a href="manage-return-archives-user.aspx">
+                                <i class="fa fa-list"></i><span>View All Archive Books</span>
                             </a>
                         </li>
 
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-books/','') }">
-                            <a href="https://www.library-management.com/manage-issued-books/">
-                                <i class="fa fa-list"></i><span>View All Issued Books</span>
-
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/request-book/','') }">
+                            <a href="RequestBook.aspx">
+                                <i class="fa fa-list"></i><span>Submit Book Request</span>
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
-                            <a href="https://www.library-management.com/manage-return-archive/">
-                                <i class="fa fa-clock-o "></i><span>View All Archive Books</span>
-
-                            </a>
-                        </li>
-
-
-                        <li id="MainUserMenu" class="treeview">
-                            <a href="#">
-                                <i class="fa fa-users"></i><span>Manage Users</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li ng-class="{ active: isActive('https://www.library-management.com/add-user/','MainUserMenu') }">
-                                    <a href="https://www.library-management.com/add-user/">
-                                        <i class="fa fa-circle-o"></i>Add
-                                        User
-                                    </a>
-                                </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-users/','MainUserMenu') }">
-                                    <a href="https://www.library-management.com/manage-users/">
-                                        <i class="fa fa-circle-o"></i>View
-                                        All Users
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li id="SettingMainMenu" class="treeview">
-                            <a href="#">
-                                <i class="fa fa-sliders"></i><span>Manage Settings</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-course/','SettingMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-course/">
-                                        <i class="fa fa-circle-o"></i>Manage
-                                        Courses
-                                    </a>
-                                </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-years/"><i class="fa fa-circle-o"></i>Manage Years</a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/view-request-book-data/','') }">
-                            <a href="https://www.library-management.com/view-request-book-data/">
-                                <i class="fa fa-heart-o "></i><span>View Request Book Data</span>
-
-                            </a>
-                        </li>
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
-                            <a href="https://www.library-management.com/manage-slides/">
-                                <i class="fa fa-television"></i><span>Manage Slides</span>
-
-                            </a>
-                        </li>
-
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
-                            <a href="https://www.library-management.com/manage-institution/">
-                                <i class="fa fa-sliders "></i><span>Institution Setup</span>
-
-                            </a>
-                        </li>
-
-
-                        <li id="ManagePageMainMenu" class="treeview">
-                            <a href="#">
-                                <i class="fa fa-pagelines"></i><span>Manage Pages</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li ng-class="{ active: isActive('https://www.library-management.com/add-page/','ManagePageMainMenu') }">
-                                    <a href="https://www.library-management.com/add-page/"><i class="fa fa-circle-o"></i>Add Page</a>
-                                </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-pages/','ManagePageMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-pages/"><i class="fa fa-circle-o"></i>List All Page</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/other-settings/','') }">
-                            <a href="https://www.library-management.com/other-settings/">
-                                <i class="fa fa-gears"></i><span>Other Settings</span>
-
-                            </a>
-                        </li>
-
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/update-control/','') }">
-                            <a href="https://www.library-management.com/update-control/">
-                                <i class="fa fa-wrench "></i><span>Update Website</span>
-
-                            </a>
-                        </li>
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/report-bugs/','') }">
-                            <a href="https://www.library-management.com/report-bugs/">
-                                <i class="fa fa-bug"></i><span>Report Bugs</span>
-
-                            </a>
-                        </li>
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
-                        </li>
+                        </li>--%>
 
 
                     </ul>
                 </section>
-                <!-- /.sidebar -->
+
             </aside>
         </div>
         <div class="content-wrapper">

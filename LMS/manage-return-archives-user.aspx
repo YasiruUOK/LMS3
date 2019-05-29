@@ -1,6 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ListBookForUser.aspx.cs" Inherits="LMS.ListBookForUser" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="manage-return-archives-user.aspx.cs" Inherits="LMS.manage_return_archives_user" %>
 
 <!DOCTYPE html>
+
 <html lang="en-US" ng-app="myApp">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -11,24 +12,23 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
-    <link href="CSS/fonts.css" rel="stylesheet">
-    <link href="CSS/ionicons.min.css" rel="stylesheet">
-    <title>List Book For User &#8211; LMS a WordPress Theme</title>
+    <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
+    <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
+    <title>Manage Return Archives User &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel='stylesheet' id='bootstrap-css' href='CSS/bootstrap.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='slick-css' href='CSS/slick.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='slick_theme-css' href='CSS/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='button-css' href='CSS/button.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='adminLTE-css' href='CSS/AdminLTE.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='skin-css' href='CSS/all-skins.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='iziToastCss-css' href='CSS/iziToast.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='tooltipcss-css' href='CSS/angular-tooltips.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='datetimepickerCss-css' href='CSS/jquery.datetimepicker.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='angular_bootstrap_toggle_css-css' href='CSS/angular-bootstrap-toggle.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='datatable_css-css' href='CSS/dataTables.bootstrap.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' id='mainstyle-css' href='CSS/style.css' type='text/css' media='all' />
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='slick_theme-css' href='https://www.library-management.com/wp-content/themes/library/css/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='button-css' href='https://www.library-management.com/wp-content/themes/library/css/button.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='adminLTE-css' href='https://www.library-management.com/wp-content/themes/library/css/AdminLTE.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='skin-css' href='https://www.library-management.com/wp-content/themes/library/css/_all-skins.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='iziToastCss-css' href='https://www.library-management.com/wp-content/themes/library/css/iziToast.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='tooltipcss-css' href='https://www.library-management.com/wp-content/themes/library/css/angular-tooltips.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='datetimepickerCss-css' href='https://www.library-management.com/wp-content/themes/library/css/jquery.datetimepicker.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='angular_bootstrap_toggle_css-css' href='https://www.library-management.com/wp-content/themes/library/css/angular-bootstrap-toggle.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='datatable_css-css' href='https://www.library-management.com/wp-content/themes/library/css/dataTables.bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='mainstyle-css' href='https://www.library-management.com/wp-content/themes/library/style.css?ver=4.9.8' type='text/css' media='all' />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="Js/cookiefile.js"></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
@@ -68,10 +68,10 @@
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.library-management.com/xmlrpc.php?rsd" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.library-management.com/wp-includes/wlwmanifest.xml" />
     <meta name="generator" content="WordPress 4.9.8" />
-    <link rel="canonical" href="https://www.library-management.com/list-book-for-user/" />
-    <link rel='shortlink' href='https://www.library-management.com/?p=11' />
-    <link rel="alternate" type="application/json+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Flist-book-for-user%2F" />
-    <link rel="alternate" type="text/xml+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Flist-book-for-user%2F&#038;format=xml" />
+    <link rel="canonical" href="https://www.library-management.com/manage-return-archives-user/" />
+    <link rel='shortlink' href='https://www.library-management.com/?p=82' />
+    <link rel="alternate" type="application/json+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fmanage-return-archives-user%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fmanage-return-archives-user%2F&#038;format=xml" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -81,100 +81,75 @@
 
 
 </head>
-<script>
-    $(function () {
-        getUserID();
-        getBookDetails();
-        $("#inlineFormBookName").keypress(function (e) {
-            if (e.which == 13) {
-                getDetailsFromBookName();
+    <script>
+        $(function () {
+            getUserID();
+            getUserFullName();
+        });
+        function load_getBookIssuedDetails(data) {
+            $("#bookIssueDetailsTable").find("tr:gt(0)").remove();
+            for (var i = 0; i < data.length; i++) {
+                $('#bookIssueDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].studentID + '</td><td>' + data[i].first_name + ' ' + data[i].last_name + '</td><td>' + data[i].issueDateString + '</td><td>' + data[i].returnDateString + '</td></tr>');
             }
-        });
-        $("#inlineFormISBN").keypress(function (e) {
-            if (e.which == 13) {
-                getDetailsFromISBN();
-            }
-        });
-    });
-    function getDetailsFromBookName() {
-        var BookName = document.getElementById('inlineFormBookName').value;
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getBookDetailsFromBookName",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            data: { BookName: BookName },
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function getDetailsFromISBN() {
-        var ISBN = document.getElementById('inlineFormISBN').value;
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getDetailsFromISBN",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            data: { ISBN: ISBN },
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function getUserID() {
-        var LoggedUser = mycookie();
-        jQuery.ajax({
-            type: "GET",
-            url: "api/myapi/getUserFullName",
-            data: { LoggedUser: LoggedUser },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                document.getElementById("p1").innerHTML = data;
-                document.getElementById("p2").innerHTML = data;
-                document.getElementById("p3").innerHTML = data;
-            },
-            failure: function (response) {
-                alert(response.d);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function getBookDetails() {
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getBookDetails",
-            contentType: "application/json; charset=utf-8",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function load_getBookDetails(data) {
-        $("#bookDetailsTable").find("tr:gt(0)").remove();
-        for (var i = 0; i < data.length; i++) {
-            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">Rs. ' + data[i].price + '</td><td>' + data[i].qty + '</td><td>' + data[i].borrowedBookCount + '</td></tr>');
         }
-    }
+        function getBookIssuedDetailsFromStudentID(data) {
+
+            $.ajax({
+                type: "GET",
+                url: "api/myapi/getBookIssuedDetailsHistoryFromStudentID",
+                contentType: "application/json; charset=utf-8",
+                data: { student_ID: data },
+                dataType: "json",
+                success: function (data) {
+                    load_getBookIssuedDetails(data);
+
+                },
+                error: function (request) {
+                    handle_error(request);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+        
+        function getUserID() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getUserID",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    getBookIssuedDetailsFromStudentID(data);
+                    //alert(data);
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+        function getUserFullName() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getUserFullName",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    document.getElementById("p1").innerHTML = data;
+                    document.getElementById("p2").innerHTML = data;
+                    document.getElementById("p3").innerHTML = data;
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
 </script>
 <body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
@@ -303,6 +278,8 @@
 
 
 
+
+        <input type="hidden" id="user_id" value="1001">
         <div class="content-wrapper">
 
             <section class="content-header">
@@ -311,72 +288,61 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                    <li class="active">Book List For User</li>
+                    <li class="active">View Issued Books History</li>
                 </ol>
             </section>
 
 
-            <section class="content">
+            <section class="content" style="min-height: 100%;">
 
-
-                <div class="box box-default" ng-controller="ListofbooksUserCtrl">
+                <div class="box box-default" ng-controller="archiveUserBookReturnCtrl">
                     <div class="box-header with-border">
                     </div>
-
                     <div class="box-body" style="">
                         <div class="row">
                             <div class="col-md-12">
 
 
-                                <div class="" style="padding: 10px;">
-                                    <form class="form-inline">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped common_dt" id="bookIssueDetailsTable"
+                                        style="font-size: small; margin-bottom: 0px;">
+                                        <thead>
+                                            <tr>
+                                                <th style="display: none;">?</th>
+                                                <th class="mr_bid" style="">Book ID</th>
+                                                <th class="mr_bname" style="">Book Name</th>
+                                                <th class="mr_sid" style="">User ID</th>
+                                                <th class="mr_sname" style="">Person Name</th>
+                                                <th class="mr_idate" style="">Issued Date</th>
+                                                <%--<th class="mr_dd" style="">Date Due</th>--%>
+                                                <th class="mr_rd" style="">Date Returned</th>
+                                                <%--<th class="mr_status" style="">Status</th>--%>
+                                                <th class="" style="display: none;"></th>
+                                                <%--<th class="mr_fine" style="">Fine</th>--%>
+                                                <%--<th class="mr_note" style="">Note</th>--%>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tb_manage_issue_book_container">
+                                            <tr ng-show="issue_book_db.length"
+                                                ng-repeat="x in issue_book_db | filter:search | filter:{BookName:''}"
+                                                ng-class="x.DelayedDay < 0 ? 'delayed_book' : ''">
+                                                <td style="display: none;"></td>
+                                                <td class="mr_bid">{{x.BookId}}</td>
+                                                <td class="mr_bname">{{x.BookName}}</td>
+                                                <td class="mr_sid">{{x.UserId}}</td>
+                                                <td class="mr_sname">{{x.UserName}}</td>
+                                                <td class="mr_idate">{{x.DateBorrowed | cmdate:'dd-MM-yyyy'}}</td>
+                                                <td class="mr_dd">{{x.DateToReturn | cmdate:'dd-MM-yyyy'}}</td>
+                                                <td class="mr_rd">{{x.DateReturned | cmdate:'dd-MM-yyyy'}}</td>
+                                                <td class="mr_status">{{x.DelayedDay}}</td>
+                                                <td style="display: none;">{{x.DateToReturn}}</td>
+                                                <td class="mr_fine">{{x.Fine}}</td>
+                                                <td class="mr_note">{{x.Notes || '-'}}</td>
+                                            </tr>
 
-                                        <label class="sr-only" for="inlineFormBookId">Book Name</label>
-                                        <div class="input-group col-md-6" style="float: left;">
-                                            <div class="input-group-addon fix_radius fix_filter">
-                                                <i class="fas fa-filter"
-                                                    aria-hidden="true"></i>
-                                            </div>
-                                            <input type="text" class="form-control fix_radius" ng-change="onBookName()"
-                                                ng-model="filter_BookName" id="inlineFormBookName"
-                                                placeholder="Type Book Name">
-                                        </div>
-
-
-                                        <label class="sr-only" for="inlineFormUserID">ISBN</label>
-                                        <div class="input-group col-md-6">
-                                            <div class="input-group-addon fix_radius fix_filter">
-                                                <i class="fa fa-filter"
-                                                    aria-hidden="true"></i>
-                                            </div>
-                                            <input type="text" class="form-control fix_radius" ng-change="onISBNChange()"
-                                                ng-model="filter_ISBN" id="inlineFormISBN" placeholder="Type ISBN">
-                                        </div>
-
-
-                                    </form>
-
+                                        </tbody>
+                                    </table>
                                 </div>
-
-
-                                <table class="table table-bordered table-striped" id="bookDetailsTable"
-                                    style="font-size: small; margin-bottom: 0px; padding: 10px;">
-                                    <thead>
-                                        <tr>
-                                            <th style="display: none;">?</th>
-                                            <th width="5%" class="" style="width: 120px;">ISBN</th>
-                                            <th width="15%" class="" style="width: 155px;">Book Name</th>
-                                            <th width="50%" class="" style="width: 270px;">Book Desc</th>
-                                            <th width="15%" class="">Category</th>
-                                            <th width="5%" class="">Price</th>
-                                            <th width="5%" class="">Oty</th>
-                                            <th width="5%" class="">Borrowed</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tb_managebook_container">
-                                    </tbody>
-                                </table>
 
 
                             </div>
@@ -403,5 +369,4 @@
     </div>
 </body>
 </html>
-
 

@@ -187,6 +187,100 @@ namespace LMS.App_Code
             return bookID;
         }
 
+        internal List<BookDetails> getBookDetails()
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select * from bookDetails";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                BookDetails c = new BookDetails();
+                c.bookID = int.Parse(rdr["bookID"].ToString());
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.isbnCode = rdr["isbnCode"].ToString();
+                c.author = rdr["author"].ToString();
+                c.bookCategory = rdr["bookCategory"].ToString();
+                c.publisher = rdr["publisher"].ToString();
+                c.price = rdr["price"].ToString();
+                c.qty = rdr["qty"].ToString();
+                c.bookDescription = rdr["bookDescription"].ToString();
+                c.borrowedBookCount = new BookCodeDetails().getBorrowedBookCount(rdr["bookID"].ToString());
+                list.Add(c);
+            }
+            con.Close();
+            return list;
+        }
+
+        internal List<BookDetails> getDetailsFromISBN(string iSBN)
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            iSBN = "%" + iSBN + "%";
+            sql = "select * from bookDetails where isbnCode Like @isbnCode";
+            cmd.Parameters.AddWithValue("@isbnCode", iSBN);
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                BookDetails c = new BookDetails();
+                c.bookID = int.Parse(rdr["bookID"].ToString());
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.isbnCode = rdr["isbnCode"].ToString();
+                c.author = rdr["author"].ToString();
+                c.bookCategory = rdr["bookCategory"].ToString();
+                c.publisher = rdr["publisher"].ToString();
+                c.price = rdr["price"].ToString();
+                c.qty = rdr["qty"].ToString();
+                c.bookDescription = rdr["bookDescription"].ToString();
+                c.borrowedBookCount = new BookCodeDetails().getBorrowedBookCount(rdr["bookID"].ToString());
+                list.Add(c);
+            }
+            con.Close();
+            return list;
+        }
+
+        internal List<BookDetails> getBookDetailsFromBookName(string bookName)
+        {
+            List<BookDetails> list = new List<BookDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            bookName = "%" + bookName + "%";
+            sql = "select * from bookDetails where bookTitle Like @bookTitle";
+            cmd.Parameters.AddWithValue("@bookTitle", bookName);
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                BookDetails c = new BookDetails();
+                c.bookID = int.Parse(rdr["bookID"].ToString());
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.isbnCode = rdr["isbnCode"].ToString();
+                c.author = rdr["author"].ToString();
+                c.bookCategory = rdr["bookCategory"].ToString();
+                c.publisher = rdr["publisher"].ToString();
+                c.price = rdr["price"].ToString();
+                c.qty = rdr["qty"].ToString();
+                c.bookDescription = rdr["bookDescription"].ToString();
+                c.borrowedBookCount = new BookCodeDetails().getBorrowedBookCount(rdr["bookID"].ToString());
+                list.Add(c);
+            }
+            con.Close();
+            return list;
+        }
+
         internal List<BookDetails> getBookNames()
         {
             List<BookDetails> list = new List<BookDetails>();
@@ -299,6 +393,23 @@ namespace LMS.App_Code
             }
             con.Close();
             return list;
+        }
+
+        internal string bookCount()
+        {
+            string bookCount = "";
+            DateTime d;
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "select count(*) as bookCount from bookDetails";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                bookCount = rdr["bookCount"].ToString();
+            }
+            con.Close();
+            return bookCount;
         }
     }
 }

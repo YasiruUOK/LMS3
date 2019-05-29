@@ -85,6 +85,7 @@
     var userID;
     $(function () {
         getRequestedBookDetails();
+        getUserFullName();
         getUserID1();
         $("#searchBook").keypress(function (e) {
             //if (e.which == 13) {
@@ -211,10 +212,29 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
+    function getUserFullName() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserFullName",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p1").innerHTML = data;
+                document.getElementById("p2").innerHTML = data;
+                document.getElementById("p3").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
 </script>
-<body class="page-template page-template-requestbook page-template-requestbook-php page page-id-21 logged-in hold-transition skin-blue sidebar-mini">
+<body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
-
 
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
@@ -236,7 +256,7 @@
                                     <img
                                         ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                         class="user-image" style="float: inherit;" alt="User Image">
-                                    <span class="hidden-xs">Tasha R  Tyson</span>
+                                    <span class="hidden-xs" id="p3">Tasha R  Tyson</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
@@ -244,8 +264,8 @@
                                             ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478-150x150.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
-                                            Tasha R  Tyson - Users
+                                        <p id="p2">
+                                            Tasha R  Tyson - Users
                   <small>Member since Apr 2018</small>
                                         </p>
                                     </li>
@@ -253,11 +273,11 @@
 
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="https://www.library-management.com/users-profile-page/" style="height: 37px;"
+                                            <a href="UserProfile.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=4a1ecb0896" style="height: 37px;"
+                                            <a href="SystemLogin.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
@@ -280,7 +300,9 @@
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Tasha R  Tyson</p>
+                            <%--<input name="book_title" id="book_title" ng-model="book_title"
+                                                            placeholder="Book Title" class="form-control" type="text" disabled>--%>
+                            <p id="p1">Tasha R  Tyson </p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
@@ -289,12 +311,12 @@
                     <ul class="sidebar-menu">
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/list-book-for-user/','') }">
-                            <a href="https://www.library-management.com/list-book-for-user/">
+                            <a href="ListBookForUser.aspx">
                                 <i class="fa fa-list"></i><span>Dashboard</span>
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/change-password/','') }">
-                            <a href="https://www.library-management.com/change-password/">
+                            <a href="ChangePassword.aspx">
                                 <i class="fa fa-graduation-cap "></i><span>Change Password</span>
 
                             </a>
@@ -302,28 +324,28 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-book-for-users/','') }">
-                            <a href="https://www.library-management.com/manage-issued-book-for-users/">
+                            <a href="manage-issued-book-for-users.aspx">
                                 <i class="fa fa-list"></i><span>View Issued Books</span>
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archives-user/','') }">
-                            <a href="https://www.library-management.com/manage-return-archives-user/">
+                            <a href="manage-return-archives-user.aspx">
                                 <i class="fa fa-list"></i><span>View All Archive Books</span>
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/request-book/','') }">
-                            <a href="https://www.library-management.com/request-book/">
+                            <a href="RequestBook.aspx">
                                 <i class="fa fa-list"></i><span>Submit Book Request</span>
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
-                        </li>
+                        </li>--%>
 
 
                     </ul>

@@ -119,6 +119,8 @@
   <ItemGroup>
     <Content Include="Js\suggestionsDepartments.js" />
     <Content Include="ApproveFinePayments.aspx" />
+    <Content Include="manage-issued-book-for-users.aspx" />
+    <Content Include="manage-return-archives-user.aspx" />
     <Content Include="ManageIssuedBooksStudents.aspx" />
     <Content Include="PayFinesToBank.aspx" />
     <Content Include="PayFines.aspx" />
@@ -304,6 +306,20 @@
       <DependentUpon>ApproveFinePayments.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\requestedBook.cs" />
+    <Compile Include="manage-issued-book-for-users.aspx.cs">
+      <DependentUpon>manage-issued-book-for-users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="manage-issued-book-for-users.aspx.designer.cs">
+      <DependentUpon>manage-issued-book-for-users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="manage-return-archives-user.aspx.cs">
+      <DependentUpon>manage-return-archives-user.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="manage-return-archives-user.aspx.designer.cs">
+      <DependentUpon>manage-return-archives-user.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ManageIssuedBooksStudents.aspx.cs">
       <DependentUpon>ManageIssuedBooksStudents.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

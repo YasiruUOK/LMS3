@@ -189,6 +189,7 @@ namespace LMS.App_Code
             while (rdr.Read())
             {
                 studentDetails s = new studentDetails();
+                s.studentID = studentID;
                 s.first_name = Convert.ToString(rdr["first_name"]);
                 s.last_name = Convert.ToString(rdr["last_name"]);
                 s.email = Convert.ToString(rdr["email"]);

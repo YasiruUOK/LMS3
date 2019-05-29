@@ -16,7 +16,7 @@
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
     <title>Users Profile Page &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
-    <link rel='stylesheet' id='font_awesome-css' href='https://www.library-management.com/wp-content/themes/library/css/font-awesome.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick_theme-css' href='https://www.library-management.com/wp-content/themes/library/css/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
@@ -81,8 +81,101 @@
 
 
 </head>
-<body class="page-template page-template-userprofile page-template-userprofile-php page page-id-22 logged-in hold-transition skin-blue sidebar-mini">
+    <script>
+        $(function () {
+            getUserID();
+            getUserFullName();
+        });
+        function getUserID() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getUserFullName",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    document.getElementById("p1").innerHTML = data;
+                    document.getElementById("p2").innerHTML = data;
+                    document.getElementById("p3").innerHTML = data;
+                    getLoggedUser();
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+        function getLoggedUser() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getLoggedUser",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    loadDetails(data);
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+        function loadDetails(data) {
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getStudentDetails",
+                data: { user_id: data },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#userid").val(data[0].studentID);
+                    $("#fname").val(data[0].first_name);
+                    $("#lname").val(data[0].last_name);
+                    $("#email").val(data[0].email);
+                    $("#phone").val(data[0].phone);
+                    $("#city").val(data[0].city);
+                    $("#state").val(data[0].state);
+                    $("#course_name").val(data[0].course_name);
+                    $("#year_name").val(data[0].year_name);
+                    $("#zip").val(data[0].zip);
+                    $("#address").val(data[0].address);
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+        function getUserFullName() {
+            var LoggedUser = mycookie();
+            jQuery.ajax({
+                type: "GET",
+                url: "api/myapi/getUserFullName",
+                data: { LoggedUser: LoggedUser },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    document.getElementById("p1").innerHTML = data;
+                    document.getElementById("p2").innerHTML = data;
+                    document.getElementById("p3").innerHTML = data;
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
+        }
+    </script>
+<body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
+
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
                 <a href="https://www.library-management.com/dashboard/" class="logo">
@@ -103,7 +196,7 @@
                                     <img
                                         ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                         class="user-image" style="float: inherit;" alt="User Image">
-                                    <span class="hidden-xs">Tasha R  Tyson</span>
+                                    <span class="hidden-xs" id="p3">Tasha R  Tyson</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
@@ -111,7 +204,7 @@
                                             ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/IMG_1524749478-150x150.jpeg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
+                                        <p id="p2">
                                             Tasha R  Tyson - Users
                   <small>Member since Apr 2018</small>
                                         </p>
@@ -120,11 +213,11 @@
 
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="https://www.library-management.com/users-profile-page/" style="height: 37px;"
+                                            <a href="UserProfile.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=87165631ce" style="height: 37px;"
+                                            <a href="SystemLogin.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
@@ -147,7 +240,9 @@
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>Tasha R  Tyson</p>
+                            <%--<input name="book_title" id="book_title" ng-model="book_title"
+                                                            placeholder="Book Title" class="form-control" type="text" disabled>--%>
+                            <p id="p1">Tasha R  Tyson </p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
@@ -156,12 +251,12 @@
                     <ul class="sidebar-menu">
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/list-book-for-user/','') }">
-                            <a href="https://www.library-management.com/list-book-for-user/">
+                            <a href="ListBookForUser.aspx">
                                 <i class="fa fa-list"></i><span>Dashboard</span>
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/change-password/','') }">
-                            <a href="https://www.library-management.com/change-password/">
+                            <a href="ChangePassword.aspx">
                                 <i class="fa fa-graduation-cap "></i><span>Change Password</span>
 
                             </a>
@@ -169,28 +264,28 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-book-for-users/','') }">
-                            <a href="https://www.library-management.com/manage-issued-book-for-users/">
+                            <a href="manage-issued-book-for-users.aspx">
                                 <i class="fa fa-list"></i><span>View Issued Books</span>
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archives-user/','') }">
-                            <a href="https://www.library-management.com/manage-return-archives-user/">
+                            <a href="manage-return-archives-user.aspx">
                                 <i class="fa fa-list"></i><span>View All Archive Books</span>
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/request-book/','') }">
-                            <a href="https://www.library-management.com/request-book/">
+                            <a href="RequestBook.aspx">
                                 <i class="fa fa-list"></i><span>Submit Book Request</span>
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
-                        </li>
+                        </li>--%>
 
 
                     </ul>
@@ -311,18 +406,9 @@
 
                                                         <div class="form-group mb0 col-sm-6">
                                                             <label>State</label>
-                                                            <select name="state" id="state" class="form-control selectpicker fix_radius">
-                                                                <option value="">------------Select State------------</option>
-                                                                <option value='Andaman and Nicobar Islands'>Andaman and Nicobar Islands</option>
-                                                                <option value='Andhra Pradesh'>Andhra Pradesh</option>
-                                                                <option value='Assam'>Assam</option>
-                                                                <option value='Bihar'>Bihar</option>
-                                                                <option value='Chandigarh'>Chandigarh</option>
-                                                                <option value='Dadra and Nagar Haveli'>Dadra and Nagar Haveli</option>
-                                                                <option value='Jammu and Kashmir'>Jammu and Kashmir</option>
-                                                                <option value='Nagaland'>Nagaland</option>
-                                                                <option value='Pondicherry'>Pondicherry</option>
-                                                            </select>
+                                                            <input name="state" id="state" ng-model="state" placeholder="N/A"
+                                                                class="form-control" type="text"
+                                                                readonly="readonly">
 
 
                                                         </div>
@@ -330,28 +416,17 @@
 
                                                         <div class="form-group mb0 col-sm-6">
                                                             <label>Course Name</label>
-                                                            <select id="course_name" name="course_name"
-                                                                class="form-control selectpicker fix_radius" disabled>
-                                                                <option value="">------------Select Course Name------------</option>
-                                                                <option value="1">B-Com</option>
-                                                                <option value="2">MCA</option>
-                                                                <option value="3">BE-IT</option>
-                                                                <option value="4">BA</option>
-                                                            </select>
+                                                            <input name="course_name" id="course_name" ng-model="course_name" placeholder="N/A"
+                                                                class="form-control" type="text"
+                                                                readonly="readonly">
                                                         </div>
 
 
                                                         <div class="form-group mb0 col-sm-6">
                                                             <label>Year</label>
-                                                            <select id="year_name" name="year_name"
-                                                                class="form-control selectpicker fix_radius" disabled>
-                                                                <option value="">------------Select Course Year------------</option>
-                                                                <option value="1">1st Year</option>
-                                                                <option value="2">2nd Year</option>
-                                                                <option value="3">3rd Year</option>
-                                                                <option value="4">4th Year</option>
-                                                                <option value="5">5th Year</option>
-                                                            </select>
+                                                            <input name="year_name" id="year_name" ng-model="year_name" placeholder="N/A"
+                                                                class="form-control" type="text"
+                                                                readonly="readonly">
 
 
                                                         </div>

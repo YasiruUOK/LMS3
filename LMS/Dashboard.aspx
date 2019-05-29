@@ -15,7 +15,8 @@
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
     <title>Dashboard &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
-    <link rel='stylesheet' id='font_awesome-css' href='https://www.library-management.com/wp-content/themes/library/css/font-awesome.min.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='slick_theme-css' href='https://www.library-management.com/wp-content/themes/library/css/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
@@ -28,7 +29,8 @@
     <link rel='stylesheet' id='angular_bootstrap_toggle_css-css' href='https://www.library-management.com/wp-content/themes/library/css/angular-bootstrap-toggle.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='datatable_css-css' href='https://www.library-management.com/wp-content/themes/library/css/dataTables.bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='mainstyle-css' href='https://www.library-management.com/wp-content/themes/library/style.css?ver=4.9.8' type='text/css' media='all' />
-    <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="Js/cookiefile.js"></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/bootstrap.min.js?ver=4.9.8'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery-ui.min.js?ver=4.9.8'></script>
@@ -54,8 +56,8 @@
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/dataTables.bootstrap.min.js?ver=4.9.8'></script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/tinymce/tinymce.min.js?ver=4.9.8'></script>
     <script type='text/javascript'>
-/* <![CDATA[ */
-var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-ajax.php","loader_path":"https:\/\/www.library-management.com\/wp-content\/themes\/library","boostrap_loc":"https:\/\/www.library-management.com\/wp-content\/themes\/library\/css\/bootstrap.min.css","number_of_row":"25","defined_fine":"10"};
+        /* <![CDATA[ */
+        var myAjax = { "ajaxurl": "https:\/\/www.library-management.com\/wp-admin\/admin-ajax.php", "loader_path": "https:\/\/www.library-management.com\/wp-content\/themes\/library", "boostrap_loc": "https:\/\/www.library-management.com\/wp-content\/themes\/library\/css\/bootstrap.min.css", "number_of_row": "25", "defined_fine": "10" };
 /* ]]> */
     </script>
     <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/custom.js?ver=4.9.8'></script>
@@ -79,6 +81,110 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 
 </head>
+<script>
+    $(function () {
+        loadIssedBookCount();
+        loadUserCount();
+        loadBookCount();
+        loadFineSum();
+    });
+    function loadIssedBookCount() {
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/loadIssedBookCount",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p1").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function loadUserCount() {
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/loadUserCount",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p2").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function loadBookCount() {
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/loadBookCount",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p3").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function loadFineSum() {
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/loadFineSum",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p4").innerHTML = "Rs." +data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+</script>
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: left;
+        font-family: arial;
+        
+    }
+
+    #card1{
+        background-color: deepskyblue;
+    }
+    #card2{
+        background-color: forestgreen;
+    }
+    #card3{
+        background-color: peru;
+    }
+    #card4{
+        background-color: crimson;
+    }
+
+    .title {
+        color: grey;
+        font-size: 18px;
+    }
+</style>
 <body class="page-template page-template-dashboard page-template-dashboard-php page page-id-4 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
 
@@ -111,14 +217,14 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
                                     <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
-                                         class="user-image" alt="User Image">
+                                        class="user-image" alt="User Image">
                                     <span class="hidden-xs">John Dsouza</span>
                                 </a>
                                 <ul class="dropdown-menu">
 
                                     <li class="user-header">
                                         <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
-                                             class="img-circle" alt="User Image">
+                                            class="img-circle" alt="User Image">
 
                                         <p>
                                             John Dsouza                  - Librarian                  <small>Member since . Apr 2018</small>
@@ -130,15 +236,15 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                                         <div class="" style="padding-left: 2%;">
                                             <div class="pull-left">
                                                 <a href="https://www.library-management.com/update-profile/"
-                                                   class="btn btn-default btn-flat" style="height: 37px;">Profile</a>
+                                                    class="btn btn-default btn-flat" style="height: 37px;">Profile</a>
                                             </div>
                                             <div class="pull-left">
                                                 <a target="_blank" href="https://www.library-management.com"
-                                                   class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
+                                                    class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
                                             </div>
                                             <div class="pull-left">
                                                 <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=b335042daa"
-                                                   class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
+                                                    class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
                                             </div>
                                         </div>
                                     </li>
@@ -160,11 +266,11 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                     <div class="user-panel">
                         <div class="pull-left image">
                             <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
-                                 class="img-circle" alt="User Image">
+                                class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p>John Dsouza</p>
-                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                            <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
 
@@ -174,7 +280,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
                             <a href="https://www.library-management.com/dashboard/">
-                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                <i class="fa fa-dashboard"></i><span>Dashboard</span>
 
                             </a>
                         </li>
@@ -182,7 +288,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li id="MyPorfileMain" class="treeview">
                             <a href="#">
-                                <i class="fa fa-gift"></i> <span>My Profile</span>
+                                <i class="fa fa-gift"></i><span>My Profile</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -190,13 +296,13 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/change-password/','MyPorfileMain') }">
                                     <a href="https://www.library-management.com/change-password/">
-                                        <i class="fa fa-circle-o"></i> Change
+                                        <i class="fa fa-circle-o"></i>Change
                                         Password
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
                                     <a href="https://www.library-management.com/update-profile/">
-                                        <i class="fa fa-circle-o"></i> Update
+                                        <i class="fa fa-circle-o"></i>Update
                                         Details
                                     </a>
                                 </li>
@@ -206,7 +312,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li id="ManageBookMain" class="treeview">
                             <a href="#">
-                                <i class="fa fa-gift"></i> <span>Manage Books</span>
+                                <i class="fa fa-gift"></i><span>Manage Books</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -214,13 +320,13 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/add-book/','ManageBookMain') }">
                                     <a href="https://www.library-management.com/add-book/">
-                                        <i class="fa fa-circle-o"></i> Add
+                                        <i class="fa fa-circle-o"></i>Add
                                         Books
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-books/','ManageBookMain') }">
                                     <a href="https://www.library-management.com/manage-books/">
-                                        <i class="fa fa-circle-o"></i> View
+                                        <i class="fa fa-circle-o"></i>View
                                         Books
                                     </a>
                                 </li>
@@ -229,20 +335,20 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="https://www.library-management.com/manage-fines/">
-                                <i class="fa fa-money"></i> <span>Manage Fines</span>
+                                <i class="fa fa-money"></i><span>Manage Fines</span>
 
                             </a>
                         </li>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="https://www.library-management.com/manage-online-dues/">
-                                <i class="fa fa-money"></i> <span>Manage Online Paid Dues</span>
+                                <i class="fa fa-money"></i><span>Manage Online Paid Dues</span>
 
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/issue-books/','') }">
                             <a href="https://www.library-management.com/issue-books/">
-                                <i class="fa fa-folder-open-o"></i> <span> Issue Books</span>
+                                <i class="fa fa-folder-open-o"></i><span>Issue Books</span>
 
                             </a>
                         </li>
@@ -250,14 +356,14 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-books/','') }">
                             <a href="https://www.library-management.com/manage-issued-books/">
-                                <i class="fa fa-list"></i> <span> View All Issued Books</span>
+                                <i class="fa fa-list"></i><span>View All Issued Books</span>
 
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
                             <a href="https://www.library-management.com/manage-return-archive/">
-                                <i class="fa fa-clock-o "></i> <span> View All Archive Books</span>
+                                <i class="fa fa-clock-o "></i><span>View All Archive Books</span>
 
                             </a>
                         </li>
@@ -265,7 +371,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li id="MainUserMenu" class="treeview">
                             <a href="#">
-                                <i class="fa fa-users"></i> <span>Manage Users</span>
+                                <i class="fa fa-users"></i><span>Manage Users</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -273,13 +379,13 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/add-user/','MainUserMenu') }">
                                     <a href="https://www.library-management.com/add-user/">
-                                        <i class="fa fa-circle-o"></i> Add
+                                        <i class="fa fa-circle-o"></i>Add
                                         User
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-users/','MainUserMenu') }">
                                     <a href="https://www.library-management.com/manage-users/">
-                                        <i class="fa fa-circle-o"></i> View
+                                        <i class="fa fa-circle-o"></i>View
                                         All Users
                                     </a>
                                 </li>
@@ -289,7 +395,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li id="SettingMainMenu" class="treeview">
                             <a href="#">
-                                <i class="fa fa-sliders"></i> <span>Manage Settings</span>
+                                <i class="fa fa-sliders"></i><span>Manage Settings</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -297,12 +403,12 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-course/','SettingMainMenu') }">
                                     <a href="https://www.library-management.com/manage-course/">
-                                        <i class="fa fa-circle-o"></i> Manage
+                                        <i class="fa fa-circle-o"></i>Manage
                                         Courses
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-years/"><i class="fa fa-circle-o"></i> Manage Years</a>
+                                    <a href="https://www.library-management.com/manage-years/"><i class="fa fa-circle-o"></i>Manage Years</a>
                                 </li>
                             </ul>
                         </li>
@@ -310,14 +416,14 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/view-request-book-data/','') }">
                             <a href="https://www.library-management.com/view-request-book-data/">
-                                <i class="fa fa-heart-o "></i> <span> View Request Book Data</span>
+                                <i class="fa fa-heart-o "></i><span>View Request Book Data</span>
 
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
                             <a href="https://www.library-management.com/manage-slides/">
-                                <i class="fa fa-television"></i> <span> Manage Slides</span>
+                                <i class="fa fa-television"></i><span>Manage Slides</span>
 
                             </a>
                         </li>
@@ -325,7 +431,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
                             <a href="https://www.library-management.com/manage-institution/">
-                                <i class="fa fa-sliders "></i> <span> Institution Setup</span>
+                                <i class="fa fa-sliders "></i><span>Institution Setup</span>
 
                             </a>
                         </li>
@@ -333,43 +439,43 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                         <li id="ManagePageMainMenu" class="treeview">
                             <a href="#">
-                                <i class="fa fa-pagelines"></i> <span>Manage Pages</span>
+                                <i class="fa fa-pagelines"></i><span>Manage Pages</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/add-page/','ManagePageMainMenu') }">
-                                    <a href="https://www.library-management.com/add-page/"><i class="fa fa-circle-o"></i> Add Page</a>
+                                    <a href="https://www.library-management.com/add-page/"><i class="fa fa-circle-o"></i>Add Page</a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-pages/','ManagePageMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-pages/"><i class="fa fa-circle-o"></i> List All Page</a>
+                                    <a href="https://www.library-management.com/manage-pages/"><i class="fa fa-circle-o"></i>List All Page</a>
                                 </li>
                             </ul>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/other-settings/','') }">
                             <a href="https://www.library-management.com/other-settings/">
-                                <i class="fa fa-gears"></i> <span>Other Settings</span>
+                                <i class="fa fa-gears"></i><span>Other Settings</span>
 
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/update-control/','') }">
                             <a href="https://www.library-management.com/update-control/">
-                                <i class="fa fa-wrench "></i> <span> Update Website</span>
+                                <i class="fa fa-wrench "></i><span>Update Website</span>
 
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/report-bugs/','') }">
                             <a href="https://www.library-management.com/report-bugs/">
-                                <i class="fa fa-bug"></i> <span>Report Bugs</span>
+                                <i class="fa fa-bug"></i><span>Report Bugs</span>
 
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
                             <a href="https://www.library-management.com/about-software/">
-                                <i class="fa fa-clock-o "></i> <span> About Software</span>
+                                <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
                         </li>
 
@@ -383,12 +489,11 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
         <div class="content-wrapper" ng-controller="DashBoardCtrl">
 
             <section class="content-header">
-                <h1>
-                    Dashboard
+                <h1>Dashboard
                     <small>Control panel</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
                     <li class="active">Dashboard</li>
                 </ol>
             </section>
@@ -396,69 +501,38 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
             <section class="content">
 
                 <div class="row">
-                    <div class="col-lg-3 col-xs-6">
 
-                        <div class="small-box bg-aqua"
-                             ng-click="redirect('https://www.library-management.com/manage-issued-books/')">
-                            <div class="inner">
-                                <h3>{{book_issued}}</h3>
-                                <p>Issued Books</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion-ios-book-outline"></i>
-                            </div>
+                    <div class="col-lg-3 col-xs-4">
 
-                        </div>
+                        <a href="ManageIssuedBooks.aspx" style="height: 37px; color:black;"><div class="card" id="card1">
+                            <h4>Manage Issued Books : </h4>
+                            <h4 id="p1"></h4>
+                        </div></a>
                     </div>
 
-                    <div class="col-lg-3 col-xs-6">
+                    <div class="col-lg-3 col-xs-4">
 
-                        <div class="small-box bg-green"
-                             ng-click="redirect('https://www.library-management.com/manage-users/')">
-                            <div class="inner">
-                                <h3>{{total_users}}</h3>
-
-                                <p>Manage Users</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion-ios-people-outline"></i>
-                            </div>
-
-                        </div>
+                        <a href="ManageUsers.aspx" style="height: 37px; color:black;"><div class="card" id="card2">
+                            <h4>Manage Users : </h4>
+                            <h4 id="p2"></h4>
+                        </div></a>
                     </div>
 
-                    <div class="col-lg-3 col-xs-6">
-
-                        <div class="small-box bg-yellow"
-                             ng-click="redirect('https://www.library-management.com/manage-books/')">
-                            <div class="inner">
-                                <h3>{{total_books}} | {{total_books_type}}</h3>
-
-                                <p>Manage Books</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion-ios-book-outline"></i>
-                            </div>
-
-                        </div>
+                    <div class="col-lg-3 col-xs-4">
+                        <a href="ManageBooks.aspx" style="height: 37px; color:black;">
+                        <div class="card" id="card3">
+                            <h4>Manage Books : </h4>
+                            <h4 id="p3"></h4>
+                        </div></a>
                     </div>
 
-                    <div class="col-lg-3 col-xs-6">
-
-                        <div class="small-box bg-red"
-                             ng-click="redirect('https://www.library-management.com/manage-fines/')">
-                            <div class="inner">
-                                <h3>{{total_fine_collected}}</h3>
-
-                                <p>Fine Collected</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion-social-euro-outline"></i>
-                            </div>
-
-                        </div>
+                    <div class="col-lg-3 col-xs-4">
+                        <a href="ManageFine.aspx" style="height: 37px; color:black;">
+                        <div class="card" id="card4">
+                            <h4>Fine Collected : </h4>
+                            <h4 id="p4"></h4>
+                        </div></a>
                     </div>
-
                 </div>
 
                 <div class="row">
@@ -485,47 +559,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 </body>
 </html>
 
-<a id="btnSearch" href="javascript:show_payment();"
-   style="font-size: 12px!important;color: #fff!important;background-color: #0c0c0c !important;border-radius: 50%;border: none;display: inline-block;outline: 0;padding: 8px 16px;vertical-align: middle;overflow: hidden;text-decoration: none;color: inherit;background-color: inherit;text-align: center;cursor: pointer;white-space: nowrap;bottom: 7%;z-index: 5000;right: 2%;position: fixed;border-radius: 50px !important;">
-    +
-    Buy @ (USD) $ 20 /-.
-</a>
 
-<script>
-    function show_payment() {
-      bootbox.dialog({
-        title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
-        message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
-        buttons: {
-          noclose: {
-            label: "Paypal",
-            className: 'btn-success',
-            callback: function () {
-              window.open("https://www.paypal.me/Prince898/20");
-              ;
-              return false;
-            }
-          },
-          ok: {
-            label: "CCAvenue",
-            className: 'btn-success',
-            callback: function () {
-              window.open("http://www.ricomart.com/billing/index.php");
-              return false;
-            }
-          }
-        }
-      });
-    }
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-91268321-2');
-</script>
 
 
 
