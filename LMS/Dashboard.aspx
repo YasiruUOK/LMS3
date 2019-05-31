@@ -11,50 +11,50 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
-    <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
-    <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
+    <link href="CSS/fonts.css" rel="stylesheet">
+    <link href="CSS/ionicons.min.css" rel="stylesheet">
     <title>Dashboard &#8211; LMS a WordPress Theme</title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='slick-css' href='https://www.library-management.com/wp-content/themes/library/css/slick.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='slick_theme-css' href='https://www.library-management.com/wp-content/themes/library/css/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='button-css' href='https://www.library-management.com/wp-content/themes/library/css/button.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='adminLTE-css' href='https://www.library-management.com/wp-content/themes/library/css/AdminLTE.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='skin-css' href='https://www.library-management.com/wp-content/themes/library/css/_all-skins.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='iziToastCss-css' href='https://www.library-management.com/wp-content/themes/library/css/iziToast.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='tooltipcss-css' href='https://www.library-management.com/wp-content/themes/library/css/angular-tooltips.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='datetimepickerCss-css' href='https://www.library-management.com/wp-content/themes/library/css/jquery.datetimepicker.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='angular_bootstrap_toggle_css-css' href='https://www.library-management.com/wp-content/themes/library/css/angular-bootstrap-toggle.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='datatable_css-css' href='https://www.library-management.com/wp-content/themes/library/css/dataTables.bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
-    <link rel='stylesheet' id='mainstyle-css' href='https://www.library-management.com/wp-content/themes/library/style.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap-css' href='CSS/bootstrap.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='slick-css' href='CSS/slick.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='slick_theme-css' href='CSS/slick-theme.css?ver=4.9.8' type='text/css' media='all' />
+    <link rel='stylesheet' id='button-css' href='CSS/button.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='adminLTE-css' href='CSS/AdminLTE.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='skin-css' href='CSS/all-skins.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='iziToastCss-css' href='CSS/iziToast.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='tooltipcss-css' href='CSS/angular-tooltips.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='datetimepickerCss-css' href='CSS/jquery.datetimepicker.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='angular_bootstrap_toggle_css-css' href='CSS/angular-bootstrap-toggle.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='datatable_css-css' href='CSS/dataTables.bootstrap.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='mainstyle-css' href='CSS/style.css' type='text/css' media='all' />
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="Js/cookiefile.js"></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/bootstrap.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery-ui.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/slick.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/ripple-effect.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.validate.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/angular.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/angular-animate.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.numeric.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/iziToast.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/angular-tooltips.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.datetimepicker.full.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.datetimepicker.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/app.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.slides.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/webcam.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/ng-camera.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/canvasjs.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/angular-bootstrap-toggle.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/bootbox.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.blockUI.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/jquery.dataTables.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/dataTables.bootstrap.min.js?ver=4.9.8'></script>
-    <script type='text/javascript' src='https://www.library-management.com/wp-content/themes/library/js/tinymce/tinymce.min.js?ver=4.9.8'></script>
+    <script type='text/javascript' src='Js/jquery-migrate.min.js'></script>
+    <script type='text/javascript' src='Js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='Js/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='Js/slick.min.js'></script>
+    <script type='text/javascript' src='Js/ripple-effect.js'></script>
+    <script type='text/javascript' src='Js/jquery.validate.js'></script>
+    <script type='text/javascript' src='Js/angular.min.js'></script>
+    <script type='text/javascript' src='Js/angular-animate.js'></script>
+    <script type='text/javascript' src='Js/jquery.numeric.min.js'></script>
+    <script type='text/javascript' src='Js/iziToast.min.js'></script>
+    <script type='text/javascript' src='Js/angular-tooltips.min.js'></script>
+    <script type='text/javascript' src='Js/jquery.datetimepicker.full.js'></script>
+    <script type='text/javascript' src='Js/jquery.datetimepicker.min.js'></script>
+    <script type='text/javascript' src='Js/app.min.js'></script>
+    <script type='text/javascript' src='Js/jquery.slides.min.js'></script>
+    <script type='text/javascript' src='Js/webcam.min.js'></script>
+    <script type='text/javascript' src='Js/ng-camera.js'></script>
+    <script type='text/javascript' src='Js/canvasjs.min.js'></script>
+    <script type='text/javascript' src='Js/angular-bootstrap-toggle.min.js'></script>
+    <script type='text/javascript' src='Js/bootbox.min.js'></script>
+    <script type='text/javascript' src='Js/jquery.blockUI.js'></script>
+    <script type='text/javascript' src='Js/jquery.dataTables.min.js'></script>
+    <script type='text/javascript' src='Js/dataTables.bootstrap.min.js'></script>
+    <script type='text/javascript' src='Js/tinymce.min.js'></script>
     <script type='text/javascript'>
         /* <![CDATA[ */
         var myAjax = { "ajaxurl": "https:\/\/www.library-management.com\/wp-admin\/admin-ajax.php", "loader_path": "https:\/\/www.library-management.com\/wp-content\/themes\/library", "boostrap_loc": "https:\/\/www.library-management.com\/wp-content\/themes\/library\/css\/bootstrap.min.css", "number_of_row": "25", "defined_fine": "10" };
@@ -68,10 +68,10 @@
     <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.library-management.com/xmlrpc.php?rsd" />
     <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.library-management.com/wp-includes/wlwmanifest.xml" />
     <meta name="generator" content="WordPress 4.9.8" />
-    <link rel="canonical" href="https://www.library-management.com/dashboard/" />
-    <link rel='shortlink' href='https://www.library-management.com/?p=4' />
-    <link rel="alternate" type="application/json+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fdashboard%2F" />
-    <link rel="alternate" type="text/xml+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fdashboard%2F&#038;format=xml" />
+    <link rel="canonical" href="https://www.library-management.com/add-user/" />
+    <link rel='shortlink' href='https://www.library-management.com/?p=7' />
+    <link rel="alternate" type="application/json+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fadd-user%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://www.library-management.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.library-management.com%2Fadd-user%2F&#038;format=xml" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -87,6 +87,7 @@
         loadUserCount();
         loadBookCount();
         loadFineSum();
+        getUserFullName();
     });
     function loadIssedBookCount() {
         jQuery.ajax({
@@ -156,6 +157,26 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
+    function getUserFullName() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserFullName",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p5").innerHTML = data;
+                document.getElementById("p6").innerHTML = data;
+                document.getElementById("p7").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
 </script>
 <style>
     .card {
@@ -218,7 +239,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
                                     <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                         class="user-image" alt="User Image">
-                                    <span class="hidden-xs">John Dsouza</span>
+                                    <span class="hidden-xs" id="p5">Tasha R  Tyson</span>
                                 </a>
                                 <ul class="dropdown-menu">
 
@@ -226,8 +247,9 @@
                                         <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
-                                            John Dsouza                  - Librarian                  <small>Member since . Apr 2018</small>
+                                        <p id="p6">
+                                            Tasha R  Tyson - Users
+                  <small>Member since Apr 2018</small>
                                         </p>
                                     </li>
 
@@ -235,16 +257,12 @@
                                     <li class="user-footer">
                                         <div class="" style="padding-left: 2%;">
                                             <div class="pull-left">
-                                                <a href="https://www.library-management.com/update-profile/"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">Profile</a>
+                                                <<a href="UserProfile.aspx" style="height: 37px;"
+                                                class="btn btn-default btn-flat">Profile</a>
                                             </div>
                                             <div class="pull-left">
-                                                <a target="_blank" href="https://www.library-management.com"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
-                                            </div>
-                                            <div class="pull-left">
-                                                <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=b335042daa"
-                                                    class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
+                                                <a href="SystemLogin.aspx" style="height: 37px;"
+                                                class="btn btn-default btn-flat">Sign out</a>
                                             </div>
                                         </div>
                                     </li>
@@ -269,7 +287,7 @@
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>John Dsouza</p>
+                            <p id="p7">Tasha R  Tyson </p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
