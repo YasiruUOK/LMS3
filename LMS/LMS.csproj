@@ -296,6 +296,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\bookIssuingDetailsTempory.cs" />
+    <Compile Include="App_Code\bookReserveDetails.cs" />
     <Compile Include="App_Code\Departments.cs" />
     <Compile Include="App_Code\paymentDetails.cs" />
     <Compile Include="ApproveFinePayments.aspx.cs">

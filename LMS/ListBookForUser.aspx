@@ -172,8 +172,51 @@
     function load_getBookDetails(data) {
         $("#bookDetailsTable").find("tr:gt(0)").remove();
         for (var i = 0; i < data.length; i++) {
-            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">Rs. ' + data[i].price + '</td><td>' + data[i].qty + '</td><td>' + data[i].borrowedBookCount + '</td></tr>');
+            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">Rs. ' + data[i].price + '</td><td>' + data[i].qty + '</td><td>' + data[i].borrowedBookCount + '</td><td><input  type=\'button\' onclick=\'getStudentID(' + data[i].bookID + ', ' + data[i].qty + ',' + data[i].borrowedBookCount+')\' value=\'Reserve\' /></td></tr>');
         }
+    }
+    function reserveBook(studentID, bookID, qty, borrowedBookCount) {
+        if (qty > borrowedBookCount) {
+            if (confirm("Are you sure to Reserve this Book? ")) {
+                $.ajax({
+                    type: "POST",
+                    url: "api/myapi/ReserveBook",
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    data: JSON.stringify({
+                        studentID: studentID, bookID: bookID
+                    }),
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data.message);
+                        deleteFromBookIssueTemp(bookCode);
+                    },
+                    error: function (request) {
+                        handle_error(request);
+                    },
+                    beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+                });
+
+            }
+        } 
+    }
+    function getStudentID(bookID, qty, borrowedBookCount) {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserID",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                reserveBook(data, bookID, qty, borrowedBookCount);
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
     }
 </script>
 <body class="page-template page-template-booklistforuser page-template-booklistforuser-php page page-id-11 logged-in hold-transition skin-blue sidebar-mini">
@@ -369,8 +412,9 @@
                                             <th width="50%" class="" style="width: 270px;">Book Desc</th>
                                             <th width="15%" class="">Category</th>
                                             <th width="5%" class="">Price</th>
-                                            <th width="5%" class="">Oty</th>
+                                            <th width="5%" class="">Qty</th>
                                             <th width="5%" class="">Borrowed</th>
+                                            <th width="5%" class="">Reserve Book</th>
 
                                         </tr>
                                     </thead>

@@ -386,6 +386,17 @@ namespace LMS
 
         }
         [BasicAuthentication]
+        [HttpPost]
+        public HttpResponseMessage ReserveBook(bookReserveDetails bookReserveDetails)
+        {
+            ReturnData rd = new ReturnData();
+            rd = bookReserveDetails.ReserveBook(bookReserveDetails);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
         [HttpGet]
         public HttpResponseMessage getUserID(string LoggedUser)
         {

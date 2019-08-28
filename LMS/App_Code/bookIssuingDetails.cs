@@ -210,7 +210,26 @@ namespace LMS.App_Code
                     ReturnData isBookAlreadyBorrowed=new BookCodeDetails().isBookAlreadyBorrowed(bookIssuingDetails.bookID);
                     if (isBookAlreadyBorrowed.status == 1)
                     {
-                        addBookIssuingDetails();
+                        ReturnData isBookNotReserved = new bookReserveDetails().isBookNotReserved( bookIssuingDetails.bookID);
+                        if (isBookNotReserved.status == 1)
+                        {
+                            addBookIssuingDetails();
+                            rd.message = "OK";
+                        }
+                        else
+                        {
+                            ReturnData isBookReservedByThisStudent = new bookReserveDetails().isBookReservedByThisStudent(bookIssuingDetails.studentID, bookIssuingDetails.bookID);
+                            if (isBookReservedByThisStudent.status == 1)
+                            {
+                                addBookIssuingDetails();
+                                rd.message = "OK";
+                            }
+                            else
+                            {
+                                rd.message = "This Book Already Reserved";
+                            }
+                        }
+                        
                     }
                     else
                     {
