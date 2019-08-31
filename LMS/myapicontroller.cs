@@ -605,6 +605,17 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpPost]
+        public HttpResponseMessage sendEmails()
+        {
+            ReturnData rd = new ReturnData();
+            rd = new bookIssuingDetails().sendEmails();
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
+        [HttpPost]
         public HttpResponseMessage addCourse(Courses courses)
         {
             ReturnData rd = new ReturnData();

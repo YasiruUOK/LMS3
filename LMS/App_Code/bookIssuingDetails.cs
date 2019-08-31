@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 
 namespace LMS.App_Code
@@ -25,6 +27,8 @@ namespace LMS.App_Code
         public string branchName { get; set; }
         public string paymentID { get; set; }
         public string bookDescription { get; set; }
+
+        public string email { get; set; }
 
         string db_connection_string = ConfigurationManager.ConnectionStrings["db_connectionString"].ConnectionString;
 
@@ -141,11 +145,11 @@ namespace LMS.App_Code
             while (rdr.Read())
             {
                 bookIssuingDetails c = new bookIssuingDetails();
-                c.bookID= rdr["bookID"].ToString();
-                c.bookTitle=rdr["bookTitle"].ToString();
-                c.returnDate=DateTime.Parse(rdr["returnDate"].ToString());
+                c.bookID = rdr["bookID"].ToString();
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
                 c.fineAmount = getfineAmount(studentID, c.returnDate);
-                c.returnDateString= String.Format("{0:yyyy - MM - dd}", c.returnDate);
+                c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
                 list.Add(c);
             }
             con.Close();
@@ -170,7 +174,7 @@ namespace LMS.App_Code
             return dt;
 
         }
-        internal double getfineAmount(string studentID,DateTime returnDate)
+        internal double getfineAmount(string studentID, DateTime returnDate)
         {
             bookIssuingDetails bookIssuingDetails = new bookIssuingDetails();
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
@@ -185,9 +189,9 @@ namespace LMS.App_Code
             double fine = 0;
             while (rdr.Read())
             {
-                fine= Convert.ToDouble(rdr["fineAmountPerDay"]);
+                fine = Convert.ToDouble(rdr["fineAmountPerDay"]);
                 CommonFunctions c = new CommonFunctions();
-                dateCount= (DateTime.Parse(c.getServerDate())-returnDate).TotalDays;
+                dateCount = (DateTime.Parse(c.getServerDate()) - returnDate).TotalDays;
                 fine = fine * dateCount;
                 if (fine < 0)
                 {
@@ -207,10 +211,10 @@ namespace LMS.App_Code
                 ReturnData isStudentEligibleToBorrowBook = studentBookRecodeCount(bookIssuingDetails.studentID);
                 if (isStudentEligibleToBorrowBook.status == 1)
                 {
-                    ReturnData isBookAlreadyBorrowed=new BookCodeDetails().isBookAlreadyBorrowed(bookIssuingDetails.bookID);
+                    ReturnData isBookAlreadyBorrowed = new BookCodeDetails().isBookAlreadyBorrowed(bookIssuingDetails.bookID);
                     if (isBookAlreadyBorrowed.status == 1)
                     {
-                        ReturnData isBookNotReserved = new bookReserveDetails().isBookNotReserved( bookIssuingDetails.bookID);
+                        ReturnData isBookNotReserved = new bookReserveDetails().isBookNotReserved(bookIssuingDetails.bookID);
                         if (isBookNotReserved.status == 1)
                         {
                             addBookIssuingDetails();
@@ -229,13 +233,13 @@ namespace LMS.App_Code
                                 rd.message = "This Book Already Reserved";
                             }
                         }
-                        
+
                     }
                     else
                     {
                         rd.message = "Check the BookCode.";
                     }
-                        
+
                 }
                 else
                 {
@@ -265,7 +269,7 @@ namespace LMS.App_Code
                 rdr.Read();
                 bookCount = int.Parse(rdr["BookCount"].ToString());
             }
-                if (bookCount<2)
+            if (bookCount < 2)
             {
                 rd.status = 1;
             }
@@ -584,7 +588,7 @@ namespace LMS.App_Code
                 {
                     list.Add(c);
                 }
-                
+
             }
             con.Close();
             return list;
@@ -649,11 +653,79 @@ namespace LMS.App_Code
                 c.paymentID = rdr["paymentID"].ToString();
                 c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
                 c.issueDate = DateTime.Parse(rdr["issueDate"].ToString());
-                c.fineAmount = double.Parse(rdr["paidAmount"].ToString()); 
+                c.fineAmount = double.Parse(rdr["paidAmount"].ToString());
                 c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
                 c.issueDateString = String.Format("{0:yyyy - MM - dd}", c.issueDate);
                 list.Add(c);
-               
+
+            }
+            con.Close();
+            return list;
+        }
+
+        internal ReturnData sendEmails()
+        {
+            List<bookIssuingDetails> studentIDList = getDelayedBooksBrrowedStudentList();
+            for (int i = 0; i <= studentIDList.Count; i++)
+            {
+                using (MailMessage mm = new MailMessage("bkokilani@gmail.com", "yasirukavinda89@gmail.com"))
+                {
+                    try
+                    {
+                        mm.Subject = "Book Check-Out (Issue) Message";
+                        mm.Body = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", "+Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
+                        //mm.Body = "Dear mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " ;
+                        mm.IsBodyHtml = true;
+                        mm.BodyEncoding = System.Text.Encoding.UTF8;
+                        using (SmtpClient smtp = new SmtpClient())
+                        {
+                            smtp.Host = "smtp.gmail.com";
+                            smtp.EnableSsl = true;
+                            NetworkCredential NetworkCred = new NetworkCredential("bkokilani@gmail.com", "buddika143");
+                            smtp.UseDefaultCredentials = true;
+                            smtp.Credentials = NetworkCred;
+                            smtp.Port = 587;
+                            smtp.Send(mm);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        //code for any other type of exception
+                    }
+
+                }
+
+            }
+            ReturnData rd = new ReturnData();
+            rd.status = 1;
+            rd.message = "OK";
+            return rd;
+        }
+
+        private List<bookIssuingDetails> getDelayedBooksBrrowedStudentList()
+        {
+            List<bookIssuingDetails> list = new List<bookIssuingDetails>();
+            string sql = "";
+            SqlCommand cmd = new SqlCommand();
+            sql = "select BCD.bookCode as bookCode, SD.studentID as studentID, SD.first_name as first_name, SD.last_name as last_name, SD.email as email, BD.bookTitle as bookTitle, BID.returnDate as returnDate from bookIssuingDetails BID, bookCodeDetails BCD, bookDetails BD, studentDetails SD where SD.studentID=BID.studentID and BD.bookID=BCD.bookID and BCD.bookCode=BID.bookCode and BID.returnDate< CAST(CURRENT_TIMESTAMP AS DATE)";
+            SqlConnection con = new SqlConnection(db_connection_string);
+            cmd.CommandText = sql;
+            cmd.Connection = con;
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            while (rdr.Read())
+            {
+                bookIssuingDetails c = new bookIssuingDetails();
+                c.bookCode = rdr["bookCode"].ToString();
+                c.studentID = rdr["studentID"].ToString();
+                c.first_name = rdr["first_name"].ToString();
+                c.last_name = rdr["last_name"].ToString();
+                c.bookTitle = rdr["bookTitle"].ToString();
+                c.email = rdr["email"].ToString();
+                c.returnDate = DateTime.Parse(rdr["returnDate"].ToString());
+                c.returnDateString = String.Format("{0:yyyy - MM - dd}", c.returnDate);
+                list.Add(c);
+
             }
             con.Close();
             return list;
