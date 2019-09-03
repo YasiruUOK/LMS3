@@ -674,7 +674,6 @@ namespace LMS.App_Code
                     {
                         mm.Subject = "Book Check-Out (Issue) Message";
                         mm.Body = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", "+Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
-                        //mm.Body = "Dear mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm " ;
                         mm.IsBodyHtml = true;
                         mm.BodyEncoding = System.Text.Encoding.UTF8;
                         using (SmtpClient smtp = new SmtpClient())

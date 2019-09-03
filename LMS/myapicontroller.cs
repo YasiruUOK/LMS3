@@ -336,6 +336,18 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpPost]
+        public HttpResponseMessage deleteReservedBook(bookReserveDetails bookReserveDetails)
+        {
+            ReturnData rd = new ReturnData();
+            bookReserveDetails reserveDetails = new bookReserveDetails();
+            rd = reserveDetails.deleteReservedBook(bookReserveDetails);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
+        [HttpPost]
         public HttpResponseMessage extendTheBook(bookIssuingDetails bookIssuing)
         {
             ReturnData rd = new ReturnData();
@@ -616,6 +628,17 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpPost]
+        public HttpResponseMessage updateReserveBookDetails()
+        {
+            ReturnData rd = new ReturnData();
+            rd = new bookReserveDetails().updateReserveBookDetails();
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+        }
+        [BasicAuthentication]
+        [HttpPost]
         public HttpResponseMessage addCourse(Courses courses)
         {
             ReturnData rd = new ReturnData();
@@ -671,6 +694,19 @@ namespace LMS
             List<bookIssuingDetails> list = new List<bookIssuingDetails>();
             bookIssuingDetails c = new bookIssuingDetails();
             list = c.getBookIssuedDetailsFromStudentID(student_ID);
+            string yourJson = JsonConvert.SerializeObject(list); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
+        public HttpResponseMessage getBookReservedDetailsFromStudentID(string student_ID)
+        {
+            List<bookReserveDetails> list = new List<bookReserveDetails>();
+            bookReserveDetails c = new bookReserveDetails();
+            list = c.getBookReservedDetailsFromStudentID(student_ID);
             string yourJson = JsonConvert.SerializeObject(list); ;
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");

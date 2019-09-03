@@ -341,6 +341,12 @@
                             </a>
                         </li>
 
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/request-book/','') }">
+                            <a href="Manage-Reserved-Books.aspx">
+                                <i class="fa fa-list"></i><span>Manage Reserved Books</span>
+                            </a>
+                        </li>
+
                         <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/about-software/','') }">
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>

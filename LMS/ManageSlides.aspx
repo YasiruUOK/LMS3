@@ -100,6 +100,23 @@
         });
 
     }
+    function updateReserveBookDetails() {
+        jQuery.ajax({
+            type: "POST",
+            url: "api/myapi/updateReserveBookDetails",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                alert(data.message);
+            },
+            failure: function (response) {
+                //alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+
+    }
 </script>
 <body class="page-template page-template-manageslides page-template-manageslides-php page page-id-28 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
@@ -421,6 +438,7 @@
 
 
                                 <button type="button" onclick="sendEmails();" class="btn btn-primary fix_radius pmd-ripple-effect">Send Emails to Remind Delayied Books</button>
+                                <button type="button" onclick="updateReserveBookDetails();" class="btn btn-primary fix_radius pmd-ripple-effect">Update Reserve Books Details</button>
                             </div>
                         </div>
                     </div>

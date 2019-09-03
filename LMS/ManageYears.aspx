@@ -486,39 +486,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 </body>
 </html>
 
-<a id="btnSearch" href="javascript:show_payment();"
-   style="font-size: 12px!important;color: #fff!important;background-color: #0c0c0c !important;border-radius: 50%;border: none;display: inline-block;outline: 0;padding: 8px 16px;vertical-align: middle;overflow: hidden;text-decoration: none;color: inherit;background-color: inherit;text-align: center;cursor: pointer;white-space: nowrap;bottom: 7%;z-index: 5000;right: 2%;position: fixed;border-radius: 50px !important;">
-    +
-    Buy @ (USD) $ 20 /-.
-</a>
 
-<script>
-    function show_payment() {
-      bootbox.dialog({
-        title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
-        message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
-        buttons: {
-          noclose: {
-            label: "Paypal",
-            className: 'btn-success',
-            callback: function () {
-              window.open("https://www.paypal.me/Prince898/20");
-              ;
-              return false;
-            }
-          },
-          ok: {
-            label: "CCAvenue",
-            className: 'btn-success',
-            callback: function () {
-              window.open("http://www.ricomart.com/billing/index.php");
-              return false;
-            }
-          }
-        }
-      });
-    }
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
 <script>
     window.dataLayer = window.dataLayer || [];

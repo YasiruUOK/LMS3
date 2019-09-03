@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="manage-issued-book-for-users.aspx.cs" Inherits="LMS.manage_issued_book_for_users" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="~/Manage-Reserved-Books.aspx.cs" Inherits="LMS.Manage_Reserved_Books" %>
 
 <html lang="en-US" ng-app="myApp">
 <head>
@@ -84,53 +84,22 @@
             getUserID();
             getUserFullName();
         });
-        function getBookIssuedDetails() {
-            $.ajax({
-                type: "GET",
-                url: "api/myapi/getBookIssuedDetails",
-                contentType: "application/json; charset=utf-8",
-                data: {},
-                dataType: "json",
-                success: function (data) {
-                    load_getBookIssuedDetails(data);
-
-                },
-                error: function (request) {
-                    handle_error(request);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
+        
+        function load_getBookIssuedDetails(data) {
+            $("#bookIssueDetailsTable").find("tr:gt(0)").remove();
+            for (var i = 0; i < data.length; i++) {
+                $('#bookIssueDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].reservedDateString + '</td><td>' + data[i].releseBeforeDateString + '</td><td><input  type=\'button\' onclick=\'deleteRecord("' + data[i].studentID + '","' + data[i].bookCode + '")\' value=\'Delete\' /></td></tr>');
+            }
         }
-        function return_Book(studentID, bookCode) {
+        function deleteRecord(studentID, bookCode) {
             var studentID = studentID;
             var bookCode = bookCode;
             $.ajax({
                 type: "POST",
-                url: "api/myapi/releaseTheBook",
+                url: "api/myapi/deleteReservedBook",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({
-                    studentID: studentID, bookID: bookCode
-                }),
-                dataType: "json",
-                success: function (data) {
-                    alert(data.message);
-                    getBookIssuedDetails();
-                },
-                error: function (request) {
-                    handle_error(request);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
-        }
-        function extend_Book(studentID, bookCode) {
-            var studentID = studentID;
-            var bookCode = bookCode;
-            $.ajax({
-                type: "POST",
-                url: "api/myapi/extendTheBook",
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    studentID: studentID, bookID: bookCode
+                    studentID: studentID, bookCode: bookCode
                 }),
                 dataType: "json",
                 success: function (data) {
@@ -143,17 +112,11 @@
                 beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
             });
         }
-        function load_getBookIssuedDetails(data) {
-            $("#bookIssueDetailsTable").find("tr:gt(0)").remove();
-            for (var i = 0; i < data.length; i++) {
-                $('#bookIssueDetailsTable').append('<tr><td>' + data[i].bookCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].issueDateString + '</td><td>' + data[i].returnDateString + '</td><td>' + data[i].dateCount + '</td><td style="text-align:right">Rs. ' + data[i].fineAmount + '</td><td><input  type=\'button\' onclick=\'checkFineAvailable("' + data[i].studentID + '","' + data[i].bookCode + '","' + data[i].fineAmount + '","' + data[i].first_name + ' ' + data[i].last_name +'","extendBook")\' value=\'Pay Now\' /></td></tr>');
-            }
-        }
-        function getBookIssuedDetailsFromStudentID(data) {
+        function getBookReservedDetailsFromStudentID(data) {
 
             $.ajax({
                 type: "GET",
-                url: "api/myapi/getBookIssuedDetailsFromStudentID",
+                url: "api/myapi/getBookReservedDetailsFromStudentID",
                 contentType: "application/json; charset=utf-8",
                 data: { student_ID: data },
                 dataType: "json",
@@ -167,60 +130,7 @@
                 beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
             });
         }
-        function getBookIssuedDetailsFromStudentName() {
-            //document.getElementById("filter_userId").value = "";
-            //document.getElementById("filter_BookID").value = "";
-            var student_name = document.getElementById('filter_UserName').value;
-            $.ajax({
-                type: "GET",
-                url: "api/myapi/getBookIssuedDetailsFromstudent_name",
-                contentType: "application/json; charset=utf-8",
-                data: { student_name: student_name },
-                dataType: "json",
-                success: function (data) {
-                    load_getBookIssuedDetails(data);
-
-                },
-                error: function (request) {
-                    handle_error(request);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
-        }
-        function getBookIssuedDetailsFromBookID() {
-            //document.getElementById("filter_userId").value = "";
-            //document.getElementById("filter_UserName").value = "";
-            var bookID = document.getElementById('filter_BookID').value;
-            $.ajax({
-                type: "GET",
-                url: "api/myapi/getBookIssuedDetailsFromBookID",
-                contentType: "application/json; charset=utf-8",
-                data: { bookID: bookID },
-                dataType: "json",
-                success: function (data) {
-                    load_getBookIssuedDetails(data);
-
-                },
-                error: function (request) {
-                    handle_error(request);
-                },
-                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-            });
-        }
-        function checkFineAvailable(studentID, bookCode, fineAmount, studentName, status) {
-            var fineAmount = fineAmount;
-            if (fineAmount > 0) {
-                window.location.href = "PayFinesToBank.aspx?fineAmount=" + fineAmount + "&&bookCode=" + bookCode + "&&studentID=" + studentID + "&&studentName=" + studentName + "&&status=" + status;
-            } else {
-                if (status == "returnBook") {
-                    return_Book(studentID, bookCode);
-                } else if (status == "extendBook") {
-                    extend_Book(studentID, bookCode);
-                }
-
-            }
-
-        }
+        
         function getUserID() {
             var LoggedUser = mycookie();
             jQuery.ajax({
@@ -231,7 +141,7 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    getBookIssuedDetailsFromStudentID(data);
+                    getBookReservedDetailsFromStudentID(data);
                 },
                 failure: function (response) {
                     alert(response.d);
@@ -397,12 +307,12 @@
 
   <section class="content-header">
     <h1>
-      Dashboard
+      Manage Reserved Books
       <small>Control panel</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li class="active">My Issued Books List</li>
+      <li class="active">My Reserved Books List</li>
     </ol>
   </section>
 
@@ -426,11 +336,8 @@
                 <th style="display:none;">?</th>
                 <th style="">Book ID</th>
                 <th style="">Book Name</th>
-                <th style="width: 187px; ">Book Desc</th>
-                <th style="">Issued Date</th>
-                <th style="">Date Due</th>
-                <th style="">Days To Go</th>
-                <th class="misb_userstatus" class="tbl_status" style="">Fine Amount</th>
+                <th style="">Reserved Date</th>
+                <th style="">Released Before</th>
                 <th style="width: 120px;">Action</th>
               </tr>
               </thead>
@@ -463,11 +370,8 @@
                 </td>
                 <td>{{x.BookId}}</td>
                 <td>{{x.BookName}}</td>
-                <td>{{x.BookDesc}}</td>
-                <td>{{x.UserId}}</td>
-                <td>{{x.UserName}}</td>
-                <td>{{x.DateBorrowed | cmdate:'dd-MM-yyyy'}}</td>
-                <td>{{x.DateToReturn | cmdate:'dd-MM-yyyy'}}</td>
+                <td>{{x.ReservedDate | cmdate:'dd-MM-yyyy'}}</td>
+                <td>{{x.DReleased Befor | cmdate:'dd-MM-yyyy'}}</td>
                 <td>{{diffDate(x.DateToReturn)}}</td>
 
 
