@@ -233,6 +233,29 @@ namespace LMS.App_Code
             return bookCount;
         }
 
+        internal ReturnData validateBookID(string bookID)
+        {
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "select * from bookCodeDetails where bookCode=@bookCode";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@bookCode", bookID);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            ReturnData rd = new ReturnData();
+            if (rdr.HasRows)
+            {
+                rd.status = 1;
+                rd.message = "Ok";
+            }
+            else
+            {
+                rd.message = "Book Not found for this ID!";
+                rd.status = 0;
+            }
+            con.Close();
+            return rd;
+        }
+
         internal List<BookCodeDetails> getBookCodeDetailsFromBookID(string bookID)
         {
             BookCodeDetails book = new BookCodeDetails();
@@ -282,6 +305,40 @@ namespace LMS.App_Code
                 rd.status = 1;
                 rd.message = "updated";
                 // rd.para1 = temp_invoice_id;
+            }
+            return rd;
+        }
+
+        internal ReturnData deleteBookCodeDetailsFromBookID(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+            SqlConnection con = new SqlConnection(db_connection_string);
+            string sql = "delete from bookCodeDetails where bookCode=@bookCode and Borrowed=0 and reserved=0 "  ;
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@bookCode", bookCode);
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+                rd.status = 0;
+                rd.message = Ex.Message;
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                rd.status = 1;
+                rd.message = "Deleted";
+                // rd.para1 = temp_invoice_id;
+            }
+            else
+            {
+                rd.status = 1;
+                rd.message = "Can not Delete";
             }
             return rd;
         }

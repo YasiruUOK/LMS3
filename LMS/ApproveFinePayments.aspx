@@ -123,7 +123,7 @@
                 data: { paymentID: paymentID },
                 dataType: "json",
                 success: function (data) {
-                    alert(data.message);
+                    //alert(data.message);
                     deleteFromBookIssueTemp(bookCode);
                 },
                 error: function (request) {
@@ -163,7 +163,7 @@
                 data: { paymentID: paymentID },
                 dataType: "json",
                 success: function (data) {
-                    alert(data.message);
+                    //alert(data.message);
                     deleteBookIssue(bookCode);
                 },
                 error: function (request) {
@@ -183,7 +183,7 @@
             data: { bookCode: bookCode },
             dataType: "json",
             success: function (data) {
-                alert(data.message);
+                //alert(data.message);
                 copyFromBookIssueTemp(bookCode);
             },
             error: function (request) {
@@ -202,7 +202,7 @@
             data: { bookCode: bookCode },
             dataType: "json",
             success: function (data) {
-                alert(data.message);
+                //alert(data.message);
                 deleteFromBookIssueTemp(bookCode);
             },
             error: function (request) {

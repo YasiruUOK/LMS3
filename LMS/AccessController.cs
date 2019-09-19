@@ -28,6 +28,32 @@ namespace LMS
 
         }
 
+        [HttpPost]
+        public HttpResponseMessage forgetPassword(UserAccess useraccess)
+        {
+            //login(dynamic para_user_id, dynamic para_password)
+            ReturnData rd = new ReturnData();
+            rd = useraccess.forgetPassword();
+
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [HttpPost]
+        public HttpResponseMessage changeForgetPassword(UserAccess useraccess)
+        {
+            //login(dynamic para_user_id, dynamic para_password)
+            ReturnData rd = new ReturnData();
+            rd = useraccess.changeForgetPassword();
+
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
 
         // GET api/<controller>
         public IEnumerable<string> Get()

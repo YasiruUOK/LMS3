@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using EASendMail;
 using LMS.App_Code;
 
 namespace LMS.App_Code
@@ -22,6 +23,8 @@ namespace LMS.App_Code
         public string password_trycount { get; set; }
         public string status { get; set; }
         public string last_accessed { get; set; }
+        public string code { get; set; }
+        public string confirmPassword { get; set; }
 
         string user_db_connection_string = ConfigurationManager.ConnectionStrings["user_db_connectionString"].ConnectionString;
 
@@ -61,6 +64,199 @@ namespace LMS.App_Code
             con.Close();
 
             return rd;
+        }
+
+        internal ReturnData changeForgetPassword()
+        {
+            ReturnData rd = new ReturnData();
+            rd.status = validateCode(this.code, this.email);
+            if (rd.status > 0)
+            {
+                SqlConnection con = new SqlConnection(user_db_connection_string);
+                string sql = "update user_profile set password=@password where email=@email";
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddWithValue("@password", this.password);
+                cmd.Parameters.AddWithValue("@email", this.email);
+                int count = 0;
+                con.Open();
+                try
+                {
+                    count = (int)cmd.ExecuteNonQuery();
+                }
+                catch (Exception Ex)
+                {
+                    rd.status = 0;
+                    rd.message = Ex.Message;
+                }
+                con.Close();
+
+                if (count > 0)
+                {
+                    deleteCode(this.email);
+                    rd.status = 1;
+                    rd.message = "updated";
+                    // rd.para1 = temp_invoice_id;
+                }
+            }
+            else
+            {
+                rd.status = 0;
+                rd.message = "This code is not valid for given email";
+            }
+            return rd;
+        }
+
+        private void deleteCode(string email)
+        {
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "delete from forgetPassword where email=@email";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@email", email);
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+            }
+            con.Close();
+        }
+
+        private int validateCode(string code, string email)
+        {
+            int retutn_val = 0;
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "select * from forgetPassword where code=@code and email=@email";
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@email", email);
+            cmd.Parameters.AddWithValue("@code", code);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+            if (rdr.HasRows)
+            {
+                rdr.Read();
+                retutn_val = 1;
+            }
+            con.Close();
+            return retutn_val;
+        }
+
+        internal ReturnData forgetPassword()
+        {
+            ReturnData rd = new ReturnData();
+
+            if (this.user_id == null || this.user_id == "" )
+            {
+                rd.status = 0;
+                rd.message = "Not a valid username of password";
+                return rd;
+            }
+
+
+            string sql = "select * from user_profile where user_id=@para_user_id and status = 'Active' ";
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@para_user_id", this.user_id);
+            con.Open();
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                /*rdr.Read();
+                rd.status = 1;
+                rd.message = "OK";
+                rd.para1 = get_token(rdr["user_id"].ToString());*/
+                email = rdr["email"].ToString();
+                sendRandomNumber(email);
+                rd.status = 0;
+                rd.message = "Check your email";
+                return rd;
+            }
+            if (!rdr.HasRows)
+            {
+                rd.status = 0;
+                rd.message = "Not a valid username";
+                return rd;
+            }
+            con.Close();
+
+            return rd;
+        }
+
+        private void sendRandomNumber(string email)
+        {
+            Random random = new Random();
+            int num = random.Next(10000);
+            SqlConnection con = new SqlConnection(user_db_connection_string);
+            string sql = "";
+
+            sql = "insert into forgetPassword (code,email) values (@code,@email) ";
+
+            SqlCommand cmd = new SqlCommand(sql, con);
+            cmd.Parameters.AddWithValue("@code", num);
+            cmd.Parameters.AddWithValue("@email", email);
+            int count = 0;
+            con.Open();
+            try
+            {
+                count = (int)cmd.ExecuteNonQuery();
+            }
+            catch (Exception Ex)
+            {
+            }
+            con.Close();
+
+            if (count > 0)
+            {
+                try
+                {
+                    SmtpMail oMail = new SmtpMail("TryIt");
+
+                    // Your gmail email address
+                    oMail.From = "bkokilani@gmail.com";
+
+                    // Set recipient email address
+                    oMail.To = email;
+
+                    // Set email subject
+                    oMail.Subject = "Forget Password Code";
+
+                    // Set email body
+                    oMail.TextBody = "Your code is "+num;
+
+                    // Gmail SMTP server address
+                    SmtpServer oServer = new SmtpServer("smtp.gmail.com");
+
+                    // Gmail user authentication
+                    // For example: your email is "gmailid@gmail.com", then the user should be the same
+                    oServer.User = "bkokilani@gmail.com";
+                    oServer.Password = "buddika143";
+
+                    // If you want to use direct SSL 465 port,
+                    // please add this line, otherwise TLS will be used.
+                    // oServer.Port = 465;
+
+                    // set 587 TLS port;
+                    oServer.Port = 587;
+
+                    // detect SSL/TLS automatically
+                    oServer.ConnectType = SmtpConnectType.ConnectSSLAuto;
+
+                    Console.WriteLine("start to send email over SSL ...");
+
+                    EASendMail.SmtpClient oSmtp = new EASendMail.SmtpClient();
+                    oSmtp.SendMail(oServer, oMail);
+
+                    Console.WriteLine("email was sent successfully!");
+                }
+                catch (Exception ep)
+                {
+                    Console.WriteLine("failed to send email with the following error:");
+                    Console.WriteLine(ep.Message);
+                }
+            }
         }
 
         protected string get_token(string para_user_id)

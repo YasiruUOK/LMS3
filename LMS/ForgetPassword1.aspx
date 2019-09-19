@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#"  AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="LMS._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgetPassword1.aspx.cs" Inherits="LMS.ForgetPassword1" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -12,59 +12,82 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <script>
-
-    function login() {
-        var user_id = $('#userName').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            type: "POST",
-            url: "api/access/login",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ user_id: user_id, password: password }),
-            dataType: "json",
-            success: function (data) {
-                //fill_table(data);
-                $('#error_message').text('');
-                if (data.status == 0) {
-                    $('#error_message').text(data.message);
-                    setCookie('erptk', 'COOKEIE VALUE NOT SET', 0);
-                }
-                else {
-                    setCookie('erptk', data.para1, 1);
-                    get_user_role();
-                    //window.location.replace("default.aspx");
-                }
-            },
-            failure: function (response) {
-                alert(response.d);
-            }
+    $(function () {
+        $('#newPass, #conPass').on('keyup', function () {
+            if ($('#newPass').val() == $('#conPass').val()) {
+                $('#message').html('Matching').css('color', 'green');
+            } else
+                $('#message').html('Not Matching').css('color', 'red');
         });
+    });
+    function Continue() {
+        var email = $('#email').val();
+        var code = $('#code').val();
+        var newPass = $('#newPass').val();
+        var conPass = $('#conPass').val();
+
+        if (ValidateEmail(email)) {
+            if ($('#newPass').val() == $('#conPass').val()) {
+                $.ajax({
+                    type: "POST",
+                    url: "api/access/changeForgetPassword",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ email: email, code: code, password: newPass, confirmPassword: conPass }),
+                    dataType: "json",
+                    success: function (data) {
+                        alert(data.message);
+                        if (data.status == 1) {
+                            window.location.replace("SystemLogin.aspx");
+                        }
+                        
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+            } else {
+                alert("Passwords are not matching");
+            }
+            
+        } else {
+            alert("Email is not valid");
+        }
+        
+    }
+    function ValidateEmail(mail) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+            return (true)
+        }
+        //alert("You have entered an invalid email address!")
+        return (false)
+    }
+    function ResendCode() {
+        window.location.replace("Forgetpassword.aspx");
     }
     function get_user_role() {
-        var LoggedUser = mycookie();
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getUserRole",
-            contentType: "application/json; charset=utf-8",
-            data: { LoggedUser: LoggedUser },
-            dataType: "json",
-            success: function (data) {
-                if (data == "Admin") {
-                    window.location.replace("Dashboard.aspx");
-                } else if (data == "Student") {
-                    window.location.replace("ListBookForUser.aspx");
-                } else {
-                }
+            var LoggedUser = mycookie();
+            $.ajax({
+                type: "GET",
+                url: "api/myapi/getUserRole",
+                contentType: "application/json; charset=utf-8",
+                data: { LoggedUser: LoggedUser },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "Admin") { 
+                        window.location.replace("Dashboard.aspx");
+                    } else if (data == "Student") {
+                        window.location.replace("ListBookForUser.aspx");
+                    } else {
+                    }
 
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
+                },
+                error: function (request) {
+                    handle_error(request);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
 
-    }
+        }
 </script>
 
 
@@ -72,31 +95,31 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 login-sec">
-                <h2 class="text-center">Login Now</h2>
+                <h2 class="text-center">Change Password</h2>
                 <form class="login-form">
                     <div class="form-group">
-                        <label for="exampleInputEmail1" class="text-uppercase">Username</label>
-                        <input type="text" class="form-control" placeholder="" id="userName">
+                        <label for="exampleInputEmail1" class="text-uppercase">Email</label>
+                        <input type="text" class="form-control" placeholder="" id="email">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputPassword1" class="text-uppercase">Password</label>
-                        <input type="password" class="form-control" placeholder="" id="password">
+                        <label for="exampleInputEmail1" class="text-uppercase">Code</label>
+                        <input type="text" class="form-control" placeholder="" id="code">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="text-uppercase">New Password</label>
+                        <input type="password" class="form-control" placeholder="" id="newPass">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" class="text-uppercase">Confirm Password</label>
+                        <input type="password" class="form-control" placeholder="" id="conPass">
+                        <span id='message'></span>
                     </div>
 
-
                     <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                            <small>Remember Me</small>
-                            <div style="color: red;"><span id="error_message"></span></div>
-                        </label>
-                        <input class="w3-button w3-block w3-blue w3-section w3-padding" id="reset" type="button" onclick="login()" value="Login" />
+                        <input class="w3-button w3-block w3-blue w3-section w3-padding" id="reset" type="button" onclick="Continue()" value="Continue" />
                     </div>
                     <div class="form-check">
-                        <label class="form-check-label">
-                            <a href="ForgetPassword.aspx"><small >Forget password?</small></a>
-                            <div style="color: red;"><span id="error_message1"></span></div>
-                        </label>
+                        <input class="w3-button w3-block w3-blue w3-section w3-padding" id="resendCode" type="button" onclick="ResendCode()" value="ResendCode" />
                         
                     </div>
                 </form>
@@ -223,4 +246,3 @@
 </style>
 
 </html>
-

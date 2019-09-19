@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using EASendMail;
 
 namespace LMS.App_Code
 {
@@ -205,52 +206,61 @@ namespace LMS.App_Code
         internal ReturnData validateIssueingBook(bookIssuingDetails bookIssuingDetails)
         {
             ReturnData rd = new ReturnData();
-            ReturnData isStudent = new studentDetails().validateStudentID(bookIssuingDetails.studentID);
-            if (isStudent.status == 1)
+            ReturnData isBookIDValid = new BookCodeDetails().validateBookID(bookIssuingDetails.bookID);
+            if (isBookIDValid.status == 1)
             {
-                ReturnData isStudentEligibleToBorrowBook = studentBookRecodeCount(bookIssuingDetails.studentID);
-                if (isStudentEligibleToBorrowBook.status == 1)
+                ReturnData isStudent = new studentDetails().validateStudentID(bookIssuingDetails.studentID);
+                if (isStudent.status == 1)
                 {
-                    ReturnData isBookAlreadyBorrowed = new BookCodeDetails().isBookAlreadyBorrowed(bookIssuingDetails.bookID);
-                    if (isBookAlreadyBorrowed.status == 1)
+                    ReturnData isStudentEligibleToBorrowBook = studentBookRecodeCount(bookIssuingDetails.studentID);
+                    if (isStudentEligibleToBorrowBook.status == 1)
                     {
-                        ReturnData isBookNotReserved = new bookReserveDetails().isBookNotReserved(bookIssuingDetails.bookID);
-                        if (isBookNotReserved.status == 1)
+                        ReturnData isBookAlreadyBorrowed = new BookCodeDetails().isBookAlreadyBorrowed(bookIssuingDetails.bookID);
+                        if (isBookAlreadyBorrowed.status == 1)
                         {
-                            addBookIssuingDetails();
-                            rd.message = "OK";
-                        }
-                        else
-                        {
-                            ReturnData isBookReservedByThisStudent = new bookReserveDetails().isBookReservedByThisStudent(bookIssuingDetails.studentID, bookIssuingDetails.bookID);
-                            if (isBookReservedByThisStudent.status == 1)
+                            ReturnData isBookNotReserved = new bookReserveDetails().isBookNotReserved(bookIssuingDetails.bookID);
+                            if (isBookNotReserved.status == 1)
                             {
                                 addBookIssuingDetails();
                                 rd.message = "OK";
                             }
                             else
                             {
-                                rd.message = "This Book Already Reserved";
+                                ReturnData isBookReservedByThisStudent = new bookReserveDetails().isBookReservedByThisStudent(bookIssuingDetails.studentID, bookIssuingDetails.bookID);
+                                if (isBookReservedByThisStudent.status == 1)
+                                {
+                                    addBookIssuingDetails();
+                                    rd.message = "OK";
+                                }
+                                else
+                                {
+                                    rd.message = "This Book Already Reserved";
+                                }
                             }
+
+                        }
+                        else
+                        {
+                            rd.message = "Check the BookCode.";
                         }
 
                     }
                     else
                     {
-                        rd.message = "Check the BookCode.";
+                        rd.message = "Student Has borrowed 2 Books";
                     }
 
                 }
                 else
                 {
-                    rd.message = "Student Has borrowed 2 Books";
+                    rd.message = "Student ID is not Valid";
                 }
-
             }
             else
             {
-                rd.message = "Student ID is not Valid";
+                rd.message = "Book ID is not Valid";
             }
+
             return rd;
         }
 
@@ -668,12 +678,12 @@ namespace LMS.App_Code
             List<bookIssuingDetails> studentIDList = getDelayedBooksBrrowedStudentList();
             for (int i = 0; i <= studentIDList.Count; i++)
             {
-                using (MailMessage mm = new MailMessage("bkokilani@gmail.com", "yasirukavinda89@gmail.com"))
+                /*using (MailMessage mm = new MailMessage("bkokilani@gmail.com", studentIDList[i].email))
                 {
                     try
                     {
                         mm.Subject = "Book Check-Out (Issue) Message";
-                        mm.Body = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", "+Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
+                        mm.Body = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", " + Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
                         mm.IsBodyHtml = true;
                         mm.BodyEncoding = System.Text.Encoding.UTF8;
                         using (SmtpClient smtp = new SmtpClient())
@@ -687,14 +697,60 @@ namespace LMS.App_Code
                             smtp.Send(mm);
                         }
                     }
-                    catch (Exception ex)
+                    catch (ObjectDisposedException ex)
                     {
                         //code for any other type of exception
                     }
 
-                }
+                }*/
+                try
+                {
+                    SmtpMail oMail = new SmtpMail("TryIt");
 
+                    // Your gmail email address
+                    oMail.From = "bkokilani@gmail.com";
+
+                    // Set recipient email address
+                    oMail.To = studentIDList[i].email;
+
+                    // Set email subject
+                    oMail.Subject = "Book Check-Out (Issue) Message";
+
+                    // Set email body
+                    oMail.TextBody = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", " + Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
+
+                    // Gmail SMTP server address
+                    SmtpServer oServer = new SmtpServer("smtp.gmail.com");
+
+                    // Gmail user authentication
+                    // For example: your email is "gmailid@gmail.com", then the user should be the same
+                    oServer.User = "bkokilani@gmail.com";
+                    oServer.Password = "buddika143";
+
+                    // If you want to use direct SSL 465 port,
+                    // please add this line, otherwise TLS will be used.
+                    // oServer.Port = 465;
+
+                    // set 587 TLS port;
+                    oServer.Port = 587;
+
+                    // detect SSL/TLS automatically
+                    oServer.ConnectType = SmtpConnectType.ConnectSSLAuto;
+
+                    Console.WriteLine("start to send email over SSL ...");
+
+                    EASendMail.SmtpClient oSmtp = new EASendMail.SmtpClient();
+                    oSmtp.SendMail(oServer, oMail);
+
+                    Console.WriteLine("email was sent successfully!");
+                }
+                catch (Exception ep)
+                {
+                    Console.WriteLine("failed to send email with the following error:");
+                    Console.WriteLine(ep.Message);
+                }
             }
+            
             ReturnData rd = new ReturnData();
             rd.status = 1;
             rd.message = "OK";

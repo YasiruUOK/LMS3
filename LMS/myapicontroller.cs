@@ -527,6 +527,19 @@ namespace LMS
         }
         [BasicAuthentication]
         [HttpGet]
+        public HttpResponseMessage deleteBookCodeDetailsFromBookID(string bookCode)
+        {
+            ReturnData rd = new ReturnData();
+            BookCodeDetails u = new BookCodeDetails();
+            rd = u.deleteBookCodeDetailsFromBookID(bookCode);
+            string yourJson = JsonConvert.SerializeObject(rd); ;
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent(yourJson, Encoding.UTF8, "application/json");
+            return response;
+
+        }
+        [BasicAuthentication]
+        [HttpGet]
         public HttpResponseMessage deleteFromBookIssueTemp(string bookCode)
         {
             ReturnData rd = new ReturnData();

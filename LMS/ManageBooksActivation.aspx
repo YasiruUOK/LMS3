@@ -190,6 +190,23 @@
             beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
         });
     }
+    function Delete_Book(bookCode) {
+        $.ajax({
+            type: "GET",
+            url: "api/myapi/deleteBookCodeDetailsFromBookID",
+            contentType: "application/json; charset=utf-8",
+            data: { bookCode: bookCode },
+            dataType: "json",
+            success: function (data) {
+                alert(data.message);
+                getBookDetails();
+            },
+            error: function (request) {
+                handle_error(request);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
         name = name.replace(/[\[\]]/g, '\\$&');

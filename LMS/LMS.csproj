@@ -49,6 +49,9 @@
     <Reference Include="AspNet.ScriptManager.bootstrap, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AspNet.ScriptManager.bootstrap.4.1.1\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
     </Reference>
+    <Reference Include="EASendMail, Version=7.5.0.3, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
+      <HintPath>..\packages\EASendMail.7.5.0.3\lib\net461\EASendMail.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Apis, Version=1.40.3.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.40.3\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
@@ -135,6 +138,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ForgetPassword1.aspx" />
     <Content Include="Js\suggestionsDepartments.js" />
     <Content Include="ApproveFinePayments.aspx" />
     <Content Include="Manage-Reserved-Books.aspx" />
@@ -144,6 +148,7 @@
     <Content Include="PayFinesToBank.aspx" />
     <Content Include="PayFines.aspx" />
     <Content Include="RequestBook.aspx" />
+    <Content Include="ForgetPassword.aspx" />
     <Content Include="UpdateBook.aspx" />
     <Content Include="AddBook.aspx" />
     <Content Include="AddStudent.aspx" />
@@ -329,6 +334,13 @@
       <DependentUpon>ApproveFinePayments.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\requestedBook.cs" />
+    <Compile Include="ForgetPassword1.aspx.cs">
+      <DependentUpon>ForgetPassword1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgetPassword1.aspx.designer.cs">
+      <DependentUpon>ForgetPassword1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage-Reserved-Books.aspx.cs">
       <DependentUpon>Manage-Reserved-Books.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -377,6 +389,13 @@
     </Compile>
     <Compile Include="RequestBook.aspx.designer.cs">
       <DependentUpon>RequestBook.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForgetPassword.aspx.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgetPassword.aspx.designer.cs">
+      <DependentUpon>ForgetPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="UpdateBook.aspx.cs">
       <DependentUpon>UpdateBook.aspx</DependentUpon>

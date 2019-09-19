@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#"  AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="LMS._Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgetPassword.aspx.cs" Inherits="LMS.ForgetPassword" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -13,28 +13,18 @@
 
 <script>
 
-    function login() {
+    function Continue() {
         var user_id = $('#userName').val();
-        var password = $('#password').val();
 
         $.ajax({
             type: "POST",
-            url: "api/access/login",
+            url: "api/access/forgetPassword",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ user_id: user_id, password: password }),
+            data: JSON.stringify({ user_id: user_id}),
             dataType: "json",
             success: function (data) {
-                //fill_table(data);
-                $('#error_message').text('');
-                if (data.status == 0) {
-                    $('#error_message').text(data.message);
-                    setCookie('erptk', 'COOKEIE VALUE NOT SET', 0);
-                }
-                else {
-                    setCookie('erptk', data.para1, 1);
-                    get_user_role();
-                    //window.location.replace("default.aspx");
-                }
+                alert(data.message);
+                window.location.replace("ForgetPassword1.aspx");
             },
             failure: function (response) {
                 alert(response.d);
@@ -42,29 +32,29 @@
         });
     }
     function get_user_role() {
-        var LoggedUser = mycookie();
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getUserRole",
-            contentType: "application/json; charset=utf-8",
-            data: { LoggedUser: LoggedUser },
-            dataType: "json",
-            success: function (data) {
-                if (data == "Admin") {
-                    window.location.replace("Dashboard.aspx");
-                } else if (data == "Student") {
-                    window.location.replace("ListBookForUser.aspx");
-                } else {
-                }
+            var LoggedUser = mycookie();
+            $.ajax({
+                type: "GET",
+                url: "api/myapi/getUserRole",
+                contentType: "application/json; charset=utf-8",
+                data: { LoggedUser: LoggedUser },
+                dataType: "json",
+                success: function (data) {
+                    if (data == "Admin") { 
+                        window.location.replace("Dashboard.aspx");
+                    } else if (data == "Student") {
+                        window.location.replace("ListBookForUser.aspx");
+                    } else {
+                    }
 
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
+                },
+                error: function (request) {
+                    handle_error(request);
+                },
+                beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+            });
 
-    }
+        }
 </script>
 
 
@@ -72,33 +62,18 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 login-sec">
-                <h2 class="text-center">Login Now</h2>
+                <h2 class="text-center">Forget Password</h2>
                 <form class="login-form">
                     <div class="form-group">
                         <label for="exampleInputEmail1" class="text-uppercase">Username</label>
                         <input type="text" class="form-control" placeholder="" id="userName">
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1" class="text-uppercase">Password</label>
-                        <input type="password" class="form-control" placeholder="" id="password">
-                    </div>
 
 
                     <div class="form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input">
-                            <small>Remember Me</small>
-                            <div style="color: red;"><span id="error_message"></span></div>
-                        </label>
-                        <input class="w3-button w3-block w3-blue w3-section w3-padding" id="reset" type="button" onclick="login()" value="Login" />
+                        <input class="w3-button w3-block w3-blue w3-section w3-padding" id="reset" type="button" onclick="Continue()" value="Continue" />
                     </div>
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <a href="ForgetPassword.aspx"><small >Forget password?</small></a>
-                            <div style="color: red;"><span id="error_message1"></span></div>
-                        </label>
-                        
-                    </div>
+
                 </form>
 
             </div>
@@ -223,4 +198,3 @@
 </style>
 
 </html>
-

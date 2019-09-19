@@ -153,7 +153,7 @@
             data: {studentID:studentID, totalFineAmount:totalFineAmount, reason:reason, TransactionID:TransactionID, branchName:branchName, PaymentApproved:PaymentApproved},
             dataType: "json",
                 success: function (data) {
-                    alert(data.message);
+                    //alert(data.message);
                     if (status == "returnBook") {
                         return_Book(studentID, bookCode);
                     } else if (status == "extendBook") {
@@ -201,7 +201,7 @@
             }),
             dataType: "json",
             success: function (data) {
-                alert(data.message);
+                //alert(data.message);
                 extend_Book(studentID, bookCode);
             },
             error: function (request) {
@@ -240,7 +240,7 @@
             data: {studentID:studentID},
             dataType: "json",
                 success: function (data) {
-                    alert(data.message);
+                    //alert(data.message);
             },
             error: function (request) {
                 handle_error(request);

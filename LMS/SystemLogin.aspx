@@ -92,7 +92,13 @@
                         </label>
                         <input class="w3-button w3-block w3-blue w3-section w3-padding" id="reset" type="button" onclick="login()" value="Login" />
                     </div>
-
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <a href="ForgetPassword.aspx"><small >Forget password?</small></a>
+                            <div style="color: red;"><span id="error_message1"></span></div>
+                        </label>
+                        
+                    </div>
                 </form>
 
             </div>
