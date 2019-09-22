@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ListBookForUser.aspx.cs" Inherits="LMS.ListBookForUser" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ChangePasswordStudent.aspx.cs" Inherits="LMS.ListBookForUser" %>
 
 <!DOCTYPE html>
 <html lang="en-US" ng-app="myApp">
@@ -82,56 +82,64 @@
 </head>
 <script>
     $(function () {
-        getUserID();
-        getBookDetails();
-        $("#inlineFormBookName").keypress(function (e) {
-            if (e.which == 13) {
-                getDetailsFromBookName();
-            }
-        });
-        $("#inlineFormISBN").keypress(function (e) {
-            if (e.which == 13) {
-                getDetailsFromISBN();
-            }
-        });
+        getUserFullName();
     });
-    function getDetailsFromBookName() {
-        var BookName = document.getElementById('inlineFormBookName').value;
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getBookDetailsFromBookName",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            data: { BookName: BookName },
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function getDetailsFromISBN() {
-        var ISBN = document.getElementById('inlineFormISBN').value;
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getDetailsFromISBN",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            data: { ISBN: ISBN },
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
+
+    function checkLength() {
+        var new_pass = document.getElementById("new_pass");
+        var confirm_pass = document.getElementById("confirm_pass");
+        if (new_pass.value.length >= 8 && confirm_pass.value.length >= 8) {
+            if (new_pass.value == confirm_pass.value) {
+                getUserID();
+            } else {
+                alert("make sure new password and confirm password equal");
+            }
+
+        }
+        else {
+            alert("make sure the input is between 5-10 characters long");
+        }
     }
     function getUserID() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserID",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                changePassword(data);
+                //alert(data);
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function changePassword(data) {
+        var new_pass = $('#new_pass').val();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/changePassword",
+            data: { userID: data, new_pass: new_pass },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $('#new_pass').val("");
+                $('#confirm_pass').val("");
+                alert(data.message);
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
+    function getUserFullName() {
         var LoggedUser = mycookie();
         jQuery.ajax({
             type: "GET",
@@ -144,72 +152,6 @@
                 document.getElementById("p1").innerHTML = data;
                 document.getElementById("p2").innerHTML = data;
                 document.getElementById("p3").innerHTML = data;
-            },
-            failure: function (response) {
-                alert(response.d);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function getBookDetails() {
-        $.ajax({
-            type: "GET",
-            url: "api/myapi/getBookDetails",
-            contentType: "application/json; charset=utf-8",
-            data: {},
-            dataType: "json",
-            success: function (data) {
-                load_getBookDetails(data);
-
-            },
-            error: function (request) {
-                handle_error(request);
-            },
-            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-        });
-    }
-    function load_getBookDetails(data) {
-        $("#bookDetailsTable").find("tr:gt(0)").remove();
-        for (var i = 0; i < data.length; i++) {
-            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">Rs. ' + data[i].price + '</td><td>' + data[i].qty + '</td><td>' + data[i].borrowedBookCount + '</td><td><input  type=\'button\' onclick=\'getStudentID(' + data[i].bookID + ', ' + data[i].qty + ',' + data[i].borrowedBookCount+')\' value=\'Reserve\' /></td></tr>');
-        }
-    }
-    function reserveBook(studentID, bookID, qty, borrowedBookCount) {
-        if (qty > borrowedBookCount) {
-            if (confirm("Are you sure to Reserve this Book? ")) {
-                $.ajax({
-                    type: "POST",
-                    url: "api/myapi/ReserveBook",
-                    contentType: "application/json; charset=utf-8",
-                    async: false,
-                    data: JSON.stringify({
-                        studentID: studentID, bookID: bookID
-                    }),
-                    dataType: "json",
-                    success: function (data) {
-                        alert(data.message);
-                        deleteFromBookIssueTemp(bookCode);
-                    },
-                    error: function (request) {
-                        handle_error(request);
-                    },
-                    beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
-                });
-
-            }
-        } 
-    }
-    function getStudentID(bookID, qty, borrowedBookCount) {
-        var LoggedUser = mycookie();
-        jQuery.ajax({
-            type: "GET",
-            url: "api/myapi/getUserID",
-            data: { LoggedUser: LoggedUser },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                reserveBook(data, bookID, qty, borrowedBookCount);
             },
             failure: function (response) {
                 alert(response.d);
@@ -301,7 +243,7 @@
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/change-password/','') }">
-                            <a href="ChangePasswordStudent.aspx">
+                            <a href="ChangePassword.aspx">
                                 <i class="fa fa-list "></i><span>Change Password</span>
 
                             </a>
@@ -354,85 +296,65 @@
         <div class="content-wrapper">
 
             <section class="content-header">
-                <h1>Dashboard
+                <h1>Change Password
             <small>Control panel</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-                    <li class="active">Book List For User</li>
+                    <li class="active">Change Password</li>
                 </ol>
             </section>
 
 
-            <section class="content">
-
-
-                <div class="box box-default" ng-controller="ListofbooksUserCtrl">
+            <section class="content" style="min-height: 100%;">
+                <div class="box box-default" ng-controller="changePasswordCtrl">
                     <div class="box-header with-border">
                     </div>
-
                     <div class="box-body" style="">
                         <div class="row">
                             <div class="col-md-12">
-
-
-                                <div class="" style="padding: 10px;">
-                                    <form class="form-inline">
-
-                                        <label class="sr-only" for="inlineFormBookId">Book Name</label>
-                                        <div class="input-group col-md-6" style="float: left;">
-                                            <div class="input-group-addon fix_radius fix_filter">
-                                                <i class="fas fa-filter"
-                                                    aria-hidden="true"></i>
-                                            </div>
-                                            <input type="text" class="form-control fix_radius" ng-change="onBookName()"
-                                                ng-model="filter_BookName" id="inlineFormBookName"
-                                                placeholder="Type Book Name">
+                                <form class="form-horizontal" method="post" id="lib_password_form" style="width: 94%;">
+                                    <input type="hidden" name="action" value="change_password" />
+                                    <h3>Change password</h3>
+                                    <p>Hints on getting your new password right:</p>
+                                    <p>Your new password must be between 8 and 15 characters in length.</p>
+                                    <hr />
+                                    <div class="form-group">
+                                        <label for="first_name" class="col-sm-4 control-label pull-left reset_sm">
+                                            New
+                                            Password
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input name="new_pass" id="new_pass" ng-model="frm_ChangePassData.new_pass"
+                                                placeholder="New Password" class="form-control fix_radius pull-left"
+                                                type="text">
                                         </div>
+                                    </div>
 
-
-                                        <label class="sr-only" for="inlineFormUserID">ISBN</label>
-                                        <div class="input-group col-md-6">
-                                            <div class="input-group-addon fix_radius fix_filter">
-                                                <i class="fa fa-filter"
-                                                    aria-hidden="true"></i>
-                                            </div>
-                                            <input type="text" class="form-control fix_radius" ng-change="onISBNChange()"
-                                                ng-model="filter_ISBN" id="inlineFormISBN" placeholder="Type ISBN">
+                                    <div class="form-group">
+                                        <label for="first_name" class="col-sm-4 control-label pull-left reset_sm">
+                                            Confirm
+                                            New Pasword
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input name="confirm_pass" id="confirm_pass"
+                                                ng-model="frm_ChangePassData.confirm_pass" placeholder="Confirm Password"
+                                                class="form-control fix_radius pull-left" type="text">
                                         </div>
+                                    </div>
 
 
-                                    </form>
-
-                                </div>
+                                    <hr />
 
 
-                                <table class="table table-bordered table-striped" id="bookDetailsTable"
-                                    style="font-size: small; margin-bottom: 0px; padding: 10px;">
-                                    <thead>
-                                        <tr>
-                                            <th style="display: none;">?</th>
-                                            <th width="5%" class="" style="width: 120px;">ISBN</th>
-                                            <th width="15%" class="" style="width: 155px;">Book Name</th>
-                                            <th width="50%" class="" style="width: 270px;">Book Desc</th>
-                                            <th width="15%" class="">Category</th>
-                                            <th width="5%" class="">Price</th>
-                                            <th width="5%" class="">Qty</th>
-                                            <th width="5%" class="">Borrowed</th>
-                                            <th width="5%" class="">Reserve Book</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tb_managebook_container">
-                                    </tbody>
-                                </table>
-
-
+                                </form>
                             </div>
                         </div>
                     </div>
-
                     <div class="box-footer">
+                        <button type="button" onclick="checkLength();" class="btn btn-primary fix_radius pmd-ripple-effect pull-right">
+                            <span class="fa fa-floppy-o"></span>Change Password
+                        </button>
                     </div>
                 </div>
             </section>

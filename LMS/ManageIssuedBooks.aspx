@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
-    <title>Manage Issued Books &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" type="text/css" href="CSS/autosuggest.css" />
     <link rel='stylesheet' id='font_awesome-css' href='CSS/font-awesome.min.css' type='text/css' media='all' />
@@ -88,6 +88,7 @@
 <script>
     $(function () {
         getBookIssuedDetails();
+        getUserFullName();
         window.onload = function () {
             var oTextbox = new AutoSuggestControl(document.getElementById("filter_userId"), new StateSuggestions());
             var oTextbox = new AutoSuggestControl(document.getElementById("filter_BookID"), new StateSuggestions());
@@ -232,13 +233,33 @@
         }
         
     }
+    function getUserFullName() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserFullName",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p5").innerHTML = data;
+                document.getElementById("p6").innerHTML = data;
+                document.getElementById("p7").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
 </script>
 <body class="page-template page-template-manageissuedbooks page-template-manageissuedbooks-php page page-id-25 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -265,7 +286,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
                                     <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                         class="user-image" alt="User Image">
-                                    <span class="hidden-xs">John Dsouza</span>
+                                    <span class="hidden-xs" id="p5">John Dsouza</span>
                                 </a>
                                 <ul class="dropdown-menu">
 
@@ -273,7 +294,7 @@
                                         <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
+                                        <p id="p6">
                                             John Dsouza                  - Librarian                  <small>Member since . Apr 2018</small>
                                         </p>
                                     </li>
@@ -316,7 +337,7 @@
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>John Dsouza</p>
+                            <p id="p7">John Dsouza</p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
@@ -326,7 +347,7 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
+                            <a >
                                 <i class="fa fa-dashboard"></i><span>Dashboard</span>
 
                             </a>
@@ -803,9 +824,9 @@
         </div>
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
+        
+            
+                
             </div>
             <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
             rights

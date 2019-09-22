@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="CSS/fonts.css" rel="stylesheet">
     <link href="CSS/ionicons.min.css" rel="stylesheet">
-    <title>Update Book &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel='stylesheet' id='bootstrap-css' href='CSS/bootstrap.min.css' type='text/css' media='all' />
@@ -168,7 +168,7 @@
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -257,7 +257,7 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
+                            <a >
                                 <i class="fa fa-tachometer-alt"></i><span>Dashboard</span>
 
                             </a>
@@ -618,9 +618,9 @@
         <!-- </div> -->
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
+        
+            
+                
             </div>
             <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
             rights

@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
     <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
-    <title>Manage Years &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel='stylesheet' id='font_awesome-css' href='https://www.library-management.com/wp-content/themes/library/css/font-awesome.min.css?ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
@@ -85,7 +85,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -173,7 +173,7 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
+                            <a >
                                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
 
                             </a>
@@ -474,9 +474,9 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
+        
+            
+                
             </div>
             <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
             rights

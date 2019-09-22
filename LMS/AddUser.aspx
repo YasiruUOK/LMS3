@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="CSS/fonts.css" rel="stylesheet">
     <link href="CSS/ionicons.min.css" rel="stylesheet">
-    <title>Add User &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel='stylesheet' id='bootstrap-css' href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
@@ -83,6 +83,7 @@
 <script>
     $(function () {
         loadCoursetNames();
+        getUserFullName();
     });
     function loadCoursetNames() {
 
@@ -154,13 +155,33 @@
         $("#zip").val("");
         $("#note_on_user").val("");
     }
+    function getUserFullName() {
+        var LoggedUser = mycookie();
+        jQuery.ajax({
+            type: "GET",
+            url: "api/myapi/getUserFullName",
+            data: { LoggedUser: LoggedUser },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                document.getElementById("p5").innerHTML = data;
+                document.getElementById("p6").innerHTML = data;
+                document.getElementById("p7").innerHTML = data;
+            },
+            failure: function (response) {
+                alert(response.d);
+            },
+            beforeSend: function (xhr, settings) { xhr.setRequestHeader('Authorization', mycookie()); }
+        });
+    }
 </script>
 <body class="page-template page-template-addbook page-template-addbook-php page page-id-6 logged-in hold-transition skin-blue sidebar-mini">
     <div class="wrapper" id="style-5">
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -188,7 +209,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
                                     <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                         class="user-image" alt="User Image">
-                                    <span class="hidden-xs">John Dsouza</span>
+                                    <span class="hidden-xs" id="p5">John Dsouza</span>
                                 </a>
                                 <ul class="dropdown-menu">
 
@@ -196,7 +217,7 @@
                                         <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
                                             class="img-circle" alt="User Image">
 
-                                        <p>
+                                        <p id="p6">
                                             John Dsouza                  - Librarian                  <small>Member since . Apr 2018</small>
                                         </p>
                                     </li>
@@ -239,7 +260,7 @@
                                 class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p>John Dsouza</p>
+                            <p id="p7">John Dsouza</p>
                             <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
                         </div>
                     </div>
@@ -249,7 +270,7 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
+                            <a >
                                 <i class="fa fa-tachometer-alt"></i><span>Dashboard</span>
 
                             </a>
@@ -679,54 +700,12 @@
         </div>
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
-            </div>
-            <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
-            rights
-            reserved. Best Viewed in Chrome & Firefox and above at resolution 1024 X 768
-        </footer>
     </div>
 </body>
 </html>
 
 
-
-<script>
-    function show_payment() {
-        bootbox.dialog({
-            title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
-            message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
-            buttons: {
-                noclose: {
-                    label: "Paypal",
-                    className: 'btn-success',
-                    callback: function () {
-                        window.open("https://www.paypal.me/Prince898/20");
-                        ;
-                        return false;
-                    }
-                },
-                ok: {
-                    label: "CCAvenue",
-                    className: 'btn-success',
-                    callback: function () {
-                        window.open("http://www.ricomart.com/billing/index.php");
-                        return false;
-                    }
-                }
-            }
-        });
-    }
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', 'UA-91268321-2');
-</script>
 
 

@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="CSS/fonts.css" rel="stylesheet">
     <link href="CSS/ionicons.min.css" rel="stylesheet">
-    <title>Dashboard &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
@@ -212,7 +212,7 @@
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -256,10 +256,10 @@
 
                                     <li class="user-footer">
                                         <div class="" style="padding-left: 2%;">
-                                            <div class="pull-left">
+                                            <%--<div class="pull-left">
                                                 <<a href="UserProfile.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Profile</a>
-                                            </div>
+                                            </div>--%>
                                             <div class="pull-left">
                                                 <a href="SystemLogin.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Sign out</a>
@@ -297,8 +297,8 @@
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/dashboard/','') }">
-                            <a href="https://www.library-management.com/dashboard/">
-                                <i class="fa fa-dashboard"></i><span>Dashboard</span>
+                            <a href="Dashboard.aspx">
+                                <i class="fa fa-tachometer-alt"></i><span>Dashboard</span>
 
                             </a>
                         </li>
@@ -313,17 +313,17 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/change-password/','MyPorfileMain') }">
-                                    <a href="https://www.library-management.com/change-password/">
+                                    <a href="ChangePassword.aspx">
                                         <i class="fa fa-circle-o"></i>Change
                                         Password
                                     </a>
                                 </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
-                                    <a href="https://www.library-management.com/update-profile/">
+                                <%--<li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
+                                    <a href="UpdateProfile.aspx>
                                         <i class="fa fa-circle-o"></i>Update
                                         Details
                                     </a>
-                                </li>
+                                </li>--%>
                             </ul>
                         </li>
 
@@ -337,13 +337,13 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/add-book/','ManageBookMain') }">
-                                    <a href="https://www.library-management.com/add-book/">
+                                    <a href="AddBook.aspx">
                                         <i class="fa fa-circle-o"></i>Add
                                         Books
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-books/','ManageBookMain') }">
-                                    <a href="https://www.library-management.com/manage-books/">
+                                    <a href="ManageBooks.aspx">
                                         <i class="fa fa-circle-o"></i>View
                                         Books
                                     </a>
@@ -352,39 +352,39 @@
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
-                            <a href="https://www.library-management.com/manage-fines/">
-                                <i class="fa fa-money"></i><span>Manage Fines</span>
+                            <a href="ManageFine.aspx">
+                                <i class="fa fa-money-bill-alt"></i><span>Manage Fines</span>
 
                             </a>
                         </li>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
-                            <a href="https://www.library-management.com/manage-online-dues/">
-                                <i class="fa fa-money"></i><span>Manage Online Paid Dues</span>
+                            <a href="ApproveFinePayments.aspx">
+                                <i class="fa fa-money-bill-alt"></i><span>Manage Online Paid Dues</span>
 
                             </a>
                         </li>
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/issue-books/','') }">
-                            <a href="https://www.library-management.com/issue-books/">
-                                <i class="fa fa-folder-open-o"></i><span>Issue Books</span>
+                            <a href="IssueBooks.aspx">
+                                <i class="fa fa-folder-open"></i><span>Issue Books</span>
 
                             </a>
                         </li>
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-books/','') }">
-                            <a href="https://www.library-management.com/manage-issued-books/">
+                            <a href="ManageIssuedBooks.aspx">
                                 <i class="fa fa-list"></i><span>View All Issued Books</span>
 
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
                             <a href="https://www.library-management.com/manage-return-archive/">
                                 <i class="fa fa-clock-o "></i><span>View All Archive Books</span>
 
                             </a>
-                        </li>
+                        </li>--%>
 
 
                         <li id="MainUserMenu" class="treeview">
@@ -396,13 +396,13 @@
                             </a>
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/add-user/','MainUserMenu') }">
-                                    <a href="https://www.library-management.com/add-user/">
+                                    <a href="AddUser.aspx">
                                         <i class="fa fa-circle-o"></i>Add
                                         User
                                     </a>
                                 </li>
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-users/','MainUserMenu') }">
-                                    <a href="https://www.library-management.com/manage-users/">
+                                    <a href="ManageUsers.aspx">
                                         <i class="fa fa-circle-o"></i>View
                                         All Users
                                     </a>
@@ -413,33 +413,33 @@
 
                         <li id="SettingMainMenu" class="treeview">
                             <a href="#">
-                                <i class="fa fa-sliders"></i><span>Manage Settings</span>
+                                <i class="fa fa-sliders-h"></i><span>Manage Settings</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                             </a>
                             <ul class="treeview-menu">
                                 <li ng-class="{ active: isActive('https://www.library-management.com/manage-course/','SettingMainMenu') }">
-                                    <a href="https://www.library-management.com/manage-course/">
+                                    <a href="ManageCourse.aspx">
                                         <i class="fa fa-circle-o"></i>Manage
                                         Courses
                                     </a>
                                 </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
+                                <%--<li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
                                     <a href="https://www.library-management.com/manage-years/"><i class="fa fa-circle-o"></i>Manage Years</a>
-                                </li>
+                                </li>--%>
                             </ul>
                         </li>
 
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/view-request-book-data/','') }">
-                            <a href="https://www.library-management.com/view-request-book-data/">
-                                <i class="fa fa-heart-o "></i><span>View Request Book Data</span>
+                            <a href="ViewRequestBookData.aspx">
+                                <i class="fa fa-heart"></i><span>View Request Book Data</span>
 
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
                             <a href="https://www.library-management.com/manage-slides/">
                                 <i class="fa fa-television"></i><span>Manage Slides</span>
 
@@ -495,7 +495,7 @@
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
-                        </li>
+                        </li>--%>
 
 
                     </ul>
@@ -565,9 +565,9 @@
 
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
+        
+            
+                
             </div>
             <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
             rights

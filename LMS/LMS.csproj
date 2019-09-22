@@ -141,6 +141,7 @@
     <Content Include="ForgetPassword1.aspx" />
     <Content Include="Js\suggestionsDepartments.js" />
     <Content Include="ApproveFinePayments.aspx" />
+    <Content Include="ChangePasswordStudent.aspx" />
     <Content Include="Manage-Reserved-Books.aspx" />
     <Content Include="manage-issued-book-for-users.aspx" />
     <Content Include="manage-return-archives-user.aspx" />
@@ -310,6 +311,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="UpdateProfile.aspx" />
     <Content Include="UserProfile.aspx" />
     <Content Include="ViewRequestBookData.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -340,6 +342,13 @@
     </Compile>
     <Compile Include="ForgetPassword1.aspx.designer.cs">
       <DependentUpon>ForgetPassword1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePasswordStudent.aspx.cs">
+      <DependentUpon>ChangePasswordStudent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordStudent.aspx.designer.cs">
+      <DependentUpon>ChangePasswordStudent.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage-Reserved-Books.aspx.cs">
       <DependentUpon>Manage-Reserved-Books.aspx</DependentUpon>
@@ -590,6 +599,13 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateProfile.aspx.cs">
+      <DependentUpon>UpdateProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UpdateProfile.aspx.designer.cs">
+      <DependentUpon>UpdateProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="UserProfile.aspx.cs">
       <DependentUpon>UserProfile.aspx</DependentUpon>

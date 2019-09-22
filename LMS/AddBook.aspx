@@ -13,7 +13,7 @@
     <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
     <link href="CSS/fonts.css" rel="stylesheet">
     <link href="CSS/ionicons.min.css" rel="stylesheet">
-    <title>Add Book &#8211; LMS a WordPress Theme</title>
+    <title></title>
     <link rel='dns-prefetch' href='//s.w.org' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel='stylesheet' id='bootstrap-css' href='CSS/bootstrap.min.css' type='text/css' media='all' />
@@ -149,7 +149,7 @@
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
 
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
 
                     <span class="logo-mini"><b>LMS</b></span>
 
@@ -166,13 +166,13 @@
                         <ul class="nav navbar-nav">
 
 
-                            <li class="dropdown notifications-menu">
+                            <%--<li class="dropdown notifications-menu">
                                 <a href="https://www.library-management.com/view-request-book-data/">
                                     <i class="fa fa-bell
                                         0"></i>
                                     <span class="label label-warning">{{cnt_not_approved}}</span>
                                 </a>
-                            </li>
+                            </li>--%>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="height: 51px;">
                                     <img ng-src="{{'https://www.library-management.com/wp-content/uploads/2018/04/1-150x150.jpg' || 'https://www.library-management.com/wp-content/themes/library/img/avatar.png'}}"
@@ -194,10 +194,10 @@
 
                                     <li class="user-footer">
                                         <div class="" style="padding-left: 2%;">
-                                            <div class="pull-left">
+                                            <%--<div class="pull-left">
                                                 <<a href="UserProfile.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Profile</a>
-                                            </div>
+                                            </div>--%>
                                             <div class="pull-left">
                                                 <a href="SystemLogin.aspx" style="height: 37px;"
                                                 class="btn btn-default btn-flat">Sign out</a>
@@ -207,9 +207,9 @@
                                 </ul>
                             </li>
 
-                            <li>
+                           <%-- <li>
                                 <a href="https://www.library-management.com/other-settings/"><i class="fa fa-cogs"></i></a>
-                            </li>
+                            </li>--%>
                         </ul>
                     </div>
                 </nav>
@@ -256,12 +256,12 @@
                                         Password
                                     </a>
                                 </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
-                                    <a href="https://www.library-management.com/update-profile/">
+                                <%--<li ng-class="{ active: isActive('https://www.library-management.com/update-profile/','MyPorfileMain') }">
+                                    <a href="UpdateProfile.aspx>
                                         <i class="fa fa-circle-o"></i>Update
                                         Details
                                     </a>
-                                </li>
+                                </li>--%>
                             </ul>
                         </li>
 
@@ -312,17 +312,17 @@
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-issued-books/','') }">
                             <a href="ManageIssuedBooks.aspx">
-                                <i class="fa fa-list-ul"></i><span>View All Issued Books</span>
+                                <i class="fa fa-list"></i><span>View All Issued Books</span>
 
                             </a>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-return-archive/','') }">
                             <a href="https://www.library-management.com/manage-return-archive/">
-                                <i class="fa fa-clock"></i><span>View All Archive Books</span>
+                                <i class="fa fa-clock-o "></i><span>View All Archive Books</span>
 
                             </a>
-                        </li>
+                        </li>--%>
 
 
                         <li id="MainUserMenu" class="treeview">
@@ -363,9 +363,9 @@
                                         Courses
                                     </a>
                                 </li>
-                                <li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
-                                    <a href="ManageYears.aspx"><i class="fa fa-circle-o"></i>Manage Years</a>
-                                </li>
+                                <%--<li ng-class="{ active: isActive('https://www.library-management.com/manage-years/','SettingMainMenu') }">
+                                    <a href="https://www.library-management.com/manage-years/"><i class="fa fa-circle-o"></i>Manage Years</a>
+                                </li>--%>
                             </ul>
                         </li>
 
@@ -382,15 +382,15 @@
                                 <i class="fa fa-television"></i><span>Manage Slides</span>
 
                             </a>
-                        </li>--%>
+                        </li>
 
 
-                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
                             <a href="https://www.library-management.com/manage-institution/">
-                                <i class="fa fa-sliders-h"></i><span>Institution Setup</span>
+                                <i class="fa fa-sliders "></i><span>Institution Setup</span>
 
                             </a>
-                        </li>--%>
+                        </li>
 
 
                         <li id="ManagePageMainMenu" class="treeview">
@@ -412,7 +412,7 @@
 
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/other-settings/','') }">
                             <a href="https://www.library-management.com/other-settings/">
-                                <i class="fa fa-cogs"></i><span>Other Settings</span>
+                                <i class="fa fa-gears"></i><span>Other Settings</span>
 
                             </a>
                         </li>
@@ -433,7 +433,7 @@
                             <a href="https://www.library-management.com/about-software/">
                                 <i class="fa fa-clock-o "></i><span>About Software</span>
                             </a>
-                        </li>
+                        </li>--%>
 
 
                     </ul>
@@ -596,53 +596,13 @@
         <!-- </div> -->
         <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.5
-            </div>
-            <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
-            rights
-            reserved. Best Viewed in Chrome & Firefox and above at resolution 1024 X 768
-        </footer>
+        
+           
     </div>
 </body>
 </html>
 
 
-
-<script>
-    function show_payment() {
-        bootbox.dialog({
-            title: 'Payment can be made via (USD $20) i.e (~Rs.1360)',
-            message: 'Paypal [Most Preferred] or via CCAvenue .After the payment you will receive the source code within a hour or two on your paypal email id or on your personal email id.if you want it to be send on a different email-id then write us on lms_dev@outlook.com & we would mail it to you.',
-            buttons: {
-                noclose: {
-                    label: "Paypal",
-                    className: 'btn-success',
-                    callback: function () {
-                        window.open("https://www.paypal.me/Prince898/20");
-                        ;
-                        return false;
-                    }
-                },
-                ok: {
-                    label: "CCAvenue",
-                    className: 'btn-success',
-                    callback: function () {
-                        window.open("http://www.ricomart.com/billing/index.php");
-                        return false;
-                    }
-                }
-            }
-        });
-    }
-</script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-91268321-2"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', 'UA-91268321-2');
-</script>
 

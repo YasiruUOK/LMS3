@@ -12,7 +12,7 @@
   <link rel="pingback" href="https://www.library-management.com/xmlrpc.php">
   <link href="https://www.library-management.com/wp-content/themes/library/fonts/fonts.css" rel="stylesheet">
   <link href="https://www.library-management.com/wp-content/themes/library/css/ionicons.min.css" rel="stylesheet">
-    <title>Manage Issued Book For Users &#8211; LMS a WordPress Theme</title>
+    <title></title>
 <link rel='dns-prefetch' href='//s.w.org' />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel='stylesheet' id='bootstrap-css'  href='https://www.library-management.com/wp-content/themes/library/css/bootstrap.min.css?ver=4.9.8' type='text/css' media='all' />
@@ -265,7 +265,7 @@
 
         <div ng-controller="sideBarCtrl">
             <header class="main-header">
-                <a href="https://www.library-management.com/dashboard/" class="logo">
+                <a  class="logo">
                     <span class="logo-mini"><b>LMS</b></span>
                     <span class="logo-lg"><b>User Panel</b></span>
                 </a>
@@ -343,8 +343,8 @@
                             </a>
                         </li>
                         <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/change-password/','') }">
-                            <a href="ChangePassword.aspx">
-                                <i class="fa fa-graduation-cap "></i><span>Change Password</span>
+                            <a href="ChangePasswordStudent.aspx">
+                                <i class="fa fa-list "></i><span>Change Password</span>
 
                             </a>
                         </li>
@@ -397,7 +397,7 @@
 
   <section class="content-header">
     <h1>
-      Dashboard
+      Issued Books List
       <small>Control panel</small>
     </h1>
     <ol class="breadcrumb">
@@ -612,9 +612,9 @@
 
 <script type='text/javascript' src='https://www.library-management.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
 
-<footer class="main-footer">
-  <div class="pull-right hidden-xs">
-    <b>Version</b> 2.5
+
+  
+    
   </div>
   <strong>Copyright © 2017-2019 <a href="https://www.library-management.com">LMS</a>.</strong> All
   rights
