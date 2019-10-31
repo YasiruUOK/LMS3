@@ -215,7 +215,7 @@ namespace LMS.App_Code
                     SmtpMail oMail = new SmtpMail("TryIt");
 
                     // Your gmail email address
-                    oMail.From = "bkokilani@gmail.com";
+                    oMail.From = "abc@gmail.com";
 
                     // Set recipient email address
                     oMail.To = email;
@@ -231,8 +231,8 @@ namespace LMS.App_Code
 
                     // Gmail user authentication
                     // For example: your email is "gmailid@gmail.com", then the user should be the same
-                    oServer.User = "bkokilani@gmail.com";
-                    oServer.Password = "buddika143";
+                    oServer.User = "abc@gmail.com";
+                    oServer.Password = "123456";
 
                     // If you want to use direct SSL 465 port,
                     // please add this line, otherwise TLS will be used.

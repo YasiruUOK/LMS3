@@ -678,37 +678,13 @@ namespace LMS.App_Code
             List<bookIssuingDetails> studentIDList = getDelayedBooksBrrowedStudentList();
             for (int i = 0; i <= studentIDList.Count; i++)
             {
-                /*using (MailMessage mm = new MailMessage("bkokilani@gmail.com", studentIDList[i].email))
-                {
-                    try
-                    {
-                        mm.Subject = "Book Check-Out (Issue) Message";
-                        mm.Body = "Dear " + studentIDList[i].first_name + " " + studentIDList[i].last_name + ", " + Environment.NewLine + "The following book is checked out (Issued)from the library for your student ID number: " + studentIDList[i].studentID + "  Title: " + studentIDList[i].bookTitle + "  Due Date: " + studentIDList[i].returnDateString + " This email is system generated. Please do not reply to this mail. Library and Informaiton Centre, Librarian";
-                        mm.IsBodyHtml = true;
-                        mm.BodyEncoding = System.Text.Encoding.UTF8;
-                        using (SmtpClient smtp = new SmtpClient())
-                        {
-                            smtp.Host = "smtp.gmail.com";
-                            smtp.EnableSsl = true;
-                            NetworkCredential NetworkCred = new NetworkCredential("bkokilani@gmail.com", "buddika143");
-                            smtp.UseDefaultCredentials = true;
-                            smtp.Credentials = NetworkCred;
-                            smtp.Port = 587;
-                            smtp.Send(mm);
-                        }
-                    }
-                    catch (ObjectDisposedException ex)
-                    {
-                        //code for any other type of exception
-                    }
-
-                }*/
+                
                 try
                 {
                     SmtpMail oMail = new SmtpMail("TryIt");
 
                     // Your gmail email address
-                    oMail.From = "bkokilani@gmail.com";
+                    oMail.From = "abc@gmail.com";
 
                     // Set recipient email address
                     oMail.To = studentIDList[i].email;
@@ -724,8 +700,8 @@ namespace LMS.App_Code
 
                     // Gmail user authentication
                     // For example: your email is "gmailid@gmail.com", then the user should be the same
-                    oServer.User = "bkokilani@gmail.com";
-                    oServer.Password = "buddika143";
+                    oServer.User = "abc@gmail.com";
+                    oServer.Password = "123456";
 
                     // If you want to use direct SSL 465 port,
                     // please add this line, otherwise TLS will be used.
