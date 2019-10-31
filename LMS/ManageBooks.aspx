@@ -108,7 +108,7 @@
     function load_getBookDetails(data) {
         $("#bookDetailsTable").find("tr:gt(0)").remove();
         for (var i = 0; i < data.length; i++) {
-            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">' + data[i].price + '</td><td>' + data[i].qty + '</td><td style="text-align:right">' + data[i].borrowedBookCount + '</td><td><input  type=\'button\' onclick=\'change_Book_Activation("' + data[i].bookID + '")\' value=\'Change Book Details\' /><input  type=\'button\' onclick=\'update_Book("' + data[i].bookID + '")\' value=\'Update Book Details\' /></td>/tr>');
+            $('#bookDetailsTable').append('<tr><td>' + data[i].isbnCode + '</td><td>' + data[i].bookTitle + '</td><td>' + data[i].bookDescription + '</td><td>' + data[i].bookCategory + '</td><td style="text-align:right">' + data[i].price + '</td><td>' + data[i].qty + '</td><td style="text-align:right">' + data[i].borrowedBookCount + '</td><td><input  type=\'button\' onclick=\'change_Book_Activation("' + data[i].bookID + '")\' value=\'Manage Book Details\' /><input  type=\'button\' onclick=\'update_Book("' + data[i].bookID + '")\' value=\'Update Book Details\' /></td>/tr>');
         }
     }
     function change_Book_Activation(bookID) {
@@ -286,12 +286,12 @@
                             </ul>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="ManageFine.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Fines</span>
 
                             </a>
-                        </li>
+                        </li>--%>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="ApproveFinePayments.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Online Paid Dues</span>
@@ -374,15 +374,15 @@
                             </a>
                         </li>
 
-                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
-                            <a href="https://www.library-management.com/manage-slides/">
-                                <i class="fa fa-television"></i><span>Manage Slides</span>
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
+                            <a href="ManageSlides.aspx">
+                                <i class="fa fa-television"></i><span>Daily Works</span>
 
                             </a>
                         </li>
 
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
                             <a href="https://www.library-management.com/manage-institution/">
                                 <i class="fa fa-sliders "></i><span>Institution Setup</span>
 

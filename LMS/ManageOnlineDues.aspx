@@ -227,12 +227,12 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             </ul>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="https://www.library-management.com/manage-fines/">
                                 <i class="fa fa-money"></i> <span>Manage Fines</span>
 
                             </a>
-                        </li>
+                        </li>--%>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="https://www.library-management.com/manage-online-dues/">
                                 <i class="fa fa-money"></i> <span>Manage Online Paid Dues</span>

@@ -199,7 +199,7 @@
                                                     class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
                                             </div>--%>
                                             <div class="pull-left">
-                                                <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=b335042daa"
+                                                <a href="SystemLogin.aspx"
                                                     class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@
                             </li>
 
                             <li>
-                                <a href="https://www.library-management.com/other-settings/"><i class="fa fa-gears"></i></a>
+                                <%--<a href="https://www.library-management.com/other-settings/"><i class="fa fa-gears"></i></a>--%>
                             </li>
                         </ul>
                     </div>
@@ -289,12 +289,12 @@
                             </ul>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="ManageFine.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Fines</span>
 
                             </a>
-                        </li>
+                        </li>--%>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="ApproveFinePayments.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Online Paid Dues</span>
@@ -377,15 +377,15 @@
                             </a>
                         </li>
 
-                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
-                            <a href="https://www.library-management.com/manage-slides/">
-                                <i class="fa fa-television"></i><span>Manage Slides</span>
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
+                            <a href="ManageSlides.aspx">
+                                <i class="fa fa-television"></i><span>Daily Works</span>
 
                             </a>
                         </li>
 
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
                             <a href="https://www.library-management.com/manage-institution/">
                                 <i class="fa fa-sliders "></i><span>Institution Setup</span>
 

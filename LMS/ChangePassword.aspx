@@ -307,12 +307,12 @@
                             </ul>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="ManageFine.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Fines</span>
 
                             </a>
-                        </li>
+                        </li>--%>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="ApproveFinePayments.aspx">
                                 <i class="fa fa-money-bill-alt"></i><span>Manage Online Paid Dues</span>
@@ -395,15 +395,15 @@
                             </a>
                         </li>
 
-                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
-                            <a href="https://www.library-management.com/manage-slides/">
-                                <i class="fa fa-television"></i><span>Manage Slides</span>
+                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-slides/','') }">
+                            <a href="ManageSlides.aspx">
+                                <i class="fa fa-television"></i><span>Daily Works</span>
 
                             </a>
                         </li>
 
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-institution/','') }">
                             <a href="https://www.library-management.com/manage-institution/">
                                 <i class="fa fa-sliders "></i><span>Institution Setup</span>
 

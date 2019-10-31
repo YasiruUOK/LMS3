@@ -129,16 +129,16 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
 
                                     <li class="user-footer">
                                         <div class="" style="padding-left: 2%;">
-                                            <div class="pull-left">
+                                            <%--<div class="pull-left">
                                                 <a href="https://www.library-management.com/update-profile/"
                                                    class="btn btn-default btn-flat" style="height: 37px;">Profile</a>
                                             </div>
                                             <div class="pull-left">
                                                 <a target="_blank" href="https://www.library-management.com"
                                                    class="btn btn-default btn-flat" style="height: 37px;">FrondEnd</a>
-                                            </div>
+                                            </div>--%>
                                             <div class="pull-left">
-                                                <a href="https://www.library-management.com/wp-login.php?action=logout&amp;redirect_to=https%3A%2F%2Fwww.library-management.com&amp;_wpnonce=b67c9bf043"
+                                                <a href="SystemLogin.aspx"
                                                    class="btn btn-default btn-flat" style="height: 37px;">Sign out</a>
                                             </div>
                                         </div>
@@ -228,12 +228,12 @@ var myAjax = {"ajaxurl":"https:\/\/www.library-management.com\/wp-admin\/admin-a
                             </ul>
                         </li>
 
-                        <li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
+                        <%--<li ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-fines/','') }">
                             <a href="https://www.library-management.com/manage-fines/">
                                 <i class="fa fa-money"></i> <span>Manage Fines</span>
 
                             </a>
-                        </li>
+                        </li>--%>
                         <li ng-show="true" ng-class="{'treeview':true,active: isActive('https://www.library-management.com/manage-online-dues/','') }">
                             <a href="https://www.library-management.com/manage-online-dues/">
                                 <i class="fa fa-money"></i> <span>Manage Online Paid Dues</span>
